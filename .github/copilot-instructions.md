@@ -27,7 +27,8 @@ deployed **agent instance**:
   behalf of** that manager using **On-Behalf-Of (OBO)** token exchange, so every downstream
   call carries the manager's delegated permissions, not a generic app identity.
 - Runs as a **Microsoft 365 Agent** built with the **Microsoft 365 Agents SDK (Python)**.
-- Uses the **GitHub Copilot SDK** for its reasoning/LLM loop and tool-calling.
+- Uses the **GitHub Copilot SDK** (which calls the **Copilot Chat API**) for its
+  reasoning/LLM loop and tool-calling.
 - Exposes and consumes capabilities through **MCP (Model Context Protocol)**. The **MCP
   server is registered on the Agent 365 (A365) Tooling Gateway**.
 - **Simulates all back-end systems with static JSON** (no real external systems yet).
@@ -249,6 +250,9 @@ start_server(
 ---
 
 ## 5. GitHub Copilot SDK integration (verbatim patterns)
+
+The agent's reasoning/LLM loop runs through the **GitHub Copilot SDK**, which in turn calls
+the **Copilot Chat API**. Do not call the Chat API directly; use the SDK surface below.
 
 Import surface (from `github-copilot-sdk`, imported as `copilot`):
 
@@ -493,10 +497,18 @@ usage across LSEG's customer base, identify **adoption gaps** and relevant **pro
 releases**, draft **personalised outreach in each CSM's voice**, and route messages through
 the right channel. **CSMs review the interactions that need their judgment; everything else
 is delivered at scale.** It is built to work across all LSEG products; **Workspace** and
-**World Check 1** are the proof points. In production the five agents are coordinated in
-**Microsoft Copilot Studio** over a Snowflake + Gainsight stack — in **this repository those
-back ends are simulated with static JSON** (see §9) and the agent is built with the
-Microsoft 365 Agents SDK as described above.
+**World Check 1** are the proof points.
+
+> **Solution note — we do NOT use Microsoft Copilot Studio.** The original design documents
+> describe coordinating the five agents in **Microsoft Copilot Studio** over a Snowflake +
+> Gainsight stack. **This is not the technical solution we are building.** Our solution is an
+> **Agent 365 AI Teammate** with its **own agent identity** that acts **on behalf of its
+> manager** (OBO), built on the **Microsoft 365 Agents SDK**, reasoning via the **GitHub
+> Copilot SDK** (which calls the **Copilot Chat API**), exposing its capabilities as
+> **skills** (Pydantic `@define_tool` tools) and over **MCP** registered on the A365 Tooling
+> Gateway. The five "agents" are realised as the skills/tools described in §11.3 and §11.7,
+> not as Copilot Studio topics or flows. In **this repository the Snowflake + Gainsight back
+> ends are simulated with static JSON** (see §9).
 
 ### 11.2 The end-to-end flow (model the teammate's behaviour on this)
 
