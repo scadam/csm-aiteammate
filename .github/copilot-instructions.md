@@ -27,10 +27,15 @@ deployed **agent instance**:
   behalf of** that manager using **On-Behalf-Of (OBO)** token exchange, so every downstream
   call carries the manager's delegated permissions, not a generic app identity.
 - Runs as a **Microsoft 365 Agent** built with the **Microsoft 365 Agents SDK (Python)**.
-- Uses the **GitHub Copilot SDK** (which calls the **Copilot Chat API**) for its
-  reasoning/LLM loop and tool-calling.
-- Exposes and consumes capabilities through **MCP (Model Context Protocol)**. The **MCP
-  server is registered on the Agent 365 (A365) Tooling Gateway**.
+- Uses the **GitHub Copilot SDK** for its reasoning/LLM loop and tool-calling.
+- Grounds in and reasons over **Microsoft 365** data (email, meetings/calendar, OneDrive/
+  SharePoint documents, Teams messages, people, enterprise search) through the **Work IQ MCP
+  server** — a remote MCP server that exposes Microsoft 365 intelligence as a small set of
+  generic tools and can invoke Microsoft 365 Copilot for natural-language reasoning. **Do not
+  use the Copilot Chat API for this**; use Work IQ MCP (see §8.1).
+- Exposes and consumes capabilities through **MCP (Model Context Protocol)**. The agent's own
+  **MCP server is registered on the Agent 365 (A365) Tooling Gateway**, and it **consumes**
+  the **Work IQ MCP** server as a tool source.
 - **Simulates all back-end systems with static JSON** (no real external systems yet).
 - **Emits OpenTelemetry (OTEL)** to the **A365 observability endpoint**.
 
@@ -251,8 +256,9 @@ start_server(
 
 ## 5. GitHub Copilot SDK integration (verbatim patterns)
 
-The agent's reasoning/LLM loop runs through the **GitHub Copilot SDK**, which in turn calls
-the **Copilot Chat API**. Do not call the Chat API directly; use the SDK surface below.
+The agent's reasoning/LLM loop runs through the **GitHub Copilot SDK**. For grounding in and
+reasoning over Microsoft 365 work data, the agent uses the **Work IQ MCP** server (§8.1)
+rather than the Copilot Chat API.
 
 Import surface (from `github-copilot-sdk`, imported as `copilot`):
 
@@ -414,6 +420,33 @@ installed before any instrumented library loads.
 > Implement it behind a small, well-named interface in `gateway.py` and drive every endpoint,
 > id, and credential from configuration so it can be updated without touching agent logic.
 
+### 8.1 Consuming the Work IQ MCP server (Microsoft 365 grounding)
+
+The agent reasons over Microsoft 365 work data — and invokes Microsoft 365 Copilot for
+natural-language answers — by **consuming the Work IQ MCP server** as an MCP client, **not**
+via the Copilot Chat API. See the Microsoft documentation:
+<https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/work-iq/mcp/overview>.
+
+- Work IQ MCP is a **remote MCP server** with a **fixed surface of 10 generic tools** that act
+  on relative Microsoft Graph resource paths (the path is the resource, the tool is the verb):
+  - **Entity tools** — `fetch`, `create_entity`, `update_entity`, `delete_entity`,
+    `do_action`, `call_function` (CRUD and actions over M365 resources, e.g.
+    `fetch /me/messages`, `do_action /me/sendMail`, `call_function /search/query`).
+  - **Copilot tools** — `ask` (invoke Microsoft 365 Copilot for natural-language reasoning) and
+    `list_agents` (discover available Copilot agents).
+  - **Schema tools** — `get_schema`, `search_paths` (discover paths and OpenAPI schemas at
+    runtime; introspect rather than enumerating thousands of types into context).
+- **Authentication:** Work IQ MCP uses **Microsoft Entra ID**; clients discover the auth
+  configuration via the `/.well-known/oauth-protected-resource` endpoint. Every Work IQ call
+  is permission-trimmed and policy-enforced on the **manager's behalf**, so it **must** carry
+  the manager **OBO token** (§6), never the bare agent app token.
+- Keep the Work IQ MCP endpoint and any client settings in **configuration** (env), never
+  hard-coded. Implement the client behind a small, well-named interface so the endpoint and
+  auth contract — both in Public Preview — can change without touching agent logic.
+- In **this repository the Microsoft 365 / Work IQ back end is simulated with static JSON**
+  (see §9), exactly like the other back ends; the Work IQ MCP client is a thin seam to be
+  pointed at the real remote server later.
+
 ---
 
 ## 9. Simulating back-end systems with static JSON
@@ -469,6 +502,10 @@ OPENAI_API_KEY=
 A365__TOOLING_GATEWAY__URL=
 A365__TOOLING_GATEWAY__REGISTRATION_ID=
 
+# --- Work IQ MCP (Microsoft 365 grounding; consumed as a remote MCP server) ---
+# Public Preview — endpoint/auth may change; keep configuration-driven.
+WORKIQ__MCP__ENDPOINT=
+
 # --- A365 Observability (OTEL / OTLP gRPC) ---
 OTEL_EXPORTER_OTLP_ENDPOINT=
 ```
@@ -504,7 +541,8 @@ is delivered at scale.** It is built to work across all LSEG products; **Workspa
 > Gainsight stack. **This is not the technical solution we are building.** Our solution is an
 > **Agent 365 AI Teammate** with its **own agent identity** that acts **on behalf of its
 > manager** (OBO), built on the **Microsoft 365 Agents SDK**, reasoning via the **GitHub
-> Copilot SDK** (which calls the **Copilot Chat API**), exposing its capabilities as
+> Copilot SDK** and grounding over Microsoft 365 work data through the **Work IQ MCP** server
+> (not the Copilot Chat API; see §8.1), exposing its capabilities as
 > **skills** (Pydantic `@define_tool` tools) and over **MCP** registered on the A365 Tooling
 > Gateway. The five "agents" are realised as the skills/tools described in §11.3 and §11.7,
 > not as Copilot Studio topics or flows. In **this repository the Snowflake + Gainsight back
@@ -646,6 +684,10 @@ Verified Microsoft sources used to author these instructions (all in
   <https://learn.microsoft.com/en-us/microsoft-365/agents-sdk/agents-sdk-overview> and
   <https://learn.microsoft.com/en-us/microsoft-365/agents-sdk/quickstart?pivots=python>
 - GitHub Copilot SDK (PyPI): `github-copilot-sdk` (import name `copilot`)
+- Work IQ MCP server (Microsoft 365 grounding via MCP):
+  <https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/work-iq/mcp/overview>
+  (tool reference:
+  <https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/work-iq/mcp/tool-reference>)
 
 Functional/business sources (committed to this repository):
 
