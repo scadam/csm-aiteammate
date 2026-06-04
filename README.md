@@ -1,2 +1,2 @@
-# pmo-aiteammate
-Digital project manager
+# csm-aiteammate
+Digital Customer Success Manager
