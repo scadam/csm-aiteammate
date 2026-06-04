@@ -1,8 +1,9 @@
-# Copilot Instructions — PMO AI Teammate (Agent 365 style)
+# Copilot Instructions — CSM AI Teammate (Agent 365 style)
 
 These instructions tell GitHub Copilot how to build and extend this repository. Follow
-them for every change. They describe an **AI Teammate** agent: a digital project manager
-that has **its own identity** but always acts **on behalf of its manager**.
+them for every change. They describe an **AI Teammate** agent: a **Digital Customer Success
+Manager (CSM) for LSEG** that has **its own identity** but always acts **on behalf of its
+manager** (the human CSM it is assigned to).
 
 > **Read this first.** The Microsoft 365 Agents SDK and the GitHub Copilot SDK are **new
 > and in Public Preview**. APIs change and are easy to get wrong. **Do not invent SDK
@@ -16,13 +17,15 @@ that has **its own identity** but always acts **on behalf of its manager**.
 ## 1. What we are building
 
 An **AI Teammate** — a persona-driven agent that behaves like a member of a team (here, a
-**digital project manager / PMO** teammate). Each deployed **agent instance**:
+**Digital Customer Success Manager / CSM** teammate for **LSEG**, looking after LSEG's
+customers and the adoption of LSEG products such as Workspace and World Check 1). Each
+deployed **agent instance**:
 
 - Has **its own agent identity** (an Agent 365 / Microsoft Entra **Agent ID**). It is a
   first-class actor, not an anonymous bot. It introduces itself by its own name and role.
-- Is assigned to exactly **one manager** (a human user). The agent acts **on behalf of**
-  that manager using **On-Behalf-Of (OBO)** token exchange, so every downstream call
-  carries the manager's delegated permissions, not a generic app identity.
+- Is assigned to exactly **one manager** (the human CSM it works for). The agent acts **on
+  behalf of** that manager using **On-Behalf-Of (OBO)** token exchange, so every downstream
+  call carries the manager's delegated permissions, not a generic app identity.
 - Runs as a **Microsoft 365 Agent** built with the **Microsoft 365 Agents SDK (Python)**.
 - Uses the **GitHub Copilot SDK** for its reasoning/LLM loop and tool-calling.
 - Exposes and consumes capabilities through **MCP (Model Context Protocol)**. The **MCP
@@ -75,6 +78,10 @@ github-copilot-sdk
 # MCP
 mcp
 
+# NL-to-SQL over the (simulated) Snowflake schema — generate SQL with OpenAI.
+# NOT Snowflake Cortex. Mirror the lseg-snowflake repo approach.
+openai
+
 # OpenTelemetry (OTLP/gRPC export to the A365 observability endpoint)
 opentelemetry-api
 opentelemetry-sdk
@@ -110,9 +117,14 @@ src/
   tools/             # Individual tool implementations (Pydantic params + @define_tool)
     __init__.py
     <capability>.py
-data/                # Static JSON that SIMULATES all back-end systems
-  projects.json
-  tasks.json
+data/                # Static JSON that SIMULATES all back-end systems (Snowflake, Gainsight)
+  signals.json       # Computed signals table (Layer 2)
+  accounts.json      # CRM/account context (Gainsight CS + Salesforce)
+  enhancements.json  # Tagged enhancement releases (six-field tags)
+  content_library.json   # Approved content blocks / playbooks
+  voc.json           # Voice-of-customer feedback (knowledge base 1)
+  csm_voice.json     # CSM voice archive (knowledge base 4)
+  review_queue.json  # CSM review inbox items
   ...
 .env                 # From env.TEMPLATE; never commit real secrets
 env.TEMPLATE
@@ -216,7 +228,7 @@ def start_server(agent_application: AgentApplication, auth_configuration: AgentA
 ```python
 # 1) OTEL must be configured BEFORE importing the agent/server (see §7)
 from .telemetry import configure_otel_providers
-configure_otel_providers(service_name="pmo_ai_teammate")
+configure_otel_providers(service_name="csm_ai_teammate")
 
 # 2) Standard logging for the SDK
 import logging
@@ -264,7 +276,7 @@ session = await client.create_session(
     tools=[...],                # @define_tool callables
     streaming=True,
     github_token=github_token,  # per-user token (see auth below)
-    system_message={"content": PMO_TEAMMATE_PERSONA},
+    system_message={"content": CSM_TEAMMATE_PERSONA},
 )
 ```
 
@@ -299,12 +311,12 @@ Tools use Pydantic parameter models and the `@define_tool` decorator. Tools must
 from pydantic import BaseModel, Field
 from copilot import define_tool
 
-class GetProjectStatusParams(BaseModel):
-    project_id: str = Field(description="Project identifier")
+class GetAccountHealthParams(BaseModel):
+    account_id: str = Field(description="Customer account identifier")
 
-@define_tool(description="Get the current status of a project")
-async def get_project_status(params: GetProjectStatusParams) -> str:
-    ...  # read from data/projects.json, return a human-readable string
+@define_tool(description="Get the current adoption/health status of a customer account")
+async def get_account_health(params: GetAccountHealthParams) -> str:
+    ...  # read from data/accounts.json, return a human-readable string
 ```
 
 ---
@@ -329,10 +341,13 @@ token_response = await AGENT_APP.auth.exchange_token(context, [scope], "<HANDLER
 downstream_token = token_response.token
 ```
 
-- `AGENT_APP.auth` is the `Authorization` instance. Its public OBO API is:
-  `exchange_token(context, scopes: list[str] | None, auth_handler_id: str | None,
-  exchange_connection: str | None) -> TokenResponse`.
-- Sign-out: `await AGENT_APP.auth.sign_out(context)`.
+- `AGENT_APP.auth` is the `Authorization` instance. The **verified** OBO call shape (from the
+  `obo-authorization` sample) is **three positional arguments**:
+  `exchange_token(context, scopes: list[str], auth_handler_id: str) -> TokenResponse`
+  (the sample uses `exchange_token(context, [scope], "MCS")`). A 4th optional
+  `exchange_connection` argument may exist in the SDK but is **not** demonstrated in the
+  sample — confirm against the SDK source before relying on it.
+- Sign-out takes the handler id: `await AGENT_APP.auth.sign_out(context, "<HANDLER_ID>")`.
 - Gate a handler behind auth with `@AGENT_APP.message(re.compile(r".*"),
   auth_handlers=["<HANDLER_ID>"])` so the token is guaranteed available inside the handler.
 
@@ -366,7 +381,7 @@ installed before any instrumented library loads.
 - Export **traces, metrics, and logs** via **OTLP/gRPC**.
 - The export endpoint is the **A365 observability endpoint**, configured via
   `OTEL_EXPORTER_OTLP_ENDPOINT` (do not hard-code it).
-- Set a meaningful `service.name` (e.g. `pmo_ai_teammate`) and include the agent's identity
+- Set a meaningful `service.name` (e.g. `csm_ai_teammate`) and include the agent's identity
   (Agent ID) and the manager id as resource/span attributes where available, so telemetry
   is attributable to the specific agent instance and its manager.
 - Reuse the sample's provider wiring: `TracerProvider` + `SimpleSpanProcessor` +
@@ -406,8 +421,9 @@ installed before any instrumented library loads.
 - Treat the JSON as **read-mostly fixtures**. If a tool "writes", keep the mutation
   in-memory (scoped by manager/conversation) unless a fixture file is explicitly intended to
   be updated; do not depend on persistence across restarts.
-- Keep fixtures small, realistic, and PMO-relevant (projects, tasks, milestones, risks,
-  status reports, stakeholders, etc.), consistent with the functional spec in §11.
+- Keep fixtures small, realistic, and CSM-relevant (accounts, usage signals, VOC feedback,
+  tagged enhancement releases, approved content, CSM voice samples, review-queue items),
+  consistent with the functional spec in §11.
 
 ---
 
@@ -436,10 +452,14 @@ AGENTAPPLICATION__USERAUTHORIZATION__HANDLERS__OBO__SETTINGS__OBOCONNECTIONNAME=
 # --- Manager assignment (each instance has exactly one manager) ---
 AGENT__MANAGER__USER_ID=
 AGENT__IDENTITY__AGENT_ID=          # the agent's own Entra Agent ID
-AGENT__DISPLAY_NAME=PMO AI Teammate
+AGENT__DISPLAY_NAME=CSM AI Teammate
 
 # --- GitHub Copilot SDK ---
 # COPILOT_MODEL=gpt-4.1
+
+# --- OpenAI (NL-to-SQL generation over the simulated Snowflake schema; not Cortex) ---
+OPENAI_API_KEY=
+# OPENAI_SQL_MODEL=gpt-4.1
 
 # --- A365 Tooling Gateway ---
 A365__TOOLING_GATEWAY__URL=
@@ -457,24 +477,115 @@ OTEL_EXPORTER_OTLP_ENDPOINT=
 
 ## 11. Functional requirements (from the repository PDFs)
 
-The functional behavior of this agent is defined by the design documents in the repository
-root:
+The functional behavior of this agent is defined by the design documents committed to the
+repository (the authoritative source of scope):
 
-- `CSM Agent - Exec Summary 4.8.2026.pdf`
-- `CSM Agent - Engineering Detail 4.8.2026.pdf`
+- `110348.PDF` — CSM Agent, Executive Summary ("Proactive Agentic Adoption Journey")
+- `110349.PDF` — CSM Agent, Engineering Detail (eight-layer architecture)
+- `CSM Agent - Exec Summary 4.8.2026.pdf` / `CSM Agent - Engineering Detail 4.8.2026.pdf`
+  are rights-protected (Microsoft Purview/RMS) duplicates of the above and cannot be read;
+  use the `1103xx.PDF` versions.
 
-> ⚠️ **These PDFs are currently rights-protected (Microsoft Purview/RMS encrypted) and could
-> not be read automatically.** Before implementing functional capabilities, obtain an
-> unprotected copy (or the extracted requirements) and **fill in this section** with the
-> concrete capabilities, workflows, tools, and data entities the teammate must support.
-> Until then, treat the PMO/"digital project manager" scope (projects, tasks, milestones,
-> status reporting, risks/stakeholders) as the working assumption, and keep functional logic
-> isolated in `tools/` and the `data/` fixtures so it is easy to align once the spec is
-> confirmed.
+### 11.1 What the CSM Agent is
 
-Each capability described in the PDFs should become: a Pydantic-typed `@define_tool` (and a
-matching MCP tool), backed by `data/*.json`, traced with a manual OTEL span, and authorized
-via the manager OBO token.
+The **CSM Agent** is a collection of **five specialised AI agents** that monitor product
+usage across LSEG's customer base, identify **adoption gaps** and relevant **product
+releases**, draft **personalised outreach in each CSM's voice**, and route messages through
+the right channel. **CSMs review the interactions that need their judgment; everything else
+is delivered at scale.** It is built to work across all LSEG products; **Workspace** and
+**World Check 1** are the proof points. In production the five agents are coordinated in
+**Microsoft Copilot Studio** over a Snowflake + Gainsight stack — in **this repository those
+back ends are simulated with static JSON** (see §9) and the agent is built with the
+Microsoft 365 Agents SDK as described above.
+
+### 11.2 The end-to-end flow (model the teammate's behaviour on this)
+
+`Signal Detected → Context Built → Action Decided → Content Built → Prioritised & Reviewed
+→ Delivered → System Learns`
+
+1. **Signal Detected** — usage data flags an adoption gap, a risk, or a relevant new release.
+2. **Context Built** — gather customer history, past feedback, and what they have already
+   been shown.
+3. **Action Decided** — rules determine what to send, through which channel, and whether a
+   CSM must review first.
+4. **Content Built** — assemble a personalised message in the CSM's voice from **approved
+   content only** (never invent product claims), quality-checked before routing.
+5. **Prioritised & Reviewed** — inbound requests and outbound drafts are prioritised and
+   routed to CSMs where needed.
+6. **Delivered** — email, in-product prompt, or a prepared brief for a CSM-led conversation.
+7. **System Learns** — outcomes and CSM decisions feed back into every component.
+
+### 11.3 The five agents (each becomes a tool / set of tools)
+
+1. **Signal Detection Agent** — monitors the signals table on a schedule; filters for signals
+   above the severity threshold and passes signal + user + account + severity onward. **Pure
+   detection logic, no AI generation.**
+2. **VOC Personalisation Agent** — gathers everything needed before a decision: usage signals,
+   customer feedback (VOC), in-product engagement history, and **live** account data.
+   Produces a structured context summary. AI is used **only** to summarise VOC search
+   results, not to make decisions.
+3. **Next Best Action Agent** — looks up the **signal-to-action mapping** and **routing
+   rules** tables; returns message type, channel, content source, and **whether CSM review
+   is required**. **Deterministic rules lookup — fully auditable, no AI generation.**
+4. **Content Build Agent** — retrieves relevant approved content blocks and CSM voice
+   examples, then generates a personalised draft, constrained to retrieved content, with a
+   quality/assurance check before routing. (Delivered as an early MVP.)
+5. **Assessment & Prioritization Agent** — (a) assesses and prioritises inbound requests from
+   the product org for customer communications, and (b) routes outbound drafts to the right
+   CSM for review when conditions require it.
+
+### 11.4 Review vs. automatic send (encode as routing rules, not code)
+
+- **CSM reviews first:** high-influence or frustrated customers; an enhancement that directly
+  matches a customer's prior request; complex topics; first outreach to a new senior contact;
+  any strategic-account interaction.
+- **Sends automatically:** routine onboarding nudges; low-complexity feature tips for active
+  users; product-release alerts for self-service features; long-tail accounts without
+  dedicated CSM coverage; message types with consistently high unedited acceptance rates.
+
+> **Architecture principle (carry into this repo):** keep decision logic in **data**, not in
+> agent code. The signal-to-action mapping and the CSM review routing rules live in
+> data tables (here: `data/*.json`) so they can change without a code deploy. Keep agent/tool
+> logic minimal.
+
+### 11.5 The four knowledge bases (simulated as JSON)
+
+These are the four searchable stores the agents draw on. **Do not use Snowflake Cortex.**
+Treat Snowflake purely as a relational database; in this repository each store is a static
+JSON fixture. Where "search" over a store is required, prefer simple structured
+filtering/lookup over the JSON. If natural-language search is genuinely needed, **build a
+small NL-to-SQL step that uses OpenAI to generate SQL** against the (simulated) Snowflake
+schema — mirroring the approach in the **`lseg-snowflake`** repo — rather than any built-in
+vector/semantic search service. Keep generated SQL read-only and parameterised/validated.
+
+1. **Customer feedback / VOC** — surveys, call summaries, CSM health notes.
+2. **Approved content & playbooks** — templates, playbooks, enhancement descriptions.
+3. **PX engagement history** — what in-product content a user has already been shown (avoid
+   repetition).
+4. **CSM voice archive** — each CSM's accepted, unedited messages, used as style anchors when
+   drafting. Grows from accepted drafts.
+
+### 11.6 Delivery channels and the CSM review queue
+
+- **Channels:** (1) email, (2) in-product prompt, (3) CSM-sent-after-review, (4) a prepared
+  brief/task for a CSM-led conversation.
+- **CSM review inbox:** a prioritised queue with **Accept / Edit / Discard**; every decision
+  is logged (the learning loop). Reviewing an item must take **under a minute**.
+
+### 11.7 Capabilities to expose (the six "skills")
+
+Each of these becomes a Pydantic-typed `@define_tool` and a matching MCP tool, backed by
+`data/*.json`: **Snowflake query** (read signals, mapping, routing rules, content library),
+**knowledge-base search** over the four stores (structured lookup, or **OpenAI-generated
+NL-to-SQL** as in the `lseg-snowflake` repo — **not** Snowflake Cortex), **Gainsight CS**
+(account context; create review tasks; trigger email sends), **Gainsight PX** (trigger
+in-product messages; read engagement history), **AI draft generation** (Content Build Agent
+only, constrained to retrieved content), and **Snowflake write** (write outcomes and CSM
+decisions back for the learning loop).
+
+Every capability above should be: a Pydantic-typed `@define_tool` (and a matching MCP tool),
+backed by `data/*.json`, traced with a manual OTEL span (with `agent.id`, `manager.id`,
+`tool.name`), and — for any manager-scoped action — authorized via the manager **OBO** token.
 
 ---
 
@@ -497,13 +608,23 @@ via the manager OBO token.
 - Don't hard-code the A365 Tooling Gateway URL or the OTEL endpoint.
 - Don't approve all Copilot permissions (`PermissionHandler.approve_all`) outside local dev.
 - Don't add real external back ends yet — simulate with static JSON.
+- Don't generate product/enhancement claims from scratch — constrain drafts to **approved
+  content** retrieved from the content library (Content Build Agent only).
+- Don't embed signal-to-action or CSM-review routing logic in agent code — keep it in the
+  `data/*.json` rules tables so it can change without a deploy.
+- Don't auto-send where the spec requires CSM review (high-influence/frustrated customers,
+  strategic accounts, first senior-contact outreach, complex topics).
+- Don't use **Snowflake Cortex** (or any built-in vector/semantic search). Use Snowflake as a
+  plain relational DB; for NL search, generate read-only SQL with **OpenAI** (the
+  `lseg-snowflake` pattern). In this repo, back it with the `data/*.json` fixtures.
 
 ---
 
 ## References
 
 Verified Microsoft sources used to author these instructions (all in
-[`microsoft/Agents`](https://github.com/microsoft/Agents)):
+[`microsoft/Agents`](https://github.com/microsoft/Agents), verified against commit
+`2e6d5b84b24df6b942c609d96aced3d969e29963` on `main`):
 
 - Quickstart (base M365 Agent): `samples/python/quickstart`
 - GitHub Copilot SDK in an M365 Agent: `samples/python/copilot-sdk`
@@ -513,6 +634,11 @@ Verified Microsoft sources used to author these instructions (all in
   <https://learn.microsoft.com/en-us/microsoft-365/agents-sdk/agents-sdk-overview> and
   <https://learn.microsoft.com/en-us/microsoft-365/agents-sdk/quickstart?pivots=python>
 - GitHub Copilot SDK (PyPI): `github-copilot-sdk` (import name `copilot`)
+
+Functional/business sources (committed to this repository):
+
+- `110348.PDF` — CSM Agent, Executive Summary
+- `110349.PDF` — CSM Agent, Engineering Detail
 
 > Agent 365 (A365) specifics — Entra **Agent ID**, **Tooling Gateway** registration, and the
 > **observability endpoint** — are new and may change. Treat the A365 integration points as
