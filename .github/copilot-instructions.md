@@ -2,7 +2,7 @@
 
 These instructions tell GitHub Copilot how to build and extend this repository. Follow
 them for every change. They describe an **AI Teammate** agent: a **Digital Customer Success
-Manager (CSM) for LSEG** that has **its own identity** but always acts **on behalf of its
+Manager (CSM) for a financial markets & data business** that has **its own identity** but always acts **on behalf of its
 manager** (the human CSM it is assigned to).
 
 > **Read this first.** The Microsoft 365 Agents SDK and the GitHub Copilot SDK are **new
@@ -12,13 +12,23 @@ manager** (the human CSM it is assigned to).
 > [References](#references). If something you need is not documented here, find it in the
 > referenced samples before writing code, and keep this file updated.
 
+> **Use the A365 CLI and Observability SDK — never provision by hand.** All Agent 365
+> setup — the Entra **blueprint** app, the agent **instance** identity, **MCP** and **bot**
+> OAuth2 permissions/consent, and the supporting **Azure** infrastructure — **must** be done
+> with the **`a365` CLI** (`Microsoft.Agents.A365.DevTools.Cli`). All A365 telemetry **must**
+> go through the **`microsoft-agents-a365`** Observability SDK. The authoritative reference
+> for both is **[`A365_SDK_AND_CLI_GUIDE.md`](../A365_SDK_AND_CLI_GUIDE.md)** — read it
+> before doing any A365 setup, observability, or MCP-permission work, and follow its exact
+> commands, env vars, and call shapes. **Do not** click through the Entra/Azure portals,
+> hand-write app registrations, or hand-roll OTLP export to do what the CLI/SDK already do.
+
 ---
 
 ## 1. What we are building
 
 An **AI Teammate** — a persona-driven agent that behaves like a member of a team (here, a
-**Digital Customer Success Manager / CSM** teammate for **LSEG**, looking after LSEG's
-customers and the adoption of LSEG products such as Workspace and World Check 1). Each
+**Digital Customer Success Manager / CSM** teammate for a **financial markets & data business**, looking after its
+customers and the adoption of its products such as FlowDesk and CheckMate). Each
 deployed **agent instance**:
 
 - Has **its own agent identity** (an Agent 365 / Microsoft Entra **Agent ID**). It is a
@@ -84,9 +94,14 @@ github-copilot-sdk
 # MCP
 mcp
 
-# NL-to-SQL over the (simulated) Snowflake schema — generate SQL with OpenAI.
-# NOT Snowflake Cortex. Mirror the lseg-snowflake repo approach.
+# Agent 365 Observability SDK (telemetry to the A365 service; see A365_SDK_AND_CLI_GUIDE.md)
+microsoft-agents-a365
+
+# NL-to-SQL over the (simulated) Snowflake schema — generate SQL with Azure OpenAI.
+# Managed identity ONLY (DefaultAzureCredential); never key-based. NOT Snowflake Cortex.
+# Mirror the lseg-snowflake repo approach.
 openai
+azure-identity
 
 # OpenTelemetry (OTLP/gRPC export to the A365 observability endpoint)
 opentelemetry-api
@@ -382,7 +397,20 @@ that one manager's context never leaks to another.
 
 ---
 
-## 7. Observability — OTEL to the A365 observability endpoint
+## 7. Observability — A365 Observability SDK (and OTEL)
+
+> **Authoritative reference:** [`A365_SDK_AND_CLI_GUIDE.md`](../A365_SDK_AND_CLI_GUIDE.md),
+> Part 2 ("The Observability SDK") and Part 3 (troubleshooting). Use the
+> **`microsoft-agents-a365`** package (`microsoft_agents_a365.observability.core`) to emit
+> A365 telemetry: call `configure(...)` once at startup with an `Agent365ExporterOptions`,
+> and wrap each agent turn in `InvokeAgentScope` and each tool/MCP call in
+> `ExecuteToolScope`. Put `token_resolver` **inside** `Agent365ExporterOptions` (the
+> top-level arg is ignored), return the **bare** token (no `"Bearer "` prefix), and
+> `force_flush()` the tracer provider in a `finally` block. Both
+> `ENABLE_A365_OBSERVABILITY` **and** `ENABLE_A365_OBSERVABILITY_EXPORTER` must be `true`
+> for real export — otherwise scopes are silent no-ops or fall back to the console exporter.
+> Set `use_s2s_endpoint=True` for service-to-service (app-only) hosts. Follow the guide's
+> required span attributes exactly, or the exporter silently drops the span.
 
 Follow the Microsoft OTEL sample. **Call `configure_otel_providers()` as the very first
 thing in `main.py`, before importing the agent or server**, so global providers are
@@ -406,13 +434,34 @@ installed before any instrumented library loads.
 
 ## 8. MCP and the A365 Tooling Gateway
 
+> **Provision with the `a365` CLI — not by hand.** The Entra blueprint, agent instance, and
+> the **MCP** and **bot** OAuth2 permissions/consent that make the Tooling Gateway and MCP
+> tools work are created with the CLI flows in
+> [`A365_SDK_AND_CLI_GUIDE.md`](../A365_SDK_AND_CLI_GUIDE.md), Part 1. Use, in order:
+> `a365 setup requirements`, `a365 setup blueprint`, `a365 setup permissions mcp`,
+> `a365 setup permissions bot` (or `a365 setup all --agent-name <name>` with Global Admin).
+> Inspect with `a365 query-entra blueprint-scopes` / `instance-scopes`, manage local MCP
+> servers with `a365 develop` / `develop-mcp`, and undo with `a365 cleanup`. **Do not**
+> hand-create Entra app registrations, OAuth2 grants, or Azure infra for any of this.
+
 - Expose this agent's tools through an **MCP server** (`src/mcp/server.py`) using the `mcp`
-  package. Each MCP tool should map to (or reuse) a `@define_tool` capability and read from
-  the static JSON back ends.
-- **Register the MCP server on the Agent 365 Tooling Gateway** (`src/mcp/gateway.py`). The
-  Gateway is the governed entry point through which the agent discovers and calls tools;
-  registration must use the **agent's own identity**. Keep the gateway URL and registration
-  parameters in configuration (env), never hard-coded.
+  package (FastMCP). The **one** custom MCP server combines all skills — Snowflake NL-to-SQL,
+  the Gainsight CS/PX REST tools, knowledge-base search, content build, signals, and Work IQ
+  pass-throughs — from the single `src/tools/TOOL_SPECS` registry, so the Copilot and MCP
+  surfaces never drift.
+- **Register the custom MCP server as a BYO (bring-your-own) MCP server on the Agent 365
+  Tooling Gateway** (`src/mcp/gateway.py`) using
+  `a365 develop-mcp register-external-mcp-server` (EntraOAuth, `remoteScopes`
+  `api://<blueprint-app-id>/access_agent_as_user`). Registration needs a **public HTTPS**
+  endpoint (`MCP__PUBLIC_URL`) and is then **approved by an IT admin** in the Microsoft 365
+  admin center. Once approved, Agent 365 routes all invocations through the **Tooling
+  Gateway**, and the agent's reasoning loop consumes the tools via the **gateway endpoint**
+  (`A365__TOOLING_GATEWAY__MCP_ENDPOINT`), **never the raw MCP endpoint**.
+- The reasoning loop wires its remote MCP servers in `create_session(mcp_servers=...)`:
+  **Work IQ MCP** (OBO token) for Microsoft 365 grounding, plus the **custom MCP via the
+  gateway**. Keep every URL/scope/id in configuration (env), never hard-coded.
+- The MCP/bot **permissions and consent** behind the Gateway are granted by the `a365` CLI
+  (`a365 setup permissions mcp` / `bot`); do not grant them manually in the portal.
 - Tool calls made through the Gateway on the manager's behalf must carry the **OBO token**
   obtained in §6, not the bare agent app token.
 
@@ -436,31 +485,52 @@ via the Copilot Chat API. See the Microsoft documentation:
     `list_agents` (discover available Copilot agents).
   - **Schema tools** — `get_schema`, `search_paths` (discover paths and OpenAPI schemas at
     runtime; introspect rather than enumerating thousands of types into context).
-- **Authentication:** Work IQ MCP uses **Microsoft Entra ID**; clients discover the auth
-  configuration via the `/.well-known/oauth-protected-resource` endpoint. Every Work IQ call
-  is permission-trimmed and policy-enforced on the **manager's behalf**, so it **must** carry
-  the manager **OBO token** (§6), never the bare agent app token.
+- **Authentication:** Work IQ MCP uses **Microsoft Entra ID** and is **delegated-only**
+  (application-only is not supported); clients discover the auth configuration via the
+  `/.well-known/oauth-protected-resource` endpoint. Every Work IQ call is permission-trimmed
+  and policy-enforced on the **manager's behalf**, so it **must** carry the manager **OBO
+  token** (§6), never the bare agent app token. The Work IQ API app id is
+  `fdcc1f02-fc51-4226-8753-f668596af7f7`, App ID URI `api://workiq.svc.cloud.microsoft`, and
+  the OBO scope is `api://workiq.svc.cloud.microsoft/WorkIQAgent.Ask` (admin-consent required;
+  an org admin must first create the Work IQ service principal). Host:
+  `workiq.svc.cloud.microsoft`.
 - Keep the Work IQ MCP endpoint and any client settings in **configuration** (env), never
   hard-coded. Implement the client behind a small, well-named interface so the endpoint and
   auth contract — both in Public Preview — can change without touching agent logic.
-- In **this repository the Microsoft 365 / Work IQ back end is simulated with static JSON**
-  (see §9), exactly like the other back ends; the Work IQ MCP client is a thin seam to be
-  pointed at the real remote server later.
+- **The Microsoft 365 / Work IQ back end is REAL, not simulated.** `src/workiq_client.py` is a
+  real remote MCP client (streamable HTTP) that calls Work IQ with the manager OBO token;
+  `src/tools/workiq.py` and the `ask` / `list_agents` tools invoke it. The static
+  `data/workiq.json` fixture is an **offline-dev fallback only**, used when
+  `WORKIQ__MCP__ENDPOINT` is unset.
 
 ---
 
-## 9. Simulating back-end systems with static JSON
+## 9. Back-end systems: real vs. simulated
 
-- **All** external/back-end data is simulated with static JSON files under `data/`.
-- Access JSON only through a thin repository/service layer (e.g. `data_store.py`), so tools
-  and the agent never read files directly. This keeps a clean seam for later replacement
-  with real systems.
-- Treat the JSON as **read-mostly fixtures**. If a tool "writes", keep the mutation
-  in-memory (scoped by manager/conversation) unless a fixture file is explicitly intended to
-  be updated; do not depend on persistence across restarts.
-- Keep fixtures small, realistic, and CSM-relevant (accounts, usage signals, VOC feedback,
-  tagged enhancement releases, approved content, CSM voice samples, review-queue items),
-  consistent with the functional spec in §11.
+- **Real back ends (do not simulate):**
+  - **Microsoft 365 / Graph / Work IQ** — consumed live via the **Work IQ MCP** server on the
+    manager's behalf (OBO); see §8.1. `data/workiq.json` is an offline-dev fallback only.
+  - **Snowflake** — the relational store is a real Snowflake database (`CSM_DB.ADOPTION`),
+    queried read-only via NL-to-SQL (§11.5). An in-memory SQLite simulation seeded from
+    `data/*.json` is used only when no Snowflake account is configured (tests/offline).
+- **Still simulated — but behind the *real* vendor REST contracts — with static JSON under
+  `data/`:** **Gainsight CS & PX**. `src/gainsight/` implements the real Gainsight NXT REST
+  surface (Company, Person, Timeline, Cockpit/CTA, and PX/Aptrinsic endpoints, the `accesskey`
+  header, and the `{result, errorCode, requestId, data, message}` envelope) served in-process
+  from the fixtures — "simulated-real". The CSM tools build real Gainsight payloads and parse
+  real envelopes; set `GAINSIGHT__LIVE=true` with a real domain + access key to call the live
+  API without changing tool logic. **Email is real** — `send_email` delivers via Work IQ
+  `do_action /me/sendMail` (OBO), not a stub.
+- **Still simulated with static JSON under `data/`:** the CSM knowledge-base/content fixtures
+  (accounts, signals, routing rules, content library, VOC, CSM voice, PX engagement, review
+  queue, managers).
+- Access JSON only through a thin repository/service layer (`data_store.py`), so tools and the
+  agent never read files directly — a clean seam for replacing each simulated back end with a
+  real system.
+- Treat the JSON as **read-mostly fixtures**. If a tool "writes", keep the mutation in-memory
+  (scoped by manager/conversation) unless a fixture file is explicitly intended to be updated;
+  do not depend on persistence across restarts.
+- Keep fixtures small, realistic, and CSM-relevant, consistent with the functional spec in §11.
 
 ---
 
@@ -469,6 +539,13 @@ via the Copilot Chat API. See the Microsoft documentation:
 Provide an `env.TEMPLATE` (copied to `.env` locally; **never commit real secrets**). Use the
 Microsoft `CONNECTIONS__...` and `AGENTAPPLICATION__...` double-underscore hierarchy parsed
 by `load_configuration_from_env`.
+
+> The Entra app registrations these settings reference (the agent's own identity, the
+> blueprint, and the OBO connection) are created by the **`a365` CLI** (§8 and
+> [`A365_SDK_AND_CLI_GUIDE.md`](../A365_SDK_AND_CLI_GUIDE.md), Part 1) — copy the resulting
+> client/tenant ids into `.env`; do not create those apps by hand. The two observability
+> toggles below (`ENABLE_A365_OBSERVABILITY`, `ENABLE_A365_OBSERVABILITY_EXPORTER`) gate the
+> A365 Observability SDK (§7) and **both must be `true`** for real telemetry export.
 
 ```dotenv
 # --- Agent's OWN identity (Azure Bot / Entra app registration) ---
@@ -494,9 +571,11 @@ AGENT__DISPLAY_NAME=CSM AI Teammate
 # --- GitHub Copilot SDK ---
 # COPILOT_MODEL=gpt-4.1
 
-# --- OpenAI (NL-to-SQL generation over the simulated Snowflake schema; not Cortex) ---
-OPENAI_API_KEY=
-# OPENAI_SQL_MODEL=gpt-4.1
+# --- Azure OpenAI (NL-to-SQL + constrained drafts; managed identity, never key-based; not Cortex) ---
+AZURE_OPENAI_ENDPOINT=                 # https://<resource>.openai.azure.com/openai/v1/
+# AZURE_OPENAI_SCOPE=https://cognitiveservices.azure.com/.default
+# AZURE_OPENAI_SQL_DEPLOYMENT=gpt-4.1
+# AZURE_OPENAI_DRAFT_DEPLOYMENT=gpt-4.1
 
 # --- A365 Tooling Gateway ---
 A365__TOOLING_GATEWAY__URL=
@@ -508,6 +587,11 @@ WORKIQ__MCP__ENDPOINT=
 
 # --- A365 Observability (OTEL / OTLP gRPC) ---
 OTEL_EXPORTER_OTLP_ENDPOINT=
+
+# --- A365 Observability SDK toggles (both must be true for real export; see guide Part 2) ---
+ENABLE_A365_OBSERVABILITY=true
+ENABLE_A365_OBSERVABILITY_EXPORTER=true
+# A365_OBSERVABILITY_DOMAIN_OVERRIDE=     # leave unset for production
 ```
 
 > Variable names under `AGENT__*`, `A365__*` are project-specific (not SDK-parsed); the
@@ -530,11 +614,11 @@ repository (the authoritative source of scope):
 ### 11.1 What the CSM Agent is
 
 The **CSM Agent** is a collection of **five specialised AI agents** that monitor product
-usage across LSEG's customer base, identify **adoption gaps** and relevant **product
+usage across the customer base, identify **adoption gaps** and relevant **product
 releases**, draft **personalised outreach in each CSM's voice**, and route messages through
 the right channel. **CSMs review the interactions that need their judgment; everything else
-is delivered at scale.** It is built to work across all LSEG products; **Workspace** and
-**World Check 1** are the proof points.
+is delivered at scale.** It is built to work across all of the company's products; **FlowDesk** and
+**CheckMate** are the proof points.
 
 > **Solution note — we do NOT use Microsoft Copilot Studio.** The original design documents
 > describe coordinating the five agents in **Microsoft Copilot Studio** over a Snowflake +
@@ -643,6 +727,9 @@ backed by `data/*.json`, traced with a manual OTEL span (with `agent.id`, `manag
 
 **Do**
 - Copy SDK call shapes from the cited samples; keep this file updated when APIs change.
+- Use the **`a365` CLI** for all A365 setup (blueprint, instance, MCP/bot permissions, Azure
+  infra) and the **`microsoft-agents-a365`** SDK for telemetry, per
+  [`A365_SDK_AND_CLI_GUIDE.md`](../A365_SDK_AND_CLI_GUIDE.md).
 - Keep `AGENT_APP`, adapter, connection manager, storage as import-time singletons.
 - Configure OTEL before any other import in `main.py`.
 - Obtain an **OBO token** before any action taken on the manager's behalf.
@@ -652,6 +739,10 @@ backed by `data/*.json`, traced with a manual OTEL span (with `agent.id`, `manag
 
 **Don't**
 - Don't invent SDK classes, methods, or import paths. If unsure, check the samples first.
+- Don't manually create Entra apps, OAuth2 grants/consent, or Azure infra for A365 — use the
+  **`a365` CLI** (see [`A365_SDK_AND_CLI_GUIDE.md`](../A365_SDK_AND_CLI_GUIDE.md)).
+- Don't return a `"Bearer "`-prefixed token from the SDK `token_resolver`, and don't forget
+  to set both observability env toggles — either mistake silently drops all telemetry.
 - Don't use `microsoft.agents` (dotted) imports — it is `microsoft_agents` (underscores).
 - Don't perform manager-scoped actions with the bare agent app token (no OBO = not allowed).
 - Don't commit secrets, tokens, or real `.env` values.
@@ -665,8 +756,10 @@ backed by `data/*.json`, traced with a manual OTEL span (with `agent.id`, `manag
 - Don't auto-send where the spec requires CSM review (high-influence/frustrated customers,
   strategic accounts, first senior-contact outreach, complex topics).
 - Don't use **Snowflake Cortex** (or any built-in vector/semantic search). Use Snowflake as a
-  plain relational DB; for NL search, generate read-only SQL with **OpenAI** (the
+  plain relational DB; for NL search, generate read-only SQL with **Azure OpenAI** (the
   `lseg-snowflake` pattern). In this repo, back it with the `data/*.json` fixtures.
+- Don't authenticate to Azure OpenAI with an API key — use **managed identity**
+  (`DefaultAzureCredential` + `get_bearer_token_provider`), exactly like `lseg-snowflake`.
 
 ---
 
@@ -688,6 +781,13 @@ Verified Microsoft sources used to author these instructions (all in
   <https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/work-iq/mcp/overview>
   (tool reference:
   <https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/work-iq/mcp/tool-reference>)
+
+Agent 365 setup, MCP/bot permissions, and observability (authoritative for this repo):
+
+- [`A365_SDK_AND_CLI_GUIDE.md`](../A365_SDK_AND_CLI_GUIDE.md) — the **`a365` CLI** (Entra
+  blueprint, agent instance, MCP/bot OAuth2 permissions, Azure infra) and the
+  **`microsoft-agents-a365`** Observability SDK. **All A365 provisioning and telemetry must
+  follow this guide; never provision by hand.**
 
 Functional/business sources (committed to this repository):
 

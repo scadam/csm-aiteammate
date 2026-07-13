@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FlowDesk — In-product message (simulated)</title>
+<style>
+  :root { --navy:#00263A; --navy-2:#001A2B; --teal:#0097A9; --teal-bright:#00B8C7;
+          --bg:#0d1b26; --panel:#0f2230; --line:#1d3340; --text:#dbe6ec; --muted:#7e97a6;
+          --up:#3FD27E; --down:#FF6B6B; --amber:#F0B24A; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI',-apple-system,Arial,sans-serif; background:var(--bg); color:var(--text); height:100vh; overflow:hidden; }
+  .sim-tag { position:fixed; top:10px; left:50%; transform:translateX(-50%); background:rgba(0,151,169,.16); color:var(--teal-bright);
+             border:1px solid rgba(0,184,199,.4); font-size:11px; font-weight:700; padding:4px 12px; border-radius:20px; z-index:50; letter-spacing:.03em; }
+  /* Mock FlowDesk chrome */
+  .ws-top { height:48px; background:var(--navy-2); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:18px; padding:0 18px; }
+  .ws-brand { font-size:16px; font-weight:800; letter-spacing:.1em; color:#fff; }
+  .ws-brand b { color:var(--teal-bright); }
+  .ws-tabs { display:flex; gap:4px; }
+  .ws-tab { font-size:12px; font-weight:600; color:var(--muted); padding:7px 13px; border-radius:6px; }
+  .ws-tab.active { background:rgba(0,151,169,.16); color:#fff; }
+  .ws-search { margin-left:auto; background:#0c1d28; border:1px solid var(--line); border-radius:7px; padding:7px 13px; font-size:12px; color:var(--muted); width:240px; }
+  .ws-user { width:30px; height:30px; border-radius:8px; background:linear-gradient(135deg,var(--teal),var(--teal-bright)); display:grid; place-items:center; color:#fff; font-weight:800; font-size:12px; }
+  .ws-body { display:grid; grid-template-columns:200px 1fr; height:calc(100vh - 48px); }
+  .ws-side { background:var(--navy-2); border-right:1px solid var(--line); padding:14px 10px; }
+  .ws-side .si { font-size:12px; font-weight:600; color:var(--muted); padding:8px 11px; border-radius:6px; margin-bottom:2px; cursor:default; }
+  .ws-side .si.active { background:rgba(255,255,255,.06); color:#fff; }
+  .ws-side .si.flag { color:var(--teal-bright); }
+  .ws-main { padding:18px 22px 22px; overflow-y:auto; position:relative; }
+
+  /* In-product announcement banner (the obvious delivery) */
+  .announce { display:flex; align-items:stretch; background:#fff; color:#1A2B3C; border-radius:13px; overflow:hidden;
+              box-shadow:0 16px 44px rgba(0,0,0,.42); margin-bottom:20px; border:1px solid rgba(0,184,199,.5); animation:rise .5s cubic-bezier(.2,.8,.2,1); }
+  .announce .rail { width:7px; background:linear-gradient(180deg,var(--teal-bright),#55C985 50%,var(--amber)); flex:0 0 7px; }
+  .announce .ic { flex:0 0 64px; display:grid; place-items:center; font-size:30px; background:linear-gradient(135deg,#E6F7F9,#fff); }
+  .announce .ab { flex:1; padding:14px 16px; min-width:0; }
+  .announce .tag { display:inline-flex; align-items:center; gap:6px; font-size:10.5px; font-weight:800; letter-spacing:.04em; text-transform:uppercase;
+                   color:#007e8d; background:#E6F7F9; border:1px solid #bde9ee; padding:3px 9px; border-radius:20px; }
+  .announce .tag .dot { width:7px; height:7px; border-radius:50%; background:var(--teal); box-shadow:0 0 0 3px rgba(0,151,169,.2); }
+  .announce h2 { font-size:16px; font-weight:800; color:var(--navy); margin:9px 0 5px; letter-spacing:-.01em; }
+  .announce p { font-size:12.5px; line-height:1.55; color:#3a4a59; max-width:760px; white-space:pre-wrap; }
+  .announce .by { display:flex; align-items:center; gap:9px; margin-top:11px; }
+  .announce .by .ava { width:30px; height:30px; border-radius:8px; background:linear-gradient(135deg,var(--navy),var(--teal)); display:grid; place-items:center; color:#fff; font-weight:800; font-size:11px; }
+  .announce .by .who { font-size:11.5px; font-weight:700; color:var(--navy); }
+  .announce .by .who span { display:block; font-weight:500; color:#6B7A8D; font-size:10.5px; }
+  .announce .ac { flex:0 0 auto; display:flex; flex-direction:column; gap:8px; justify-content:center; padding:14px 18px 14px 6px; }
+  .announce .ac button { font:inherit; font-weight:700; font-size:12.5px; padding:9px 16px; border-radius:8px; cursor:pointer; white-space:nowrap; border:1px solid #E0E4E8; background:#fff; color:var(--navy); }
+  .announce .ac button.primary { background:var(--teal); border-color:var(--teal); color:#fff; }
+  .announce .ac button.primary:hover { background:#007e8d; }
+  @keyframes rise { from { opacity:0; transform:translateY(-12px); } to { opacity:1; transform:none; } }
+
+  /* Realistic FlowDesk widgets */
+  .ws-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  .ws-widget { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:14px; min-height:150px; }
+  .ws-widget h4 { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; margin-bottom:11px; display:flex; align-items:center; }
+  .ws-widget h4 .more { margin-left:auto; color:#46637a; font-size:14px; }
+  .row { display:flex; align-items:center; justify-content:space-between; font-size:12.5px; padding:5px 0; border-bottom:1px solid rgba(255,255,255,.04); }
+  .row:last-child { border-bottom:0; }
+  .row .sym { font-weight:700; color:#eaf2f6; }
+  .row .nm { color:var(--muted); font-size:11px; }
+  .row .px { text-align:right; }
+  .row .chg { font-weight:700; font-size:11.5px; }
+  .chg.up { color:var(--up); } .chg.down { color:var(--down); }
+  .news .ni { display:flex; gap:9px; padding:7px 0; border-bottom:1px solid rgba(255,255,255,.04); }
+  .news .ni:last-child { border-bottom:0; }
+  .news .ni .tk { font-size:9px; font-weight:800; color:#00263A; background:var(--teal-bright); border-radius:4px; padding:2px 5px; height:fit-content; }
+  .news .ni .hl { font-size:12px; color:#cddbe3; line-height:1.4; }
+  .news .ni .tm { font-size:10px; color:var(--muted); }
+  .wc .row .nm { display:flex; gap:7px; align-items:center; }
+  .pill { font-size:9px; font-weight:700; padding:2px 7px; border-radius:20px; }
+  .pill.rev { background:rgba(240,178,74,.16); color:var(--amber); }
+  .pill.clr { background:rgba(63,210,126,.14); color:var(--up); }
+
+  /* corner nudge (kept — the smaller PX prompt) */
+  .nudge { position:fixed; right:26px; bottom:26px; width:360px; background:#fff; color:#1A2B3C; border-radius:14px;
+           box-shadow:0 20px 60px rgba(0,0,0,.5); overflow:hidden; animation:rise .5s cubic-bezier(.2,.8,.2,1); z-index:40; }
+  .nudge .accent { height:5px; background:linear-gradient(90deg,var(--teal-bright),#55C985 48%,#F0B24A); }
+  .nudge .nh { display:flex; align-items:center; gap:10px; padding:13px 15px 7px; }
+  .nudge .nh .ava { width:32px; height:32px; border-radius:9px; background:linear-gradient(135deg,var(--navy),var(--teal)); display:grid; place-items:center; color:#fff; font-weight:800; font-size:12px; }
+  .nudge .nh .nm { font-size:12.5px; font-weight:750; color:var(--navy); }
+  .nudge .nh .nr { font-size:10px; color:#6B7A8D; }
+  .nudge .nh .close { margin-left:auto; color:#9AA8B6; cursor:pointer; font-size:15px; }
+  .nudge .nb { padding:3px 15px 12px; font-size:12.5px; line-height:1.5; }
+  .nudge .na { display:flex; gap:8px; padding:0 15px 14px; }
+  .nudge .na button { font:inherit; font-weight:700; font-size:12px; padding:8px 13px; border-radius:8px; cursor:pointer; border:1px solid #E0E4E8; background:#fff; color:var(--navy); }
+  .nudge .na button.primary { background:var(--teal); border-color:var(--teal); color:#fff; }
+  .empty { color:var(--muted); padding:30px; text-align:center; border:1px dashed var(--line); border-radius:12px; margin-bottom:20px; font-size:13px; line-height:1.6; }
+  .toast { position:fixed; bottom:22px; left:50%; transform:translateX(-50%) translateY(12px); background:#fff; color:var(--navy); padding:11px 18px; border-radius:10px; box-shadow:0 12px 40px rgba(0,0,0,.4); font-size:13px; font-weight:700; opacity:0; transition:.25s; z-index:90; }
+  .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+<div class="sim-tag">◉ SIMULATED — FlowDesk in-product delivery</div>
+<div class="ws-top">
+  <div class="ws-brand">Flow<b>Desk</b></div>
+  <div class="ws-tabs"><div class="ws-tab active">Home</div><div class="ws-tab">Markets</div><div class="ws-tab">Research</div><div class="ws-tab">Screening</div></div>
+  <div class="ws-search">Search instruments, news, people…</div>
+  <div class="ws-user" id="wsUser">··</div>
+</div>
+<div class="ws-body">
+  <div class="ws-side">
+    <div class="si active">My FlowDesk</div><div class="si">Watchlists</div>
+    <div class="si flag" id="sideFeature">Advanced Charting</div>
+    <div class="si">News &amp; Research</div><div class="si">CheckMate</div><div class="si">Alerts</div>
+  </div>
+  <div class="ws-main">
+    <div id="announceHost"></div>
+    <div class="ws-grid">
+      <div class="ws-widget">
+        <h4>Portfolio <span class="more">⋯</span></h4>
+        <div class="row"><div><div class="sym">AAPL</div><div class="nm">Apple Inc.</div></div><div class="px"><div>$228.41</div><div class="chg up">+1.24%</div></div></div>
+        <div class="row"><div><div class="sym">MSFT</div><div class="nm">Microsoft</div></div><div class="px"><div>$498.07</div><div class="chg up">+0.82%</div></div></div>
+        <div class="row"><div><div class="sym">HSBA.L</div><div class="nm">HSBC Holdings</div></div><div class="px"><div>£9.42</div><div class="chg down">-0.61%</div></div></div>
+        <div class="row"><div><div class="sym">VOD.L</div><div class="nm">Vodafone</div></div><div class="px"><div>£0.78</div><div class="chg up">+2.10%</div></div></div>
+      </div>
+      <div class="ws-widget">
+        <h4>Top movers <span class="more">⋯</span></h4>
+        <div class="row"><div class="sym">NVDA</div><div class="chg up">+4.7%</div></div>
+        <div class="row"><div class="sym">BP.L</div><div class="chg up">+3.1%</div></div>
+        <div class="row"><div class="sym">TSLA</div><div class="chg down">-3.8%</div></div>
+        <div class="row"><div class="sym">BARC.L</div><div class="chg down">-2.2%</div></div>
+        <div class="row"><div class="sym">RIO.L</div><div class="chg up">+1.9%</div></div>
+      </div>
+      <div class="ws-widget news">
+        <h4>News &amp; research <span class="more">⋯</span></h4>
+        <div class="ni"><span class="tk">FX</span><div><div class="hl">GBP/USD steadies as BoE holds rates; gilts rally</div><div class="tm">12 min ago · Reuters</div></div></div>
+        <div class="ni"><span class="tk">EQ</span><div><div class="hl">European banks lead gains on upbeat earnings outlook</div><div class="tm">38 min ago · FlowDesk</div></div></div>
+        <div class="ni"><span class="tk">CMD</span><div><div class="hl">Brent crude edges higher on supply concerns</div><div class="tm">1 hr ago · FlowDesk</div></div></div>
+      </div>
+      <div class="ws-widget">
+        <h4>Watchlist — Financials <span class="more">⋯</span></h4>
+        <div class="row"><div><div class="sym">JPM</div><div class="nm">JPMorgan Chase</div></div><div class="px"><div>$291.10</div><div class="chg up">+0.94%</div></div></div>
+        <div class="row"><div><div class="sym">GS</div><div class="nm">Goldman Sachs</div></div><div class="px"><div>$642.55</div><div class="chg up">+1.51%</div></div></div>
+        <div class="row"><div><div class="sym">MS</div><div class="nm">Morgan Stanley</div></div><div class="px"><div>$118.40</div><div class="chg up">+0.40%</div></div></div>
+      </div>
+      <div class="ws-widget news">
+        <h4>Research feed <span class="more">⋯</span></h4>
+        <div class="ni"><span class="tk">NOTE</span><div><div class="hl">Rates strategy: positioning for a steeper curve into Q3</div><div class="tm">Today · Analyst desk</div></div></div>
+        <div class="ni"><span class="tk">ESG</span><div><div class="hl">Screening update: 240 entities re-scored this week</div><div class="tm">Today · CheckMate</div></div></div>
+        <div class="ni"><span class="tk">MACRO</span><div><div class="hl">CPI preview: consensus 2.9% YoY</div><div class="tm">Yesterday · FlowDesk</div></div></div>
+      </div>
+      <div class="ws-widget wc">
+        <h4>Screening queue — CheckMate <span class="more">⋯</span></h4>
+        <div class="row"><div class="nm"><span class="sym">Meridian Holdings Ltd</span></div><span class="pill rev">Review</span></div>
+        <div class="row"><div class="nm"><span class="sym">Northwind Trading SA</span></div><span class="pill rev">Review</span></div>
+        <div class="row"><div class="nm"><span class="sym">Castlepoint Advisory</span></div><span class="pill clr">Cleared</span></div>
+        <div class="row"><div class="nm"><span class="sym">Helios Asset Mgmt</span></div><span class="pill clr">Cleared</span></div>
+      </div>
+    </div>
+    <div id="nudgeHost"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const params = new URLSearchParams(location.search);
+const oid = params.get('o');
+function initial(n){const p=(n||'CSM Autopilot').split(' ');return ((p[0]?.[0]||'C')+(p[p.length-1]?.[0]||'A')).toUpperCase();}
+function esc(s){return (s||'').replace(/</g,'&lt;');}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600);}
+// "Advanced Charting — Meridian Capital Partners" -> "Advanced Charting"
+function featureOf(o){ const s=o.subject||''; return s.includes('—')?s.split('—')[0].trim():(s||'a capability you asked about'); }
+
+async function load() {
+  let outcomes=[];
+  try{ outcomes = await fetch('/api/outcomes').then(r=>r.json()); }catch(e){}
+  // Prefer an explicit id, else the most recent in-product delivery, else any recent
+  // outreach so the simulator is always populated and the delivery is obvious.
+  let o = oid ? outcomes.find(x=>x.id===oid) : null;
+  if(!o) o = outcomes.find(x=>x.channel==='in_product');
+  if(!o) o = outcomes.find(x=>['email','csm_review','queued_agent'].includes(x.channel));
+
+  const aHost=document.getElementById('announceHost');
+  const nHost=document.getElementById('nudgeHost');
+  if(!o){
+    aHost.innerHTML='<div class="empty">No in-product message delivered yet.<br>In the cockpit, run an autopilot whose next-best-action is an in-product prompt — a <b>low-severity onboarding nudge</b> or a <b>self-service release alert</b> on a non-strategic account auto-delivers right here.</div>';
+    return;
+  }
+  const feature = featureOf(o);
+  const acct = o.account_name || 'your organisation';
+  const contact = o.recipient || 'your team';
+  const csm = o.manager || 'your CSM';
+  document.getElementById('wsUser').textContent = initial(contact);
+  document.getElementById('sideFeature').textContent = feature;
+  const body = esc((o.body||o.summary||'').trim());
+
+  // The obvious, full-width in-product announcement — explicitly tied to THIS customer.
+  aHost.innerHTML = `
+    <div class="announce">
+      <div class="rail"></div>
+      <div class="ic">🎉</div>
+      <div class="ab">
+        <span class="tag"><span class="dot"></span>New in FlowDesk · delivered for ${esc(acct)} at your team’s request</span>
+        <h2>${esc(feature)} is now available to your team</h2>
+        <p>${body}</p>
+        <div class="by"><div class="ava">${initial(csm)}</div>
+          <div class="who">${esc(csm)}<span>Customer Success · via CSM Autopilot, on behalf of ${esc(csm)}</span></div></div>
+      </div>
+      <div class="ac">
+        <button class="primary" onclick="toast('Opening ${esc(feature)}…')">Show me how</button>
+        <button onclick="this.closest('.announce').remove()">Dismiss</button>
+      </div>
+    </div>`;
+
+  // The smaller corner nudge (Gainsight PX style), reinforcing the same delivery.
+  nHost.innerHTML = `
+    <div class="nudge">
+      <div class="accent"></div>
+      <div class="nh"><div class="ava">${initial(csm)}</div>
+        <div><div class="nm">${esc(csm)} · via CSM Autopilot</div><div class="nr">For ${esc(contact)} · Customer Success</div></div>
+        <span class="close" onclick="this.closest('.nudge').remove()">✕</span></div>
+      <div class="nb">${esc(feature)} — set up at your team’s request. Want a quick walkthrough?</div>
+      <div class="na"><button class="primary" onclick="toast('Booking a walkthrough…')">Show me how</button><button onclick="this.closest('.nudge').remove()">Maybe later</button></div>
+    </div>`;
+}
+load();
+</script>
+</body>
+</html>

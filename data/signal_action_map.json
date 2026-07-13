@@ -1,0 +1,122 @@
+[
+  {
+    "map_id": "MAP-01",
+    "signal_type": "adoption_gap",
+    "severity": "Critical",
+    "message_type": "guided_recovery_outreach",
+    "channel": "csm_review",
+    "content_source": "playbook_adoption_recovery",
+    "review_required": "Yes",
+    "notes": "Deep adoption gap on a strategic account always needs CSM judgment."
+  },
+  {
+    "map_id": "MAP-02",
+    "signal_type": "adoption_gap",
+    "severity": "Medium",
+    "message_type": "feature_tip",
+    "channel": "email",
+    "content_source": "content_feature_tip",
+    "review_required": "No",
+    "notes": "Routine feature tip for an active user."
+  },
+  {
+    "map_id": "MAP-03",
+    "signal_type": "adoption_gap",
+    "severity": "Low",
+    "message_type": "onboarding_nudge",
+    "channel": "in_product",
+    "content_source": "content_onboarding_nudge",
+    "review_required": "No",
+    "notes": "Low-risk onboarding nudge, safe to automate."
+  },
+  {
+    "map_id": "MAP-04",
+    "signal_type": "risk",
+    "severity": "High",
+    "message_type": "risk_intervention_brief",
+    "channel": "csm_brief",
+    "content_source": "playbook_renewal_risk",
+    "review_required": "Yes",
+    "notes": "Renewal risk needs a CSM-led conversation; prepare a brief."
+  },
+  {
+    "map_id": "MAP-05",
+    "signal_type": "release_relevant",
+    "severity": "Medium",
+    "message_type": "release_alert",
+    "channel": "email",
+    "content_source": "content_release_alert",
+    "review_required": "No",
+    "notes": "Self-service release alert; auto-send unless a routing rule escalates."
+  },
+  {
+    "map_id": "MAP-06",
+    "signal_type": "release_relevant",
+    "severity": "High",
+    "message_type": "release_alert",
+    "channel": "csm_review",
+    "content_source": "content_release_alert",
+    "review_required": "Yes",
+    "notes": "High-relevance release tied to a prior request; route to CSM."
+  },
+  {
+    "map_id": "MAP-10",
+    "signal_type": "adoption_gap",
+    "severity": "High",
+    "message_type": "guided_recovery_outreach",
+    "channel": "csm_review",
+    "content_source": "playbook_adoption_recovery",
+    "review_required": "Yes",
+    "notes": "High adoption gap needs CSM judgment."
+  },
+  {
+    "map_id": "MAP-11",
+    "signal_type": "risk",
+    "severity": "Critical",
+    "message_type": "risk_intervention_brief",
+    "channel": "csm_brief",
+    "content_source": "playbook_renewal_risk",
+    "review_required": "Yes",
+    "notes": "Critical risk always escalates to a CSM-led conversation."
+  },
+  {
+    "map_id": "MAP-12",
+    "signal_type": "risk",
+    "severity": "Medium",
+    "message_type": "risk_intervention_brief",
+    "channel": "csm_review",
+    "content_source": "playbook_renewal_risk",
+    "review_required": "Yes",
+    "notes": "Medium risk is reviewed before any outreach."
+  },
+  {
+    "map_id": "MAP-13",
+    "signal_type": "risk",
+    "severity": "Low",
+    "message_type": "feature_tip",
+    "channel": "email",
+    "content_source": "content_feature_tip",
+    "review_required": "No",
+    "notes": "Low risk handled with a light-touch tip."
+  },
+  {
+    "map_id": "MAP-14",
+    "signal_type": "release_relevant",
+    "severity": "Low",
+    "message_type": "release_alert",
+    "channel": "in_product",
+    "content_source": "content_release_alert",
+    "review_required": "No",
+    "notes": "Low-relevance release surfaced in-product."
+  },
+  {
+    "map_id": "MAP-15",
+    "signal_type": "release_relevant",
+    "severity": "Critical",
+    "message_type": "release_alert",
+    "channel": "csm_review",
+    "content_source": "content_release_alert",
+    "review_required": "Yes",
+    "notes": "Critical release relevance routed to the CSM."
+  }
+]

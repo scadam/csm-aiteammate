@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CSM Autopilot</title>
+<script src="https://res.cdn.office.net/teams-js/2.31.0/js/MicrosoftTeams.min.js" crossorigin="anonymous"></script>
+<script src="/static/identity.js"></script>
+<style>
+  :root{--navy:#0A2540;--teal:#00A3A1;--teal-bright:#00C2C0;--bg:#F7F9FB;--muted:#64748B;--dim:#94A3B8}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Inter,Arial,sans-serif;background:var(--bg);color:#1A2B3C;height:100vh;display:flex;align-items:center;justify-content:center}
+  .splash{text-align:center}
+  .brand{display:inline-flex;align-items:center;gap:14px;margin-bottom:22px}
+  .brand .word{font-size:15px;font-weight:700;letter-spacing:.18em;color:var(--navy);border:1.6px solid var(--navy);border-radius:5px;padding:6px 13px}
+  .brand .bar{display:none}
+  .product{font-size:14px;font-weight:600;color:var(--teal);letter-spacing:.02em;margin-top:8px}
+  .spin{width:34px;height:34px;border:3px solid #d4dde4;border-top-color:var(--teal);border-radius:50%;animation:s .8s linear infinite;margin:8px auto 14px}
+  @keyframes s{to{transform:rotate(360deg)}}
+  .msg{font-size:13px;color:var(--muted)}
+  .who{font-size:12px;color:var(--dim);margin-top:8px}
+  .err{margin-top:16px;font-size:12.5px;color:#D42A2A;max-width:360px}
+  a.btn{display:inline-block;margin-top:14px;font-weight:700;background:var(--teal);color:#fff;text-decoration:none;padding:9px 18px;border-radius:8px}
+</style>
+</head>
+<body>
+<div class="splash">
+  <div class="brand"><div><div class="word">CSM Autopilot</div><div class="product">Digital Customer Success teammate</div></div></div>
+  <div class="spin" id="spin"></div>
+  <div class="msg" id="msg">Signing you in…</div>
+  <div class="who" id="who"></div>
+  <div id="actions"></div>
+</div>
+<script>
+(async function(){
+  const msg=document.getElementById('msg'), who=document.getElementById('who'),
+        spin=document.getElementById('spin'), actions=document.getElementById('actions');
+  try{
+    const me = await window.CSMIdentity.whoami(true);
+    const u = me.user || {};
+    if(u.name) who.textContent = (u.source==='teams_sso'?'Signed in via Teams as ':'Acting as ')+u.name+(u.roles&&u.roles.length?(' · '+u.roles.join(', ')):'');
+    // Route by role. Owner -> sponsor (programme) view; otherwise the manager cockpit.
+    if(!u.roles || u.roles.length===0){
+      spin.style.display='none';
+      msg.textContent='Your account is not yet mapped to a CSM Autopilot.';
+      actions.innerHTML='<a class="btn" href="/signin">Choose a demo user</a>';
+      return;
+    }
+    const dest = (me.defaultView==='sponsor') ? '/sponsor' : '/manager';
+    msg.textContent = 'Opening your '+(me.defaultView==='sponsor'?'programme dashboard':'cockpit')+'…';
+    location.replace(dest);
+  }catch(e){
+    spin.style.display='none';
+    msg.textContent='Could not establish your identity.';
+    actions.innerHTML='<div class="err">'+(e&&e.message?e.message:e)+'</div><a class="btn" href="/signin">Sign in</a>';
+  }
+})();
+</script>
+</body>
+</html>

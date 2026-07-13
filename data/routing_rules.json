@@ -1,0 +1,82 @@
+[
+  {
+    "rule_id": "RR-01",
+    "condition_type": "high_influence_or_frustrated",
+    "description": "High-influence or frustrated customers always get CSM review before any outreach.",
+    "applies_when": "account.influence == 'High' OR account.sentiment == 'Frustrated'",
+    "review_required": "Yes",
+    "priority_weight": 90
+  },
+  {
+    "rule_id": "RR-02",
+    "condition_type": "enhancement_matches_request",
+    "description": "An enhancement that directly matches a customer's prior request needs CSM review.",
+    "applies_when": "signal.signal_type == 'release_relevant' AND enhancement.matches_request_tag == 'Yes'",
+    "review_required": "Yes",
+    "priority_weight": 85
+  },
+  {
+    "rule_id": "RR-03",
+    "condition_type": "strategic_account",
+    "description": "Any interaction with a strategic account is reviewed by the CSM.",
+    "applies_when": "account.strategic == 'Yes'",
+    "review_required": "Yes",
+    "priority_weight": 80
+  },
+  {
+    "rule_id": "RR-04",
+    "condition_type": "first_senior_contact",
+    "description": "First outreach to a new senior contact is reviewed.",
+    "applies_when": "contact.is_senior == True AND contact.prior_outreach == False",
+    "review_required": "Yes",
+    "priority_weight": 70
+  },
+  {
+    "rule_id": "RR-05",
+    "condition_type": "complex_topic",
+    "description": "Complex topics (renewal risk, migrations, security) are reviewed.",
+    "applies_when": "message_type IN ('risk_intervention_brief','guided_recovery_outreach')",
+    "review_required": "Yes",
+    "priority_weight": 75
+  },
+  {
+    "rule_id": "RR-06",
+    "condition_type": "onboarding_nudge",
+    "description": "Routine onboarding nudges send automatically.",
+    "applies_when": "message_type == 'onboarding_nudge'",
+    "review_required": "No",
+    "priority_weight": 20
+  },
+  {
+    "rule_id": "RR-07",
+    "condition_type": "low_complexity_tip_active_user",
+    "description": "Low-complexity feature tips for active users send automatically.",
+    "applies_when": "message_type == 'feature_tip' AND user.active == True",
+    "review_required": "No",
+    "priority_weight": 25
+  },
+  {
+    "rule_id": "RR-08",
+    "condition_type": "self_service_release",
+    "description": "Product-release alerts for self-service features send automatically.",
+    "applies_when": "message_type == 'release_alert' AND enhancement.self_service == 'Yes'",
+    "review_required": "No",
+    "priority_weight": 30
+  },
+  {
+    "rule_id": "RR-09",
+    "condition_type": "long_tail_no_csm",
+    "description": "Long-tail accounts without dedicated CSM coverage are handled at scale.",
+    "applies_when": "account.tier == 'LongTail' AND account.csm_manager_id == 'unassigned'",
+    "review_required": "No",
+    "priority_weight": 15
+  },
+  {
+    "rule_id": "RR-10",
+    "condition_type": "high_acceptance_message_type",
+    "description": "Message types with consistently high unedited acceptance rates send automatically.",
+    "applies_when": "message_type.acceptance_rate >= 0.85",
+    "review_required": "No",
+    "priority_weight": 35
+  }
+]

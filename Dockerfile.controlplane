@@ -1,0 +1,35 @@
+# CSM Autopilot — control plane container image.
+#
+# Serves the two branded control surfaces — the per-CSM **manager cockpit**
+# (/manager) and the programme **sponsor dashboard** (/sponsor) — the scoped
+# business APIs, the SSE job engine, and the outcome-delivery simulators. The
+# engine drives the REAL capability tools (Azure OpenAI managed-identity drafts,
+# Gainsight NXT REST, Snowflake NL-to-SQL, Work IQ grounding) but never imports
+# the GitHub Copilot SDK (win_amd64-only), so it builds and runs on Linux
+# Container Apps.
+
+# aiohttp control-plane server on 0.0.0.0:8080 (serves /control-plane).
+# Base: python:3.12-slim (Docker Hub) — the canonical, reliable Python base. (Previously
+# mcr.microsoft.com/devcontainers/python:3.12; switched off MCR for build reliability.)
+FROM python:3.12-slim-bookworm
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1 \
+    HOST=0.0.0.0 \
+    PORT=8080 \
+    CONTROL_PLANE_STAGE_PAUSE=0.6
+
+WORKDIR /app
+
+COPY requirements-controlplane.txt ./
+RUN pip install --upgrade pip && pip install -r requirements-controlplane.txt
+
+# Application code + fixtures (the simulated back ends the engine reads).
+COPY src ./src
+COPY data ./data
+
+EXPOSE 8080
+
+# aiohttp control-plane server on 0.0.0.0:8080 (serves /control-plane).
+CMD ["python", "-m", "src.control_plane"]

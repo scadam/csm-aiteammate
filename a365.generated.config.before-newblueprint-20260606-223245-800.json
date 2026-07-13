@@ -1,0 +1,30 @@
+{
+  "agentBlueprintId": "752083a5-dacf-4df6-aa52-0305b288dcbb",
+  "agentBlueprintObjectId": "752083a5-dacf-4df6-aa52-0305b288dcbb",
+  "agentBlueprintServicePrincipalObjectId": "c8d51ce7-c798-42c0-8e22-fb1cf3865355",
+  "agentBlueprintClientSecret": "AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA+TzP6/aKnE+4hrqjYGT9dAAAAAACAAAAAAAQZgAAAAEAACAAAABXRXLzBjvFVY9ijAv42CZA8NV2P51IZ6Vu2XvlJXdpNAAAAAAOgAAAAAIAACAAAADBhhzrW2yx+AcUvOqBGouluf3ww08FDZlFMDPk/GUnqTAAAADJPSq2aLO+0hGP+5H0ehhMlLQQlG7bAwEw0N68kttvRImTnff4M+DQr4WZSqZG0jtAAAAAL7El6DrCJdCFFpStvxsdtMooFxFcijiTQg7AeTNk73WZmh1ha9Td0vKXYs5yTPVFhQXktuiveOcWlYx2rHLbgQ==",
+  "agentBlueprintClientSecretProtected": true,
+  "resourceConsents": [
+    {
+      "resourceName": "Microsoft Graph",
+      "resourceAppId": "00000003-0000-0000-c000-000000000000",
+      "consentGranted": true,
+      "consentTimestamp": "2026-06-05T17:13:14.6334724Z",
+      "scopes": [
+        "Mail.ReadWrite",
+        "Mail.Send",
+        "Chat.ReadWrite",
+        "User.Read.All",
+        "Sites.Read.All",
+        "Files.ReadWrite.All",
+        "ChannelMessage.Read.All",
+        "ChannelMessage.Send"
+      ],
+      "inheritablePermissionsConfigured": true,
+      "inheritablePermissionsAlreadyExist": false
+    }
+  ],
+  "completed": false,
+  "lastUpdated": "2026-06-05T17:13:16.1565431Z",
+  "cliVersion": "1.1.181.39451"
+}

@@ -1,0 +1,12 @@
+# Lean runtime dependencies for the **MCP server** container (Linux).
+# Deliberately excludes the GitHub Copilot SDK (win_amd64-only) and the
+# Microsoft 365 Agents SDK — the MCP server only needs the tool registry
+# (TOOL_SPECS) + the back-end clients (Snowflake, Azure OpenAI, Gainsight sim).
+
+python-dotenv
+pydantic
+mcp
+openai
+azure-identity
+snowflake-connector-python[pandas]
+cryptography

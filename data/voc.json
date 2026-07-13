@@ -1,0 +1,3012 @@
+[
+  {
+    "voc_id": "VOC-3001",
+    "account_id": "ACC-1001",
+    "user_id": "USR-eleanor.vance",
+    "source": "call_summary",
+    "date": "2026-04-22",
+    "sentiment": "Frustrated",
+    "text": "Eleanor said the operations team finds Advanced Charting hard to discover and reverted to spreadsheets. Frustrated that the last training didn't stick.",
+    "feature_requested": "Easier charting templates"
+  },
+  {
+    "voc_id": "VOC-3002",
+    "account_id": "ACC-1001",
+    "user_id": "USR-eleanor.vance",
+    "source": "health_note",
+    "date": "2026-05-12",
+    "sentiment": "Negative",
+    "text": "Two screening batch failures in a fortnight. Eleanor is escalating internally; renewal conversation will be sensitive.",
+    "feature_requested": "Reliable bulk screening"
+  },
+  {
+    "voc_id": "VOC-3003",
+    "account_id": "ACC-1002",
+    "user_id": "USR-henrik.solberg",
+    "source": "survey",
+    "date": "2026-02-18",
+    "sentiment": "Neutral",
+    "text": "Henrik requested continuous monitoring of onboarded clients rather than periodic batch reviews. Said it would materially reduce manual effort.",
+    "feature_requested": "Perpetual KYC monitoring"
+  },
+  {
+    "voc_id": "VOC-3004",
+    "account_id": "ACC-1003",
+    "user_id": "USR-marcus.bellweather",
+    "source": "call_summary",
+    "date": "2026-05-02",
+    "sentiment": "Positive",
+    "text": "Marcus loves the research workflow and asked whether AI could summarise long analyst notes for the morning meeting.",
+    "feature_requested": "AI research summaries"
+  },
+  {
+    "voc_id": "VOC-3005",
+    "account_id": "ACC-1002",
+    "user_id": "USR-henrik.solberg",
+    "source": "health_note",
+    "date": "2026-05-29",
+    "sentiment": "Neutral",
+    "text": "Only one analyst is using Case Management. Henrik open to rolling it out more widely if it saves time.",
+    "feature_requested": "Team case collaboration"
+  },
+  {
+    "voc_id": "VOC-4000",
+    "account_id": "ACC-1001",
+    "user_id": "USR-kai.carter",
+    "source": "call_summary",
+    "date": "2026-05-25",
+    "sentiment": "Frustrated",
+    "text": "Kai asked whether Bulk Screening API could be tailored to their workflow.",
+    "feature_requested": "Bulk Screening API"
+  },
+  {
+    "voc_id": "VOC-4001",
+    "account_id": "ACC-1001",
+    "user_id": "USR-kai.carter",
+    "source": "health_note",
+    "date": "2026-02-04",
+    "sentiment": "Neutral",
+    "text": "Team feedback: Excel Add-in is valued but discovery is hard.",
+    "feature_requested": "Excel Add-in"
+  },
+  {
+    "voc_id": "VOC-4002",
+    "account_id": "ACC-1001",
+    "user_id": "USR-kai.carter",
+    "source": "qbr_note",
+    "date": "2026-02-16",
+    "sentiment": "Frustrated",
+    "text": "Kai would expand usage of AI Research Summaries if it saved more manual effort.",
+    "feature_requested": "AI Research Summaries"
+  },
+  {
+    "voc_id": "VOC-4003",
+    "account_id": "ACC-1002",
+    "user_id": "USR-lisa.taylor",
+    "source": "health_note",
+    "date": "2026-05-19",
+    "sentiment": "Negative",
+    "text": "Survey: satisfaction dipped after a Onboarding Screening incident; recovery needed.",
+    "feature_requested": "Onboarding Screening"
+  },
+  {
+    "voc_id": "VOC-4004",
+    "account_id": "ACC-1005",
+    "user_id": "USR-quinn.campbell",
+    "source": "call_summary",
+    "date": "2026-02-05",
+    "sentiment": "Positive",
+    "text": "Team feedback: Audit Trail is valued but discovery is hard.",
+    "feature_requested": "Audit Trail"
+  },
+  {
+    "voc_id": "VOC-4005",
+    "account_id": "ACC-1005",
+    "user_id": "USR-quinn.campbell",
+    "source": "support_ticket",
+    "date": "2026-04-20",
+    "sentiment": "Neutral",
+    "text": "Team feedback: Perpetual KYC Monitoring is valued but discovery is hard.",
+    "feature_requested": "Perpetual KYC Monitoring"
+  },
+  {
+    "voc_id": "VOC-4006",
+    "account_id": "ACC-1006",
+    "user_id": "USR-dakota.sanchez",
+    "source": "qbr_note",
+    "date": "2026-02-24",
+    "sentiment": "Neutral",
+    "text": "Team feedback: Watchlists is valued but discovery is hard.",
+    "feature_requested": "Watchlists"
+  },
+  {
+    "voc_id": "VOC-4007",
+    "account_id": "ACC-1006",
+    "user_id": "USR-dakota.sanchez",
+    "source": "qbr_note",
+    "date": "2026-04-03",
+    "sentiment": "Negative",
+    "text": "Dakota would expand usage of Real-Time Data if it saved more manual effort.",
+    "feature_requested": "Real-Time Data"
+  },
+  {
+    "voc_id": "VOC-4008",
+    "account_id": "ACC-1007",
+    "user_id": "USR-amber.rodriguez",
+    "source": "call_summary",
+    "date": "2026-04-28",
+    "sentiment": "Negative",
+    "text": "Amber asked whether News Monitoring could be tailored to their workflow.",
+    "feature_requested": "News Monitoring"
+  },
+  {
+    "voc_id": "VOC-4009",
+    "account_id": "ACC-1007",
+    "user_id": "USR-amber.rodriguez",
+    "source": "survey",
+    "date": "2026-05-31",
+    "sentiment": "Neutral",
+    "text": "Amber raised concerns about Watchlists reliability during the last review.",
+    "feature_requested": "Watchlists"
+  },
+  {
+    "voc_id": "VOC-4010",
+    "account_id": "ACC-1008",
+    "user_id": "USR-corey.gray",
+    "source": "support_ticket",
+    "date": "2026-05-28",
+    "sentiment": "Frustrated",
+    "text": "Survey: satisfaction dipped after a Equity Screener incident; recovery needed.",
+    "feature_requested": "Equity Screener"
+  },
+  {
+    "voc_id": "VOC-4011",
+    "account_id": "ACC-1008",
+    "user_id": "USR-corey.gray",
+    "source": "health_note",
+    "date": "2026-03-15",
+    "sentiment": "Negative",
+    "text": "Corey raised concerns about Excel Add-in reliability during the last review.",
+    "feature_requested": "Excel Add-in"
+  },
+  {
+    "voc_id": "VOC-4012",
+    "account_id": "ACC-1008",
+    "user_id": "USR-corey.gray",
+    "source": "support_ticket",
+    "date": "2026-03-24",
+    "sentiment": "Negative",
+    "text": "Corey asked whether Economic Indicators could be tailored to their workflow.",
+    "feature_requested": "Economic Indicators"
+  },
+  {
+    "voc_id": "VOC-4013",
+    "account_id": "ACC-1009",
+    "user_id": "USR-monica.thompson",
+    "source": "qbr_note",
+    "date": "2026-06-05",
+    "sentiment": "Neutral",
+    "text": "Survey: satisfaction dipped after a Adverse Media Screening incident; recovery needed.",
+    "feature_requested": "Adverse Media Screening"
+  },
+  {
+    "voc_id": "VOC-4014",
+    "account_id": "ACC-1009",
+    "user_id": "USR-monica.thompson",
+    "source": "call_summary",
+    "date": "2026-04-23",
+    "sentiment": "Negative",
+    "text": "Monica would expand usage of AI Research Summaries if it saved more manual effort.",
+    "feature_requested": "AI Research Summaries"
+  },
+  {
+    "voc_id": "VOC-4015",
+    "account_id": "ACC-1009",
+    "user_id": "USR-monica.thompson",
+    "source": "qbr_note",
+    "date": "2026-05-10",
+    "sentiment": "Positive",
+    "text": "Monica would expand usage of Bulk Screening API if it saved more manual effort.",
+    "feature_requested": "Bulk Screening API"
+  },
+  {
+    "voc_id": "VOC-4016",
+    "account_id": "ACC-1100",
+    "user_id": "USR-peyton.davis",
+    "source": "support_ticket",
+    "date": "2026-04-08",
+    "sentiment": "Negative",
+    "text": "Peyton would expand usage of Equity Screener if it saved more manual effort.",
+    "feature_requested": "Equity Screener"
+  },
+  {
+    "voc_id": "VOC-4017",
+    "account_id": "ACC-1102",
+    "user_id": "USR-daichi.maruyama",
+    "source": "health_note",
+    "date": "2026-02-24",
+    "sentiment": "Neutral",
+    "text": "Daichi asked whether Company Filings could be tailored to their workflow.",
+    "feature_requested": "Company Filings"
+  },
+  {
+    "voc_id": "VOC-4018",
+    "account_id": "ACC-1102",
+    "user_id": "USR-daichi.maruyama",
+    "source": "support_ticket",
+    "date": "2026-03-13",
+    "sentiment": "Negative",
+    "text": "Daichi raised concerns about Quote Monitor reliability during the last review.",
+    "feature_requested": "Quote Monitor"
+  },
+  {
+    "voc_id": "VOC-4019",
+    "account_id": "ACC-1103",
+    "user_id": "USR-sonia.rees",
+    "source": "qbr_note",
+    "date": "2026-04-18",
+    "sentiment": "Negative",
+    "text": "Team feedback: Portfolio Analytics is valued but discovery is hard.",
+    "feature_requested": "Portfolio Analytics"
+  },
+  {
+    "voc_id": "VOC-4020",
+    "account_id": "ACC-1103",
+    "user_id": "USR-sonia.rees",
+    "source": "health_note",
+    "date": "2026-05-17",
+    "sentiment": "Positive",
+    "text": "Sonia would expand usage of AI Research Summaries if it saved more manual effort.",
+    "feature_requested": "AI Research Summaries"
+  },
+  {
+    "voc_id": "VOC-4021",
+    "account_id": "ACC-1104",
+    "user_id": "USR-sasha.ouellet",
+    "source": "qbr_note",
+    "date": "2026-05-28",
+    "sentiment": "Neutral",
+    "text": "Sasha asked whether Portfolio Analytics could be tailored to their workflow.",
+    "feature_requested": "Portfolio Analytics"
+  },
+  {
+    "voc_id": "VOC-4022",
+    "account_id": "ACC-1106",
+    "user_id": "USR-kai.carter",
+    "source": "call_summary",
+    "date": "2026-01-27",
+    "sentiment": "Frustrated",
+    "text": "Kai would expand usage of Economic Indicators if it saved more manual effort.",
+    "feature_requested": "Economic Indicators"
+  },
+  {
+    "voc_id": "VOC-4023",
+    "account_id": "ACC-1106",
+    "user_id": "USR-kai.carter",
+    "source": "call_summary",
+    "date": "2026-04-17",
+    "sentiment": "Negative",
+    "text": "Kai requested better onboarding material for Eikon Messenger.",
+    "feature_requested": "Eikon Messenger"
+  },
+  {
+    "voc_id": "VOC-4024",
+    "account_id": "ACC-1106",
+    "user_id": "USR-kai.carter",
+    "source": "health_note",
+    "date": "2026-01-25",
+    "sentiment": "Neutral",
+    "text": "Kai asked whether Real-Time Data could be tailored to their workflow.",
+    "feature_requested": "Real-Time Data"
+  },
+  {
+    "voc_id": "VOC-4025",
+    "account_id": "ACC-1108",
+    "user_id": "USR-adil.eli",
+    "source": "survey",
+    "date": "2026-05-14",
+    "sentiment": "Frustrated",
+    "text": "Adil raised concerns about Onboarding Screening reliability during the last review.",
+    "feature_requested": "Onboarding Screening"
+  },
+  {
+    "voc_id": "VOC-4026",
+    "account_id": "ACC-1108",
+    "user_id": "USR-adil.eli",
+    "source": "health_note",
+    "date": "2026-06-05",
+    "sentiment": "Frustrated",
+    "text": "Adil requested better onboarding material for Ongoing Monitoring.",
+    "feature_requested": "Ongoing Monitoring"
+  },
+  {
+    "voc_id": "VOC-4027",
+    "account_id": "ACC-1109",
+    "user_id": "USR-kai.carter",
+    "source": "support_ticket",
+    "date": "2026-04-02",
+    "sentiment": "Negative",
+    "text": "Survey: satisfaction dipped after a Company Filings incident; recovery needed.",
+    "feature_requested": "Company Filings"
+  },
+  {
+    "voc_id": "VOC-4028",
+    "account_id": "ACC-1109",
+    "user_id": "USR-kai.carter",
+    "source": "qbr_note",
+    "date": "2026-05-18",
+    "sentiment": "Neutral",
+    "text": "Team feedback: Watchlists is valued but discovery is hard.",
+    "feature_requested": "Watchlists"
+  },
+  {
+    "voc_id": "VOC-4029",
+    "account_id": "ACC-1109",
+    "user_id": "USR-kai.carter",
+    "source": "call_summary",
+    "date": "2026-05-31",
+    "sentiment": "Positive",
+    "text": "Kai raised concerns about Watchlists reliability during the last review.",
+    "feature_requested": "Watchlists"
+  },
+  {
+    "voc_id": "VOC-4030",
+    "account_id": "ACC-1110",
+    "user_id": "USR-omar.bennett",
+    "source": "survey",
+    "date": "2026-03-22",
+    "sentiment": "Neutral",
+    "text": "Team feedback: Company Filings is valued but discovery is hard.",
+    "feature_requested": "Company Filings"
+  },
+  {
+    "voc_id": "VOC-4031",
+    "account_id": "ACC-1115",
+    "user_id": "USR-amber.rodriguez",
+    "source": "support_ticket",
+    "date": "2026-04-25",
+    "sentiment": "Neutral",
+    "text": "Amber requested better onboarding material for Audit Trail.",
+    "feature_requested": "Audit Trail"
+  },
+  {
+    "voc_id": "VOC-4032",
+    "account_id": "ACC-1115",
+    "user_id": "USR-amber.rodriguez",
+    "source": "health_note",
+    "date": "2026-05-15",
+    "sentiment": "Negative",
+    "text": "Amber would expand usage of Ongoing Monitoring if it saved more manual effort.",
+    "feature_requested": "Ongoing Monitoring"
+  },
+  {
+    "voc_id": "VOC-4033",
+    "account_id": "ACC-1115",
+    "user_id": "USR-amber.rodriguez",
+    "source": "health_note",
+    "date": "2026-03-05",
+    "sentiment": "Neutral",
+    "text": "Amber asked whether Risk Scoring could be tailored to their workflow.",
+    "feature_requested": "Risk Scoring"
+  },
+  {
+    "voc_id": "VOC-4034",
+    "account_id": "ACC-1117",
+    "user_id": "USR-robin.kline",
+    "source": "survey",
+    "date": "2026-03-24",
+    "sentiment": "Neutral",
+    "text": "Robin raised concerns about Case Management reliability during the last review.",
+    "feature_requested": "Case Management"
+  },
+  {
+    "voc_id": "VOC-4035",
+    "account_id": "ACC-1121",
+    "user_id": "USR-omar.bennett",
+    "source": "survey",
+    "date": "2026-05-08",
+    "sentiment": "Positive",
+    "text": "Omar would expand usage of News Monitoring if it saved more manual effort.",
+    "feature_requested": "News Monitoring"
+  },
+  {
+    "voc_id": "VOC-4036",
+    "account_id": "ACC-1121",
+    "user_id": "USR-omar.bennett",
+    "source": "support_ticket",
+    "date": "2026-05-26",
+    "sentiment": "Negative",
+    "text": "Omar requested better onboarding material for Excel Add-in.",
+    "feature_requested": "Excel Add-in"
+  },
+  {
+    "voc_id": "VOC-4037",
+    "account_id": "ACC-1121",
+    "user_id": "USR-omar.bennett",
+    "source": "qbr_note",
+    "date": "2026-05-31",
+    "sentiment": "Positive",
+    "text": "Team feedback: Portfolio Analytics is valued but discovery is hard.",
+    "feature_requested": "Portfolio Analytics"
+  },
+  {
+    "voc_id": "VOC-4038",
+    "account_id": "ACC-1122",
+    "user_id": "USR-adil.eli",
+    "source": "survey",
+    "date": "2026-06-05",
+    "sentiment": "Neutral",
+    "text": "Adil would expand usage of Excel Add-in if it saved more manual effort.",
+    "feature_requested": "Excel Add-in"
+  },
+  {
+    "voc_id": "VOC-4039",
+    "account_id": "ACC-1122",
+    "user_id": "USR-adil.eli",
+    "source": "health_note",
+    "date": "2026-04-14",
+    "sentiment": "Positive",
+    "text": "Adil raised concerns about Watchlists reliability during the last review.",
+    "feature_requested": "Watchlists"
+  },
+  {
+    "voc_id": "VOC-4040",
+    "account_id": "ACC-1122",
+    "user_id": "USR-adil.eli",
+    "source": "call_summary",
+    "date": "2026-03-09",
+    "sentiment": "Neutral",
+    "text": "Adil requested better onboarding material for Economic Indicators.",
+    "feature_requested": "Economic Indicators"
+  },
+  {
+    "voc_id": "VOC-4041",
+    "account_id": "ACC-1124",
+    "user_id": "USR-monica.thompson",
+    "source": "health_note",
+    "date": "2026-06-06",
+    "sentiment": "Positive",
+    "text": "Monica requested better onboarding material for Real-Time Data.",
+    "feature_requested": "Real-Time Data"
+  },
+  {
+    "voc_id": "VOC-4042",
+    "account_id": "ACC-1124",
+    "user_id": "USR-monica.thompson",
+    "source": "qbr_note",
+    "date": "2026-01-30",
+    "sentiment": "Negative",
+    "text": "Team feedback: AI Research Summaries is valued but discovery is hard.",
+    "feature_requested": "AI Research Summaries"
+  },
+  {
+    "voc_id": "VOC-4043",
+    "account_id": "ACC-1125",
+    "user_id": "USR-sasha.ouellet",
+    "source": "call_summary",
+    "date": "2026-03-13",
+    "sentiment": "Neutral",
+    "text": "Team feedback: Advanced Charting is valued but discovery is hard.",
+    "feature_requested": "Advanced Charting"
+  },
+  {
+    "voc_id": "VOC-4044",
+    "account_id": "ACC-1126",
+    "user_id": "USR-adil.eli",
+    "source": "survey",
+    "date": "2026-05-21",
+    "sentiment": "Frustrated",
+    "text": "Adil asked whether Watchlists could be tailored to their workflow.",
+    "feature_requested": "Watchlists"
+  },
+  {
+    "voc_id": "VOC-4045",
+    "account_id": "ACC-1126",
+    "user_id": "USR-adil.eli",
+    "source": "qbr_note",
+    "date": "2026-01-26",
+    "sentiment": "Neutral",
+    "text": "Adil would expand usage of Company Filings if it saved more manual effort.",
+    "feature_requested": "Company Filings"
+  },
+  {
+    "voc_id": "VOC-4046",
+    "account_id": "ACC-1126",
+    "user_id": "USR-adil.eli",
+    "source": "call_summary",
+    "date": "2026-04-09",
+    "sentiment": "Neutral",
+    "text": "Team feedback: Audit Trail is valued but discovery is hard.",
+    "feature_requested": "Audit Trail"
+  },
+  {
+    "voc_id": "VOC-4047",
+    "account_id": "ACC-1128",
+    "user_id": "USR-quinn.campbell",
+    "source": "health_note",
+    "date": "2026-03-12",
+    "sentiment": "Positive",
+    "text": "Quinn raised concerns about Ongoing Monitoring reliability during the last review.",
+    "feature_requested": "Ongoing Monitoring"
+  },
+  {
+    "voc_id": "VOC-4048",
+    "account_id": "ACC-1128",
+    "user_id": "USR-quinn.campbell",
+    "source": "call_summary",
+    "date": "2026-03-30",
+    "sentiment": "Negative",
+    "text": "Quinn would expand usage of AI Research Summaries if it saved more manual effort.",
+    "feature_requested": "AI Research Summaries"
+  },
+  {
+    "voc_id": "VOC-4049",
+    "account_id": "ACC-1129",
+    "user_id": "USR-sasha.ouellet",
+    "source": "support_ticket",
+    "date": "2026-02-28",
+    "sentiment": "Frustrated",
+    "text": "Sasha asked whether Economic Indicators could be tailored to their workflow.",
+    "feature_requested": "Economic Indicators"
+  },
+  {
+    "voc_id": "VOC-4050",
+    "account_id": "ACC-1131",
+    "user_id": "USR-omar.bennett",
+    "source": "support_ticket",
+    "date": "2026-04-12",
+    "sentiment": "Neutral",
+    "text": "Team feedback: Risk Scoring is valued but discovery is hard.",
+    "feature_requested": "Risk Scoring"
+  },
+  {
+    "voc_id": "VOC-4051",
+    "account_id": "ACC-1132",
+    "user_id": "USR-amber.rodriguez",
+    "source": "survey",
+    "date": "2026-01-15",
+    "sentiment": "Negative",
+    "text": "Team feedback: Adverse Media Screening is valued but discovery is hard.",
+    "feature_requested": "Adverse Media Screening"
+  },
+  {
+    "voc_id": "VOC-4052",
+    "account_id": "ACC-1132",
+    "user_id": "USR-amber.rodriguez",
+    "source": "survey",
+    "date": "2026-01-12",
+    "sentiment": "Negative",
+    "text": "Amber raised concerns about Delta Alerts reliability during the last review.",
+    "feature_requested": "Delta Alerts"
+  },
+  {
+    "voc_id": "VOC-4053",
+    "account_id": "ACC-1132",
+    "user_id": "USR-amber.rodriguez",
+    "source": "call_summary",
+    "date": "2026-02-07",
+    "sentiment": "Negative",
+    "text": "Amber would expand usage of Risk Scoring if it saved more manual effort.",
+    "feature_requested": "Risk Scoring"
+  },
+  {
+    "voc_id": "VOC-4054",
+    "account_id": "ACC-1133",
+    "user_id": "USR-lisa.taylor",
+    "source": "call_summary",
+    "date": "2026-05-01",
+    "sentiment": "Positive",
+    "text": "Team feedback: Case Management is valued but discovery is hard.",
+    "feature_requested": "Case Management"
+  },
+  {
+    "voc_id": "VOC-4055",
+    "account_id": "ACC-1136",
+    "user_id": "USR-monica.thompson",
+    "source": "qbr_note",
+    "date": "2026-05-12",
+    "sentiment": "Frustrated",
+    "text": "Team feedback: News Monitoring is valued but discovery is hard.",
+    "feature_requested": "News Monitoring"
+  },
+  {
+    "voc_id": "VOC-4056",
+    "account_id": "ACC-1137",
+    "user_id": "USR-billie.vester",
+    "source": "call_summary",
+    "date": "2026-01-16",
+    "sentiment": "Neutral",
+    "text": "Billie asked whether Ongoing Monitoring could be tailored to their workflow.",
+    "feature_requested": "Ongoing Monitoring"
+  },
+  {
+    "voc_id": "VOC-4057",
+    "account_id": "ACC-1138",
+    "user_id": "USR-kai.carter",
+    "source": "support_ticket",
+    "date": "2026-01-24",
+    "sentiment": "Positive",
+    "text": "Team feedback: Delta Alerts is valued but discovery is hard.",
+    "feature_requested": "Delta Alerts"
+  },
+  {
+    "voc_id": "VOC-4058",
+    "account_id": "ACC-1139",
+    "user_id": "USR-teresa.sac",
+    "source": "health_note",
+    "date": "2026-05-27",
+    "sentiment": "Positive",
+    "text": "Teresa asked whether Delta Alerts could be tailored to their workflow.",
+    "feature_requested": "Delta Alerts"
+  },
+  {
+    "voc_id": "VOC-4059",
+    "account_id": "ACC-1139",
+    "user_id": "USR-teresa.sac",
+    "source": "support_ticket",
+    "date": "2026-04-01",
+    "sentiment": "Frustrated",
+    "text": "Teresa asked whether Adverse Media Screening could be tailored to their workflow.",
+    "feature_requested": "Adverse Media Screening"
+  },
+  {
+    "voc_id": "VOC-4060",
+    "account_id": "ACC-1139",
+    "user_id": "USR-teresa.sac",
+    "source": "support_ticket",
+    "date": "2026-02-21",
+    "sentiment": "Positive",
+    "text": "Teresa raised concerns about Adverse Media Screening reliability during the last review.",
+    "feature_requested": "Adverse Media Screening"
+  },
+  {
+    "voc_id": "VOC-4061",
+    "account_id": "ACC-1140",
+    "user_id": "USR-monica.thompson",
+    "source": "health_note",
+    "date": "2026-06-06",
+    "sentiment": "Neutral",
+    "text": "Team feedback: Watchlists is valued but discovery is hard.",
+    "feature_requested": "Watchlists"
+  },
+  {
+    "voc_id": "VOC-4062",
+    "account_id": "ACC-1140",
+    "user_id": "USR-monica.thompson",
+    "source": "call_summary",
+    "date": "2026-05-26",
+    "sentiment": "Neutral",
+    "text": "Team feedback: Case Management is valued but discovery is hard.",
+    "feature_requested": "Case Management"
+  },
+  {
+    "voc_id": "VOC-4063",
+    "account_id": "ACC-1142",
+    "user_id": "USR-ronak.gupta",
+    "source": "call_summary",
+    "date": "2026-04-24",
+    "sentiment": "Neutral",
+    "text": "Team feedback: Audit Trail is valued but discovery is hard.",
+    "feature_requested": "Audit Trail"
+  },
+  {
+    "voc_id": "VOC-4064",
+    "account_id": "ACC-1143",
+    "user_id": "USR-daichi.maruyama",
+    "source": "call_summary",
+    "date": "2026-02-25",
+    "sentiment": "Neutral",
+    "text": "Survey: satisfaction dipped after a Case Management incident; recovery needed.",
+    "feature_requested": "Case Management"
+  },
+  {
+    "voc_id": "VOC-4065",
+    "account_id": "ACC-1143",
+    "user_id": "USR-daichi.maruyama",
+    "source": "survey",
+    "date": "2026-02-19",
+    "sentiment": "Negative",
+    "text": "Daichi raised concerns about Excel Add-in reliability during the last review.",
+    "feature_requested": "Excel Add-in"
+  },
+  {
+    "voc_id": "VOC-4066",
+    "account_id": "ACC-1146",
+    "user_id": "USR-hadar.caspit",
+    "source": "support_ticket",
+    "date": "2026-02-21",
+    "sentiment": "Positive",
+    "text": "Hadar would expand usage of Company Filings if it saved more manual effort.",
+    "feature_requested": "Company Filings"
+  },
+  {
+    "voc_id": "VOC-4067",
+    "account_id": "ACC-1146",
+    "user_id": "USR-hadar.caspit",
+    "source": "survey",
+    "date": "2026-04-23",
+    "sentiment": "Positive",
+    "text": "Survey: satisfaction dipped after a Real-Time Data incident; recovery needed.",
+    "feature_requested": "Real-Time Data"
+  },
+  {
+    "voc_id": "VOC-4068",
+    "account_id": "ACC-1147",
+    "user_id": "USR-vance.deleon",
+    "source": "qbr_note",
+    "date": "2026-02-09",
+    "sentiment": "Negative",
+    "text": "Vance asked whether Watchlist Refresh could be tailored to their workflow.",
+    "feature_requested": "Watchlist Refresh"
+  },
+  {
+    "voc_id": "VOC-4069",
+    "account_id": "ACC-1147",
+    "user_id": "USR-vance.deleon",
+    "source": "health_note",
+    "date": "2026-02-08",
+    "sentiment": "Frustrated",
+    "text": "Survey: satisfaction dipped after a Risk Scoring incident; recovery needed.",
+    "feature_requested": "Risk Scoring"
+  },
+  {
+    "voc_id": "VOC-4070",
+    "account_id": "ACC-1147",
+    "user_id": "USR-vance.deleon",
+    "source": "call_summary",
+    "date": "2026-05-06",
+    "sentiment": "Negative",
+    "text": "Team feedback: Risk Scoring is valued but discovery is hard.",
+    "feature_requested": "Risk Scoring"
+  },
+  {
+    "voc_id": "VOC-4071",
+    "account_id": "ACC-1148",
+    "user_id": "USR-sydney.mattos",
+    "source": "survey",
+    "date": "2026-03-04",
+    "sentiment": "Negative",
+    "text": "Sydney would expand usage of Audit Trail if it saved more manual effort.",
+    "feature_requested": "Audit Trail"
+  },
+  {
+    "voc_id": "VOC-4072",
+    "account_id": "ACC-1148",
+    "user_id": "USR-sydney.mattos",
+    "source": "call_summary",
+    "date": "2026-04-24",
+    "sentiment": "Frustrated",
+    "text": "Sydney raised concerns about Risk Scoring reliability during the last review.",
+    "feature_requested": "Risk Scoring"
+  },
+  {
+    "voc_id": "VOC-4073",
+    "account_id": "ACC-1153",
+    "user_id": "USR-peyton.davis",
+    "source": "support_ticket",
+    "date": "2026-02-06",
+    "sentiment": "Negative",
+    "text": "Team feedback: Risk Scoring is valued but discovery is hard.",
+    "feature_requested": "Risk Scoring"
+  },
+  {
+    "voc_id": "VOC-4074",
+    "account_id": "ACC-1153",
+    "user_id": "USR-peyton.davis",
+    "source": "call_summary",
+    "date": "2026-02-09",
+    "sentiment": "Negative",
+    "text": "Peyton asked whether Adverse Media Screening could be tailored to their workflow.",
+    "feature_requested": "Adverse Media Screening"
+  },
+  {
+    "voc_id": "VOC-4075",
+    "account_id": "ACC-1153",
+    "user_id": "USR-peyton.davis",
+    "source": "survey",
+    "date": "2026-04-21",
+    "sentiment": "Positive",
+    "text": "Peyton raised concerns about Watchlist Refresh reliability during the last review.",
+    "feature_requested": "Watchlist Refresh"
+  },
+  {
+    "voc_id": "VOC-4076",
+    "account_id": "ACC-1154",
+    "user_id": "USR-amber.rodriguez",
+    "source": "health_note",
+    "date": "2026-01-27",
+    "sentiment": "Negative",
+    "text": "Amber asked whether Audit Trail could be tailored to their workflow.",
+    "feature_requested": "Audit Trail"
+  },
+  {
+    "voc_id": "VOC-4077",
+    "account_id": "ACC-1154",
+    "user_id": "USR-amber.rodriguez",
+    "source": "call_summary",
+    "date": "2026-06-05",
+    "sentiment": "Negative",
+    "text": "Amber requested better onboarding material for Perpetual KYC Monitoring.",
+    "feature_requested": "Perpetual KYC Monitoring"
+  },
+  {
+    "voc_id": "VOC-4078",
+    "account_id": "ACC-1155",
+    "user_id": "USR-dakota.sanchez",
+    "source": "support_ticket",
+    "date": "2026-01-17",
+    "sentiment": "Negative",
+    "text": "Dakota requested better onboarding material for Portfolio Analytics.",
+    "feature_requested": "Portfolio Analytics"
+  },
+  {
+    "voc_id": "VOC-4079",
+    "account_id": "ACC-1155",
+    "user_id": "USR-dakota.sanchez",
+    "source": "support_ticket",
+    "date": "2026-01-30",
+    "sentiment": "Positive",
+    "text": "Dakota would expand usage of Portfolio Analytics if it saved more manual effort.",
+    "feature_requested": "Portfolio Analytics"
+  },
+  {
+    "voc_id": "VOC-4080",
+    "account_id": "ACC-1159",
+    "user_id": "USR-teresa.sac",
+    "source": "survey",
+    "date": "2026-04-24",
+    "sentiment": "Positive",
+    "text": "Survey: satisfaction dipped after a Adverse Media Screening incident; recovery needed.",
+    "feature_requested": "Adverse Media Screening"
+  },
+  {
+    "voc_id": "VOC-4081",
+    "account_id": "ACC-1160",
+    "user_id": "USR-robin.kline",
+    "source": "qbr_note",
+    "date": "2026-05-29",
+    "sentiment": "Frustrated",
+    "text": "Robin raised concerns about Excel Add-in reliability during the last review.",
+    "feature_requested": "Excel Add-in"
+  },
+  {
+    "voc_id": "VOC-4082",
+    "account_id": "ACC-1160",
+    "user_id": "USR-robin.kline",
+    "source": "qbr_note",
+    "date": "2026-05-28",
+    "sentiment": "Positive",
+    "text": "Robin asked whether Real-Time Data could be tailored to their workflow.",
+    "feature_requested": "Real-Time Data"
+  },
+  {
+    "voc_id": "VOC-4083",
+    "account_id": "ACC-1160",
+    "user_id": "USR-robin.kline",
+    "source": "support_ticket",
+    "date": "2026-05-27",
+    "sentiment": "Neutral",
+    "text": "Robin asked whether Quote Monitor could be tailored to their workflow.",
+    "feature_requested": "Quote Monitor"
+  },
+  {
+    "voc_id": "VOC-4084",
+    "account_id": "ACC-1162",
+    "user_id": "USR-dakota.sanchez",
+    "source": "support_ticket",
+    "date": "2026-04-26",
+    "sentiment": "Negative",
+    "text": "Survey: satisfaction dipped after a Risk Scoring incident; recovery needed.",
+    "feature_requested": "Risk Scoring"
+  },
+  {
+    "voc_id": "VOC-4085",
+    "account_id": "ACC-1163",
+    "user_id": "USR-kai.carter",
+    "source": "support_ticket",
+    "date": "2026-02-10",
+    "sentiment": "Negative",
+    "text": "Survey: satisfaction dipped after a Delta Alerts incident; recovery needed.",
+    "feature_requested": "Delta Alerts"
+  },
+  {
+    "voc_id": "VOC-4086",
+    "account_id": "ACC-1163",
+    "user_id": "USR-kai.carter",
+    "source": "call_summary",
+    "date": "2026-05-19",
+    "sentiment": "Frustrated",
+    "text": "Kai requested better onboarding material for Perpetual KYC Monitoring.",
+    "feature_requested": "Perpetual KYC Monitoring"
+  },
+  {
+    "voc_id": "VOC-4087",
+    "account_id": "ACC-1164",
+    "user_id": "USR-robin.kline",
+    "source": "health_note",
+    "date": "2026-04-09",
+    "sentiment": "Neutral",
+    "text": "Robin would expand usage of Watchlists if it saved more manual effort.",
+    "feature_requested": "Watchlists"
+  },
+  {
+    "voc_id": "VOC-4088",
+    "account_id": "ACC-1165",
+    "user_id": "USR-monica.thompson",
+    "source": "call_summary",
+    "date": "2026-02-20",
+    "sentiment": "Neutral",
+    "text": "Monica would expand usage of News Monitoring if it saved more manual effort.",
+    "feature_requested": "News Monitoring"
+  },
+  {
+    "voc_id": "VOC-4089",
+    "account_id": "ACC-1165",
+    "user_id": "USR-monica.thompson",
+    "source": "health_note",
+    "date": "2026-04-13",
+    "sentiment": "Positive",
+    "text": "Monica asked whether Bulk Screening API could be tailored to their workflow.",
+    "feature_requested": "Bulk Screening API"
+  },
+  {
+    "voc_id": "VOC-4090",
+    "account_id": "ACC-1165",
+    "user_id": "USR-monica.thompson",
+    "source": "health_note",
+    "date": "2026-05-06",
+    "sentiment": "Negative",
+    "text": "Monica asked whether Onboarding Screening could be tailored to their workflow.",
+    "feature_requested": "Onboarding Screening"
+  },
+  {
+    "voc_id": "VOC-4091",
+    "account_id": "ACC-1167",
+    "user_id": "USR-quinn.campbell",
+    "source": "qbr_note",
+    "date": "2026-05-13",
+    "sentiment": "Neutral",
+    "text": "Team feedback: Real-Time Data is valued but discovery is hard.",
+    "feature_requested": "Real-Time Data"
+  },
+  {
+    "voc_id": "VOC-4092",
+    "account_id": "ACC-1167",
+    "user_id": "USR-quinn.campbell",
+    "source": "support_ticket",
+    "date": "2026-02-18",
+    "sentiment": "Positive",
+    "text": "Quinn raised concerns about Equity Screener reliability during the last review.",
+    "feature_requested": "Equity Screener"
+  },
+  {
+    "voc_id": "VOC-4093",
+    "account_id": "ACC-1167",
+    "user_id": "USR-quinn.campbell",
+    "source": "survey",
+    "date": "2026-06-05",
+    "sentiment": "Neutral",
+    "text": "Team feedback: AI Research Summaries is valued but discovery is hard.",
+    "feature_requested": "AI Research Summaries"
+  },
+  {
+    "voc_id": "VOC-4094",
+    "account_id": "ACC-1168",
+    "user_id": "USR-sydney.mattos",
+    "source": "health_note",
+    "date": "2026-06-06",
+    "sentiment": "Neutral",
+    "text": "Sydney asked whether Bulk Screening API could be tailored to their workflow.",
+    "feature_requested": "Bulk Screening API"
+  },
+  {
+    "voc_id": "VOC-4095",
+    "account_id": "ACC-1168",
+    "user_id": "USR-sydney.mattos",
+    "source": "survey",
+    "date": "2026-03-01",
+    "sentiment": "Positive",
+    "text": "Team feedback: Case Management is valued but discovery is hard.",
+    "feature_requested": "Case Management"
+  },
+  {
+    "voc_id": "VOC-4096",
+    "account_id": "ACC-1168",
+    "user_id": "USR-sydney.mattos",
+    "source": "qbr_note",
+    "date": "2026-03-26",
+    "sentiment": "Negative",
+    "text": "Sydney requested better onboarding material for Bulk Screening API.",
+    "feature_requested": "Bulk Screening API"
+  },
+  {
+    "voc_id": "VOC-4097",
+    "account_id": "ACC-1169",
+    "user_id": "USR-sonia.rees",
+    "source": "qbr_note",
+    "date": "2026-01-17",
+    "sentiment": "Negative",
+    "text": "Sonia would expand usage of Equity Screener if it saved more manual effort.",
+    "feature_requested": "Equity Screener"
+  },
+  {
+    "voc_id": "VOC-4098",
+    "account_id": "ACC-1169",
+    "user_id": "USR-sonia.rees",
+    "source": "health_note",
+    "date": "2026-04-23",
+    "sentiment": "Frustrated",
+    "text": "Sonia would expand usage of Quote Monitor if it saved more manual effort.",
+    "feature_requested": "Quote Monitor"
+  },
+  {
+    "voc_id": "VOC-4099",
+    "account_id": "ACC-1171",
+    "user_id": "USR-sonia.rees",
+    "source": "support_ticket",
+    "date": "2026-04-11",
+    "sentiment": "Negative",
+    "text": "Sonia asked whether Company Filings could be tailored to their workflow.",
+    "feature_requested": "Company Filings"
+  },
+  {
+    "voc_id": "VOC-4100",
+    "account_id": "ACC-1171",
+    "user_id": "USR-sonia.rees",
+    "source": "health_note",
+    "date": "2026-04-18",
+    "sentiment": "Frustrated",
+    "text": "Sonia raised concerns about AI Research Summaries reliability during the last review.",
+    "feature_requested": "AI Research Summaries"
+  },
+  {
+    "voc_id": "VOC-4101",
+    "account_id": "ACC-1171",
+    "user_id": "USR-sonia.rees",
+    "source": "qbr_note",
+    "date": "2026-02-13",
+    "sentiment": "Neutral",
+    "text": "Team feedback: Watchlists is valued but discovery is hard.",
+    "feature_requested": "Watchlists"
+  },
+  {
+    "voc_id": "VOC-4102",
+    "account_id": "ACC-1176",
+    "user_id": "USR-kai.carter",
+    "source": "health_note",
+    "date": "2026-02-05",
+    "sentiment": "Frustrated",
+    "text": "Team feedback: Audit Trail is valued but discovery is hard.",
+    "feature_requested": "Audit Trail"
+  },
+  {
+    "voc_id": "VOC-4103",
+    "account_id": "ACC-1176",
+    "user_id": "USR-kai.carter",
+    "source": "qbr_note",
+    "date": "2026-01-20",
+    "sentiment": "Frustrated",
+    "text": "Team feedback: Watchlist Refresh is valued but discovery is hard.",
+    "feature_requested": "Watchlist Refresh"
+  },
+  {
+    "voc_id": "VOC-4104",
+    "account_id": "ACC-1177",
+    "user_id": "USR-adil.eli",
+    "source": "qbr_note",
+    "date": "2026-06-04",
+    "sentiment": "Frustrated",
+    "text": "Adil raised concerns about Onboarding Screening reliability during the last review.",
+    "feature_requested": "Onboarding Screening"
+  },
+  {
+    "voc_id": "VOC-4105",
+    "account_id": "ACC-1177",
+    "user_id": "USR-adil.eli",
+    "source": "qbr_note",
+    "date": "2026-03-28",
+    "sentiment": "Frustrated",
+    "text": "Team feedback: Perpetual KYC Monitoring is valued but discovery is hard.",
+    "feature_requested": "Perpetual KYC Monitoring"
+  },
+  {
+    "voc_id": "VOC-4106",
+    "account_id": "ACC-1177",
+    "user_id": "USR-adil.eli",
+    "source": "support_ticket",
+    "date": "2026-05-24",
+    "sentiment": "Negative",
+    "text": "Team feedback: Watchlist Refresh is valued but discovery is hard.",
+    "feature_requested": "Watchlist Refresh"
+  },
+  {
+    "voc_id": "VOC-4107",
+    "account_id": "ACC-1178",
+    "user_id": "USR-kai.carter",
+    "source": "health_note",
+    "date": "2026-03-14",
+    "sentiment": "Negative",
+    "text": "Kai raised concerns about Eikon Messenger reliability during the last review.",
+    "feature_requested": "Eikon Messenger"
+  },
+  {
+    "voc_id": "VOC-4108",
+    "account_id": "ACC-1178",
+    "user_id": "USR-kai.carter",
+    "source": "health_note",
+    "date": "2026-04-04",
+    "sentiment": "Negative",
+    "text": "Kai raised concerns about Watchlists reliability during the last review.",
+    "feature_requested": "Watchlists"
+  },
+  {
+    "voc_id": "VOC-4109",
+    "account_id": "ACC-1182",
+    "user_id": "USR-peyton.davis",
+    "source": "qbr_note",
+    "date": "2026-04-21",
+    "sentiment": "Negative",
+    "text": "Peyton would expand usage of Onboarding Screening if it saved more manual effort.",
+    "feature_requested": "Onboarding Screening"
+  },
+  {
+    "voc_id": "VOC-4110",
+    "account_id": "ACC-1182",
+    "user_id": "USR-peyton.davis",
+    "source": "support_ticket",
+    "date": "2026-03-13",
+    "sentiment": "Frustrated",
+    "text": "Survey: satisfaction dipped after a Audit Trail incident; recovery needed.",
+    "feature_requested": "Audit Trail"
+  },
+  {
+    "voc_id": "VOC-4111",
+    "account_id": "ACC-1183",
+    "user_id": "USR-daichi.maruyama",
+    "source": "support_ticket",
+    "date": "2026-01-21",
+    "sentiment": "Positive",
+    "text": "Team feedback: Ongoing Monitoring is valued but discovery is hard.",
+    "feature_requested": "Ongoing Monitoring"
+  },
+  {
+    "voc_id": "VOC-4112",
+    "account_id": "ACC-1183",
+    "user_id": "USR-daichi.maruyama",
+    "source": "survey",
+    "date": "2026-01-24",
+    "sentiment": "Frustrated",
+    "text": "Daichi asked whether Risk Scoring could be tailored to their workflow.",
+    "feature_requested": "Risk Scoring"
+  },
+  {
+    "voc_id": "VOC-4113",
+    "account_id": "ACC-1186",
+    "user_id": "USR-adil.eli",
+    "source": "health_note",
+    "date": "2026-04-12",
+    "sentiment": "Frustrated",
+    "text": "Adil requested better onboarding material for Ongoing Monitoring.",
+    "feature_requested": "Ongoing Monitoring"
+  },
+  {
+    "voc_id": "VOC-4114",
+    "account_id": "ACC-1186",
+    "user_id": "USR-adil.eli",
+    "source": "support_ticket",
+    "date": "2026-02-06",
+    "sentiment": "Frustrated",
+    "text": "Adil asked whether AI Research Summaries could be tailored to their workflow.",
+    "feature_requested": "AI Research Summaries"
+  },
+  {
+    "voc_id": "VOC-4115",
+    "account_id": "ACC-1186",
+    "user_id": "USR-adil.eli",
+    "source": "support_ticket",
+    "date": "2026-03-15",
+    "sentiment": "Positive",
+    "text": "Adil raised concerns about Real-Time Data reliability during the last review.",
+    "feature_requested": "Real-Time Data"
+  },
+  {
+    "voc_id": "VOC-4116",
+    "account_id": "ACC-1187",
+    "user_id": "USR-corey.gray",
+    "source": "health_note",
+    "date": "2026-05-15",
+    "sentiment": "Neutral",
+    "text": "Corey asked whether Equity Screener could be tailored to their workflow.",
+    "feature_requested": "Equity Screener"
+  },
+  {
+    "voc_id": "VOC-4117",
+    "account_id": "ACC-1188",
+    "user_id": "USR-peyton.davis",
+    "source": "support_ticket",
+    "date": "2026-02-05",
+    "sentiment": "Negative",
+    "text": "Peyton raised concerns about Watchlist Refresh reliability during the last review.",
+    "feature_requested": "Watchlist Refresh"
+  },
+  {
+    "voc_id": "VOC-4118",
+    "account_id": "ACC-1189",
+    "user_id": "USR-omar.bennett",
+    "source": "qbr_note",
+    "date": "2026-05-15",
+    "sentiment": "Frustrated",
+    "text": "Omar raised concerns about Watchlists reliability during the last review.",
+    "feature_requested": "Watchlists"
+  },
+  {
+    "voc_id": "VOC-4119",
+    "account_id": "ACC-1189",
+    "user_id": "USR-omar.bennett",
+    "source": "call_summary",
+    "date": "2026-05-07",
+    "sentiment": "Neutral",
+    "text": "Team feedback: Portfolio Analytics is valued but discovery is hard.",
+    "feature_requested": "Portfolio Analytics"
+  },
+  {
+    "voc_id": "VOC-4120",
+    "account_id": "ACC-1189",
+    "user_id": "USR-omar.bennett",
+    "source": "survey",
+    "date": "2026-05-28",
+    "sentiment": "Frustrated",
+    "text": "Team feedback: News Monitoring is valued but discovery is hard.",
+    "feature_requested": "News Monitoring"
+  },
+  {
+    "voc_id": "VOC-4121",
+    "account_id": "ACC-1191",
+    "user_id": "USR-teresa.sac",
+    "source": "health_note",
+    "date": "2026-04-14",
+    "sentiment": "Positive",
+    "text": "Teresa requested better onboarding material for Equity Screener.",
+    "feature_requested": "Equity Screener"
+  },
+  {
+    "voc_id": "VOC-4122",
+    "account_id": "ACC-1191",
+    "user_id": "USR-teresa.sac",
+    "source": "health_note",
+    "date": "2026-02-17",
+    "sentiment": "Positive",
+    "text": "Teresa raised concerns about Onboarding Screening reliability during the last review.",
+    "feature_requested": "Onboarding Screening"
+  },
+  {
+    "voc_id": "VOC-4123",
+    "account_id": "ACC-1192",
+    "user_id": "USR-vance.deleon",
+    "source": "support_ticket",
+    "date": "2026-02-02",
+    "sentiment": "Negative",
+    "text": "Vance asked whether Bulk Screening API could be tailored to their workflow.",
+    "feature_requested": "Bulk Screening API"
+  },
+  {
+    "voc_id": "VOC-4124",
+    "account_id": "ACC-1193",
+    "user_id": "USR-quinn.campbell",
+    "source": "health_note",
+    "date": "2026-04-21",
+    "sentiment": "Frustrated",
+    "text": "Quinn raised concerns about Eikon Messenger reliability during the last review.",
+    "feature_requested": "Eikon Messenger"
+  },
+  {
+    "voc_id": "VOC-4125",
+    "account_id": "ACC-1193",
+    "user_id": "USR-quinn.campbell",
+    "source": "qbr_note",
+    "date": "2026-01-28",
+    "sentiment": "Frustrated",
+    "text": "Team feedback: Delta Alerts is valued but discovery is hard.",
+    "feature_requested": "Delta Alerts"
+  },
+  {
+    "voc_id": "VOC-4126",
+    "account_id": "ACC-1194",
+    "user_id": "USR-corey.gray",
+    "source": "call_summary",
+    "date": "2026-05-01",
+    "sentiment": "Negative",
+    "text": "Team feedback: AI Research Summaries is valued but discovery is hard.",
+    "feature_requested": "AI Research Summaries"
+  },
+  {
+    "voc_id": "VOC-4127",
+    "account_id": "ACC-1194",
+    "user_id": "USR-corey.gray",
+    "source": "qbr_note",
+    "date": "2026-05-27",
+    "sentiment": "Positive",
+    "text": "Corey requested better onboarding material for Eikon Messenger.",
+    "feature_requested": "Eikon Messenger"
+  },
+  {
+    "voc_id": "VOC-4128",
+    "account_id": "ACC-1195",
+    "user_id": "USR-daichi.maruyama",
+    "source": "call_summary",
+    "date": "2026-04-27",
+    "sentiment": "Positive",
+    "text": "Daichi would expand usage of Onboarding Screening if it saved more manual effort.",
+    "feature_requested": "Onboarding Screening"
+  },
+  {
+    "voc_id": "VOC-4129",
+    "account_id": "ACC-1195",
+    "user_id": "USR-daichi.maruyama",
+    "source": "call_summary",
+    "date": "2026-04-14",
+    "sentiment": "Neutral",
+    "text": "Daichi asked whether Portfolio Analytics could be tailored to their workflow.",
+    "feature_requested": "Portfolio Analytics"
+  },
+  {
+    "voc_id": "VOC-4130",
+    "account_id": "ACC-1195",
+    "user_id": "USR-daichi.maruyama",
+    "source": "qbr_note",
+    "date": "2026-02-04",
+    "sentiment": "Positive",
+    "text": "Daichi asked whether Excel Add-in could be tailored to their workflow.",
+    "feature_requested": "Excel Add-in"
+  },
+  {
+    "voc_id": "VOC-4131",
+    "account_id": "ACC-1196",
+    "user_id": "USR-hadar.caspit",
+    "source": "health_note",
+    "date": "2026-03-16",
+    "sentiment": "Negative",
+    "text": "Team feedback: Watchlist Refresh is valued but discovery is hard.",
+    "feature_requested": "Watchlist Refresh"
+  },
+  {
+    "voc_id": "VOC-4132",
+    "account_id": "ACC-1196",
+    "user_id": "USR-hadar.caspit",
+    "source": "health_note",
+    "date": "2026-03-02",
+    "sentiment": "Neutral",
+    "text": "Hadar asked whether Adverse Media Screening could be tailored to their workflow.",
+    "feature_requested": "Adverse Media Screening"
+  },
+  {
+    "voc_id": "VOC-4133",
+    "account_id": "ACC-1196",
+    "user_id": "USR-hadar.caspit",
+    "source": "qbr_note",
+    "date": "2026-01-18",
+    "sentiment": "Neutral",
+    "text": "Survey: satisfaction dipped after a Audit Trail incident; recovery needed.",
+    "feature_requested": "Audit Trail"
+  },
+  {
+    "voc_id": "VOC-4134",
+    "account_id": "ACC-1197",
+    "user_id": "USR-dakota.sanchez",
+    "source": "qbr_note",
+    "date": "2026-05-16",
+    "sentiment": "Positive",
+    "text": "Dakota raised concerns about Audit Trail reliability during the last review.",
+    "feature_requested": "Audit Trail"
+  },
+  {
+    "voc_id": "VOC-4135",
+    "account_id": "ACC-1197",
+    "user_id": "USR-dakota.sanchez",
+    "source": "support_ticket",
+    "date": "2026-04-02",
+    "sentiment": "Neutral",
+    "text": "Survey: satisfaction dipped after a Bulk Screening API incident; recovery needed.",
+    "feature_requested": "Bulk Screening API"
+  },
+  {
+    "voc_id": "VOC-4136",
+    "account_id": "ACC-1197",
+    "user_id": "USR-dakota.sanchez",
+    "source": "support_ticket",
+    "date": "2026-03-04",
+    "sentiment": "Frustrated",
+    "text": "Dakota asked whether Onboarding Screening could be tailored to their workflow.",
+    "feature_requested": "Onboarding Screening"
+  },
+  {
+    "voc_id": "VOC-4137",
+    "account_id": "ACC-1199",
+    "user_id": "USR-adil.eli",
+    "source": "health_note",
+    "date": "2026-04-04",
+    "sentiment": "Frustrated",
+    "text": "Survey: satisfaction dipped after a Quote Monitor incident; recovery needed.",
+    "feature_requested": "Quote Monitor"
+  },
+  {
+    "voc_id": "VOC-4138",
+    "account_id": "ACC-1200",
+    "user_id": "USR-ronak.gupta",
+    "source": "qbr_note",
+    "date": "2026-04-14",
+    "sentiment": "Positive",
+    "text": "Ronak raised concerns about Delta Alerts reliability during the last review.",
+    "feature_requested": "Delta Alerts"
+  },
+  {
+    "voc_id": "VOC-4139",
+    "account_id": "ACC-1200",
+    "user_id": "USR-ronak.gupta",
+    "source": "support_ticket",
+    "date": "2026-03-27",
+    "sentiment": "Neutral",
+    "text": "Survey: satisfaction dipped after a Onboarding Screening incident; recovery needed.",
+    "feature_requested": "Onboarding Screening"
+  },
+  {
+    "voc_id": "VOC-4140",
+    "account_id": "ACC-1200",
+    "user_id": "USR-ronak.gupta",
+    "source": "health_note",
+    "date": "2026-05-29",
+    "sentiment": "Positive",
+    "text": "Ronak requested better onboarding material for Adverse Media Screening.",
+    "feature_requested": "Adverse Media Screening"
+  },
+  {
+    "voc_id": "VOC-4141",
+    "account_id": "ACC-1201",
+    "user_id": "USR-lisa.taylor",
+    "source": "health_note",
+    "date": "2026-01-22",
+    "sentiment": "Frustrated",
+    "text": "Survey: satisfaction dipped after a Onboarding Screening incident; recovery needed.",
+    "feature_requested": "Onboarding Screening"
+  },
+  {
+    "voc_id": "VOC-4142",
+    "account_id": "ACC-1201",
+    "user_id": "USR-lisa.taylor",
+    "source": "survey",
+    "date": "2026-03-03",
+    "sentiment": "Positive",
+    "text": "Lisa asked whether Audit Trail could be tailored to their workflow.",
+    "feature_requested": "Audit Trail"
+  },
+  {
+    "voc_id": "VOC-4143",
+    "account_id": "ACC-1201",
+    "user_id": "USR-lisa.taylor",
+    "source": "support_ticket",
+    "date": "2026-03-27",
+    "sentiment": "Neutral",
+    "text": "Lisa requested better onboarding material for Risk Scoring.",
+    "feature_requested": "Risk Scoring"
+  },
+  {
+    "voc_id": "VOC-4144",
+    "account_id": "ACC-1202",
+    "user_id": "USR-teresa.sac",
+    "source": "health_note",
+    "date": "2026-04-21",
+    "sentiment": "Neutral",
+    "text": "Teresa asked whether Watchlists could be tailored to their workflow.",
+    "feature_requested": "Watchlists"
+  },
+  {
+    "voc_id": "VOC-4145",
+    "account_id": "ACC-1202",
+    "user_id": "USR-teresa.sac",
+    "source": "call_summary",
+    "date": "2026-01-22",
+    "sentiment": "Negative",
+    "text": "Survey: satisfaction dipped after a Eikon Messenger incident; recovery needed.",
+    "feature_requested": "Eikon Messenger"
+  },
+  {
+    "voc_id": "VOC-4146",
+    "account_id": "ACC-1203",
+    "user_id": "USR-teresa.sac",
+    "source": "health_note",
+    "date": "2026-01-26",
+    "sentiment": "Frustrated",
+    "text": "Teresa asked whether Company Filings could be tailored to their workflow.",
+    "feature_requested": "Company Filings"
+  },
+  {
+    "voc_id": "VOC-4147",
+    "account_id": "ACC-1203",
+    "user_id": "USR-teresa.sac",
+    "source": "call_summary",
+    "date": "2026-04-13",
+    "sentiment": "Positive",
+    "text": "Team feedback: Equity Screener is valued but discovery is hard.",
+    "feature_requested": "Equity Screener"
+  },
+  {
+    "voc_id": "VOC-4148",
+    "account_id": "ACC-1204",
+    "user_id": "USR-sonia.rees",
+    "source": "health_note",
+    "date": "2026-02-08",
+    "sentiment": "Positive",
+    "text": "Survey: satisfaction dipped after a Audit Trail incident; recovery needed.",
+    "feature_requested": "Audit Trail"
+  },
+  {
+    "voc_id": "VOC-4149",
+    "account_id": "ACC-1204",
+    "user_id": "USR-sonia.rees",
+    "source": "call_summary",
+    "date": "2026-02-07",
+    "sentiment": "Frustrated",
+    "text": "Sonia would expand usage of Case Management if it saved more manual effort.",
+    "feature_requested": "Case Management"
+  },
+  {
+    "voc_id": "VOC-4150",
+    "account_id": "ACC-1205",
+    "user_id": "USR-quinn.campbell",
+    "source": "qbr_note",
+    "date": "2026-03-27",
+    "sentiment": "Frustrated",
+    "text": "Team feedback: Watchlist Refresh is valued but discovery is hard.",
+    "feature_requested": "Watchlist Refresh"
+  },
+  {
+    "voc_id": "VOC-4151",
+    "account_id": "ACC-1205",
+    "user_id": "USR-quinn.campbell",
+    "source": "support_ticket",
+    "date": "2026-05-26",
+    "sentiment": "Positive",
+    "text": "Survey: satisfaction dipped after a Case Management incident; recovery needed.",
+    "feature_requested": "Case Management"
+  },
+  {
+    "voc_id": "VOC-4152",
+    "account_id": "ACC-1206",
+    "user_id": "USR-daichi.maruyama",
+    "source": "qbr_note",
+    "date": "2026-03-01",
+    "sentiment": "Neutral",
+    "text": "Daichi would expand usage of Delta Alerts if it saved more manual effort.",
+    "feature_requested": "Delta Alerts"
+  },
+  {
+    "voc_id": "VOC-4153",
+    "account_id": "ACC-1207",
+    "user_id": "USR-adil.eli",
+    "source": "support_ticket",
+    "date": "2026-02-21",
+    "sentiment": "Positive",
+    "text": "Adil asked whether Watchlists could be tailored to their workflow.",
+    "feature_requested": "Watchlists"
+  },
+  {
+    "voc_id": "VOC-4154",
+    "account_id": "ACC-1207",
+    "user_id": "USR-adil.eli",
+    "source": "call_summary",
+    "date": "2026-06-04",
+    "sentiment": "Neutral",
+    "text": "Adil would expand usage of Adverse Media Screening if it saved more manual effort.",
+    "feature_requested": "Adverse Media Screening"
+  },
+  {
+    "voc_id": "VOC-4155",
+    "account_id": "ACC-1207",
+    "user_id": "USR-adil.eli",
+    "source": "support_ticket",
+    "date": "2026-04-12",
+    "sentiment": "Positive",
+    "text": "Team feedback: Watchlist Refresh is valued but discovery is hard.",
+    "feature_requested": "Watchlist Refresh"
+  },
+  {
+    "voc_id": "VOC-4156",
+    "account_id": "ACC-1208",
+    "user_id": "USR-quinn.campbell",
+    "source": "health_note",
+    "date": "2026-01-21",
+    "sentiment": "Neutral",
+    "text": "Quinn asked whether Onboarding Screening could be tailored to their workflow.",
+    "feature_requested": "Onboarding Screening"
+  },
+  {
+    "voc_id": "VOC-4157",
+    "account_id": "ACC-1208",
+    "user_id": "USR-quinn.campbell",
+    "source": "health_note",
+    "date": "2026-03-23",
+    "sentiment": "Neutral",
+    "text": "Quinn asked whether Audit Trail could be tailored to their workflow.",
+    "feature_requested": "Audit Trail"
+  },
+  {
+    "voc_id": "VOC-4158",
+    "account_id": "ACC-1208",
+    "user_id": "USR-quinn.campbell",
+    "source": "call_summary",
+    "date": "2026-03-13",
+    "sentiment": "Negative",
+    "text": "Team feedback: Adverse Media Screening is valued but discovery is hard.",
+    "feature_requested": "Adverse Media Screening"
+  },
+  {
+    "voc_id": "VOC-4159",
+    "account_id": "ACC-1209",
+    "user_id": "USR-daichi.maruyama",
+    "source": "support_ticket",
+    "date": "2026-02-07",
+    "sentiment": "Neutral",
+    "text": "Daichi asked whether Delta Alerts could be tailored to their workflow.",
+    "feature_requested": "Delta Alerts"
+  },
+  {
+    "voc_id": "VOC-4160",
+    "account_id": "ACC-1210",
+    "user_id": "USR-lisa.taylor",
+    "source": "health_note",
+    "date": "2026-04-11",
+    "sentiment": "Neutral",
+    "text": "Survey: satisfaction dipped after a AI Research Summaries incident; recovery needed.",
+    "feature_requested": "AI Research Summaries"
+  },
+  {
+    "voc_id": "VOC-4161",
+    "account_id": "ACC-1210",
+    "user_id": "USR-lisa.taylor",
+    "source": "call_summary",
+    "date": "2026-03-30",
+    "sentiment": "Neutral",
+    "text": "Lisa would expand usage of Excel Add-in if it saved more manual effort.",
+    "feature_requested": "Excel Add-in"
+  },
+  {
+    "voc_id": "VOC-4162",
+    "account_id": "ACC-1210",
+    "user_id": "USR-lisa.taylor",
+    "source": "qbr_note",
+    "date": "2026-02-02",
+    "sentiment": "Positive",
+    "text": "Lisa requested better onboarding material for Portfolio Analytics.",
+    "feature_requested": "Portfolio Analytics"
+  },
+  {
+    "voc_id": "VOC-4163",
+    "account_id": "ACC-1211",
+    "user_id": "USR-lisa.taylor",
+    "source": "call_summary",
+    "date": "2026-02-20",
+    "sentiment": "Neutral",
+    "text": "Lisa asked whether Equity Screener could be tailored to their workflow.",
+    "feature_requested": "Equity Screener"
+  },
+  {
+    "voc_id": "VOC-4164",
+    "account_id": "ACC-1211",
+    "user_id": "USR-lisa.taylor",
+    "source": "survey",
+    "date": "2026-04-17",
+    "sentiment": "Neutral",
+    "text": "Lisa raised concerns about Economic Indicators reliability during the last review.",
+    "feature_requested": "Economic Indicators"
+  },
+  {
+    "voc_id": "VOC-4165",
+    "account_id": "ACC-1211",
+    "user_id": "USR-lisa.taylor",
+    "source": "qbr_note",
+    "date": "2026-02-15",
+    "sentiment": "Negative",
+    "text": "Lisa requested better onboarding material for Advanced Charting.",
+    "feature_requested": "Advanced Charting"
+  },
+  {
+    "voc_id": "VOC-4166",
+    "account_id": "ACC-1214",
+    "user_id": "USR-kai.carter",
+    "source": "qbr_note",
+    "date": "2026-01-25",
+    "sentiment": "Neutral",
+    "text": "Kai asked whether Case Management could be tailored to their workflow.",
+    "feature_requested": "Case Management"
+  },
+  {
+    "voc_id": "VOC-4167",
+    "account_id": "ACC-1214",
+    "user_id": "USR-kai.carter",
+    "source": "qbr_note",
+    "date": "2026-03-07",
+    "sentiment": "Negative",
+    "text": "Team feedback: Delta Alerts is valued but discovery is hard.",
+    "feature_requested": "Delta Alerts"
+  },
+  {
+    "voc_id": "VOC-4168",
+    "account_id": "ACC-1214",
+    "user_id": "USR-kai.carter",
+    "source": "qbr_note",
+    "date": "2026-05-08",
+    "sentiment": "Negative",
+    "text": "Kai asked whether Bulk Screening API could be tailored to their workflow.",
+    "feature_requested": "Bulk Screening API"
+  },
+  {
+    "voc_id": "VOC-4169",
+    "account_id": "ACC-1216",
+    "user_id": "USR-monica.thompson",
+    "source": "call_summary",
+    "date": "2026-01-23",
+    "sentiment": "Negative",
+    "text": "Monica requested better onboarding material for Bulk Screening API.",
+    "feature_requested": "Bulk Screening API"
+  },
+  {
+    "voc_id": "VOC-4170",
+    "account_id": "ACC-1217",
+    "user_id": "USR-robin.kline",
+    "source": "survey",
+    "date": "2026-06-04",
+    "sentiment": "Negative",
+    "text": "Robin asked whether Quote Monitor could be tailored to their workflow.",
+    "feature_requested": "Quote Monitor"
+  },
+  {
+    "voc_id": "VOC-4171",
+    "account_id": "ACC-1217",
+    "user_id": "USR-robin.kline",
+    "source": "qbr_note",
+    "date": "2026-04-18",
+    "sentiment": "Neutral",
+    "text": "Robin asked whether Equity Screener could be tailored to their workflow.",
+    "feature_requested": "Equity Screener"
+  },
+  {
+    "voc_id": "VOC-4172",
+    "account_id": "ACC-1218",
+    "user_id": "USR-sasha.ouellet",
+    "source": "call_summary",
+    "date": "2026-03-07",
+    "sentiment": "Frustrated",
+    "text": "Sasha asked whether AI Research Summaries could be tailored to their workflow.",
+    "feature_requested": "AI Research Summaries"
+  },
+  {
+    "voc_id": "VOC-4173",
+    "account_id": "ACC-1218",
+    "user_id": "USR-sasha.ouellet",
+    "source": "health_note",
+    "date": "2026-05-23",
+    "sentiment": "Negative",
+    "text": "Survey: satisfaction dipped after a Company Filings incident; recovery needed.",
+    "feature_requested": "Company Filings"
+  },
+  {
+    "voc_id": "VOC-4174",
+    "account_id": "ACC-1219",
+    "user_id": "USR-sydney.mattos",
+    "source": "call_summary",
+    "date": "2026-04-24",
+    "sentiment": "Positive",
+    "text": "Survey: satisfaction dipped after a AI Research Summaries incident; recovery needed.",
+    "feature_requested": "AI Research Summaries"
+  },
+  {
+    "voc_id": "VOC-4175",
+    "account_id": "ACC-1219",
+    "user_id": "USR-sydney.mattos",
+    "source": "call_summary",
+    "date": "2026-05-07",
+    "sentiment": "Frustrated",
+    "text": "Survey: satisfaction dipped after a News Monitoring incident; recovery needed.",
+    "feature_requested": "News Monitoring"
+  },
+  {
+    "voc_id": "VOC-4176",
+    "account_id": "ACC-1222",
+    "user_id": "USR-ronak.gupta",
+    "source": "qbr_note",
+    "date": "2026-04-26",
+    "sentiment": "Neutral",
+    "text": "Team feedback: News Monitoring is valued but discovery is hard.",
+    "feature_requested": "News Monitoring"
+  },
+  {
+    "voc_id": "VOC-4177",
+    "account_id": "ACC-1222",
+    "user_id": "USR-ronak.gupta",
+    "source": "survey",
+    "date": "2026-05-22",
+    "sentiment": "Positive",
+    "text": "Ronak asked whether Excel Add-in could be tailored to their workflow.",
+    "feature_requested": "Excel Add-in"
+  },
+  {
+    "voc_id": "VOC-4178",
+    "account_id": "ACC-1228",
+    "user_id": "USR-monica.thompson",
+    "source": "health_note",
+    "date": "2026-03-07",
+    "sentiment": "Frustrated",
+    "text": "Monica requested better onboarding material for Eikon Messenger.",
+    "feature_requested": "Eikon Messenger"
+  },
+  {
+    "voc_id": "VOC-4179",
+    "account_id": "ACC-1228",
+    "user_id": "USR-monica.thompson",
+    "source": "survey",
+    "date": "2026-02-07",
+    "sentiment": "Negative",
+    "text": "Monica would expand usage of AI Research Summaries if it saved more manual effort.",
+    "feature_requested": "AI Research Summaries"
+  },
+  {
+    "voc_id": "VOC-4180",
+    "account_id": "ACC-1228",
+    "user_id": "USR-monica.thompson",
+    "source": "support_ticket",
+    "date": "2026-01-19",
+    "sentiment": "Negative",
+    "text": "Monica would expand usage of Advanced Charting if it saved more manual effort.",
+    "feature_requested": "Advanced Charting"
+  },
+  {
+    "voc_id": "VOC-4181",
+    "account_id": "ACC-1229",
+    "user_id": "USR-amber.rodriguez",
+    "source": "survey",
+    "date": "2026-01-30",
+    "sentiment": "Negative",
+    "text": "Amber raised concerns about Eikon Messenger reliability during the last review.",
+    "feature_requested": "Eikon Messenger"
+  },
+  {
+    "voc_id": "VOC-4182",
+    "account_id": "ACC-1232",
+    "user_id": "USR-ronak.gupta",
+    "source": "support_ticket",
+    "date": "2026-04-29",
+    "sentiment": "Positive",
+    "text": "Ronak would expand usage of Excel Add-in if it saved more manual effort.",
+    "feature_requested": "Excel Add-in"
+  },
+  {
+    "voc_id": "VOC-4183",
+    "account_id": "ACC-1232",
+    "user_id": "USR-ronak.gupta",
+    "source": "health_note",
+    "date": "2026-04-15",
+    "sentiment": "Negative",
+    "text": "Ronak raised concerns about News Monitoring reliability during the last review.",
+    "feature_requested": "News Monitoring"
+  },
+  {
+    "voc_id": "VOC-4184",
+    "account_id": "ACC-1233",
+    "user_id": "USR-lisa.taylor",
+    "source": "call_summary",
+    "date": "2026-04-04",
+    "sentiment": "Frustrated",
+    "text": "Survey: satisfaction dipped after a Delta Alerts incident; recovery needed.",
+    "feature_requested": "Delta Alerts"
+  },
+  {
+    "voc_id": "VOC-4185",
+    "account_id": "ACC-1234",
+    "user_id": "USR-monica.thompson",
+    "source": "survey",
+    "date": "2026-03-22",
+    "sentiment": "Neutral",
+    "text": "Monica requested better onboarding material for Perpetual KYC Monitoring.",
+    "feature_requested": "Perpetual KYC Monitoring"
+  },
+  {
+    "voc_id": "VOC-4186",
+    "account_id": "ACC-1234",
+    "user_id": "USR-monica.thompson",
+    "source": "support_ticket",
+    "date": "2026-04-19",
+    "sentiment": "Frustrated",
+    "text": "Monica asked whether News Monitoring could be tailored to their workflow.",
+    "feature_requested": "News Monitoring"
+  },
+  {
+    "voc_id": "VOC-4187",
+    "account_id": "ACC-1234",
+    "user_id": "USR-monica.thompson",
+    "source": "qbr_note",
+    "date": "2026-05-25",
+    "sentiment": "Frustrated",
+    "text": "Monica asked whether Company Filings could be tailored to their workflow.",
+    "feature_requested": "Company Filings"
+  },
+  {
+    "voc_id": "VOC-4188",
+    "account_id": "ACC-1237",
+    "user_id": "USR-sonia.rees",
+    "source": "qbr_note",
+    "date": "2026-02-01",
+    "sentiment": "Frustrated",
+    "text": "Team feedback: Real-Time Data is valued but discovery is hard.",
+    "feature_requested": "Real-Time Data"
+  },
+  {
+    "voc_id": "VOC-4189",
+    "account_id": "ACC-1238",
+    "user_id": "USR-teresa.sac",
+    "source": "qbr_note",
+    "date": "2026-01-12",
+    "sentiment": "Negative",
+    "text": "Teresa would expand usage of Delta Alerts if it saved more manual effort.",
+    "feature_requested": "Delta Alerts"
+  },
+  {
+    "voc_id": "VOC-4190",
+    "account_id": "ACC-1238",
+    "user_id": "USR-teresa.sac",
+    "source": "health_note",
+    "date": "2026-03-09",
+    "sentiment": "Positive",
+    "text": "Teresa asked whether Case Management could be tailored to their workflow.",
+    "feature_requested": "Case Management"
+  },
+  {
+    "voc_id": "VOC-4191",
+    "account_id": "ACC-1241",
+    "user_id": "USR-hadar.caspit",
+    "source": "survey",
+    "date": "2026-05-30",
+    "sentiment": "Neutral",
+    "text": "Survey: satisfaction dipped after a Perpetual KYC Monitoring incident; recovery needed.",
+    "feature_requested": "Perpetual KYC Monitoring"
+  },
+  {
+    "voc_id": "VOC-4192",
+    "account_id": "ACC-1241",
+    "user_id": "USR-hadar.caspit",
+    "source": "qbr_note",
+    "date": "2026-05-20",
+    "sentiment": "Neutral",
+    "text": "Hadar would expand usage of Risk Scoring if it saved more manual effort.",
+    "feature_requested": "Risk Scoring"
+  },
+  {
+    "voc_id": "VOC-4193",
+    "account_id": "ACC-1242",
+    "user_id": "USR-daichi.maruyama",
+    "source": "qbr_note",
+    "date": "2026-04-01",
+    "sentiment": "Positive",
+    "text": "Daichi raised concerns about Equity Screener reliability during the last review.",
+    "feature_requested": "Equity Screener"
+  },
+  {
+    "voc_id": "VOC-4194",
+    "account_id": "ACC-1242",
+    "user_id": "USR-daichi.maruyama",
+    "source": "health_note",
+    "date": "2026-01-17",
+    "sentiment": "Neutral",
+    "text": "Daichi raised concerns about Eikon Messenger reliability during the last review.",
+    "feature_requested": "Eikon Messenger"
+  },
+  {
+    "voc_id": "VOC-4195",
+    "account_id": "ACC-1242",
+    "user_id": "USR-daichi.maruyama",
+    "source": "support_ticket",
+    "date": "2026-03-05",
+    "sentiment": "Positive",
+    "text": "Daichi would expand usage of Equity Screener if it saved more manual effort.",
+    "feature_requested": "Equity Screener"
+  },
+  {
+    "voc_id": "VOC-4196",
+    "account_id": "ACC-1244",
+    "user_id": "USR-kai.carter",
+    "source": "health_note",
+    "date": "2026-04-24",
+    "sentiment": "Negative",
+    "text": "Kai asked whether Adverse Media Screening could be tailored to their workflow.",
+    "feature_requested": "Adverse Media Screening"
+  },
+  {
+    "voc_id": "VOC-4197",
+    "account_id": "ACC-1244",
+    "user_id": "USR-kai.carter",
+    "source": "call_summary",
+    "date": "2026-05-29",
+    "sentiment": "Negative",
+    "text": "Kai would expand usage of Excel Add-in if it saved more manual effort.",
+    "feature_requested": "Excel Add-in"
+  },
+  {
+    "voc_id": "VOC-4198",
+    "account_id": "ACC-1245",
+    "user_id": "USR-adil.eli",
+    "source": "qbr_note",
+    "date": "2026-01-19",
+    "sentiment": "Neutral",
+    "text": "Adil requested better onboarding material for Onboarding Screening.",
+    "feature_requested": "Onboarding Screening"
+  },
+  {
+    "voc_id": "VOC-4199",
+    "account_id": "ACC-1245",
+    "user_id": "USR-adil.eli",
+    "source": "health_note",
+    "date": "2026-05-19",
+    "sentiment": "Frustrated",
+    "text": "Adil would expand usage of Adverse Media Screening if it saved more manual effort.",
+    "feature_requested": "Adverse Media Screening"
+  },
+  {
+    "voc_id": "VOC-4200",
+    "account_id": "ACC-1247",
+    "user_id": "USR-kai.carter",
+    "source": "support_ticket",
+    "date": "2026-03-20",
+    "sentiment": "Negative",
+    "text": "Kai would expand usage of Equity Screener if it saved more manual effort.",
+    "feature_requested": "Equity Screener"
+  },
+  {
+    "voc_id": "VOC-4201",
+    "account_id": "ACC-1247",
+    "user_id": "USR-kai.carter",
+    "source": "support_ticket",
+    "date": "2026-02-18",
+    "sentiment": "Frustrated",
+    "text": "Kai requested better onboarding material for Quote Monitor.",
+    "feature_requested": "Quote Monitor"
+  },
+  {
+    "voc_id": "VOC-4202",
+    "account_id": "ACC-1249",
+    "user_id": "USR-amber.rodriguez",
+    "source": "support_ticket",
+    "date": "2026-05-30",
+    "sentiment": "Positive",
+    "text": "Survey: satisfaction dipped after a Ongoing Monitoring incident; recovery needed.",
+    "feature_requested": "Ongoing Monitoring"
+  },
+  {
+    "voc_id": "VOC-4203",
+    "account_id": "ACC-1250",
+    "user_id": "USR-lisa.taylor",
+    "source": "health_note",
+    "date": "2026-06-06",
+    "sentiment": "Negative",
+    "text": "Team feedback: Onboarding Screening is valued but discovery is hard.",
+    "feature_requested": "Onboarding Screening"
+  },
+  {
+    "voc_id": "VOC-4204",
+    "account_id": "ACC-1250",
+    "user_id": "USR-lisa.taylor",
+    "source": "health_note",
+    "date": "2026-05-22",
+    "sentiment": "Frustrated",
+    "text": "Lisa asked whether Case Management could be tailored to their workflow.",
+    "feature_requested": "Case Management"
+  },
+  {
+    "voc_id": "VOC-4205",
+    "account_id": "ACC-1250",
+    "user_id": "USR-lisa.taylor",
+    "source": "health_note",
+    "date": "2026-03-06",
+    "sentiment": "Frustrated",
+    "text": "Lisa requested better onboarding material for Case Management.",
+    "feature_requested": "Case Management"
+  },
+  {
+    "voc_id": "VOC-4206",
+    "account_id": "ACC-1251",
+    "user_id": "USR-sydney.mattos",
+    "source": "support_ticket",
+    "date": "2026-03-06",
+    "sentiment": "Positive",
+    "text": "Sydney requested better onboarding material for Risk Scoring.",
+    "feature_requested": "Risk Scoring"
+  },
+  {
+    "voc_id": "VOC-4207",
+    "account_id": "ACC-1252",
+    "user_id": "USR-omar.bennett",
+    "source": "survey",
+    "date": "2026-03-19",
+    "sentiment": "Frustrated",
+    "text": "Omar would expand usage of Case Management if it saved more manual effort.",
+    "feature_requested": "Case Management"
+  },
+  {
+    "voc_id": "VOC-4208",
+    "account_id": "ACC-1253",
+    "user_id": "USR-hadar.caspit",
+    "source": "call_summary",
+    "date": "2026-03-27",
+    "sentiment": "Neutral",
+    "text": "Hadar asked whether Perpetual KYC Monitoring could be tailored to their workflow.",
+    "feature_requested": "Perpetual KYC Monitoring"
+  },
+  {
+    "voc_id": "VOC-4209",
+    "account_id": "ACC-1253",
+    "user_id": "USR-hadar.caspit",
+    "source": "call_summary",
+    "date": "2026-02-10",
+    "sentiment": "Neutral",
+    "text": "Hadar would expand usage of Excel Add-in if it saved more manual effort.",
+    "feature_requested": "Excel Add-in"
+  },
+  {
+    "voc_id": "VOC-4210",
+    "account_id": "ACC-1253",
+    "user_id": "USR-hadar.caspit",
+    "source": "support_ticket",
+    "date": "2026-02-24",
+    "sentiment": "Frustrated",
+    "text": "Hadar raised concerns about Audit Trail reliability during the last review.",
+    "feature_requested": "Audit Trail"
+  },
+  {
+    "voc_id": "VOC-4211",
+    "account_id": "ACC-1254",
+    "user_id": "USR-sasha.ouellet",
+    "source": "survey",
+    "date": "2026-03-27",
+    "sentiment": "Negative",
+    "text": "Sasha would expand usage of Economic Indicators if it saved more manual effort.",
+    "feature_requested": "Economic Indicators"
+  },
+  {
+    "voc_id": "VOC-4212",
+    "account_id": "ACC-1255",
+    "user_id": "USR-robin.kline",
+    "source": "health_note",
+    "date": "2026-02-09",
+    "sentiment": "Frustrated",
+    "text": "Team feedback: Ongoing Monitoring is valued but discovery is hard.",
+    "feature_requested": "Ongoing Monitoring"
+  },
+  {
+    "voc_id": "VOC-4213",
+    "account_id": "ACC-1256",
+    "user_id": "USR-teresa.sac",
+    "source": "support_ticket",
+    "date": "2026-01-13",
+    "sentiment": "Frustrated",
+    "text": "Teresa would expand usage of Perpetual KYC Monitoring if it saved more manual effort.",
+    "feature_requested": "Perpetual KYC Monitoring"
+  },
+  {
+    "voc_id": "VOC-4214",
+    "account_id": "ACC-1256",
+    "user_id": "USR-teresa.sac",
+    "source": "health_note",
+    "date": "2026-03-12",
+    "sentiment": "Negative",
+    "text": "Teresa raised concerns about Case Management reliability during the last review.",
+    "feature_requested": "Case Management"
+  },
+  {
+    "voc_id": "VOC-4215",
+    "account_id": "ACC-1259",
+    "user_id": "USR-kai.carter",
+    "source": "qbr_note",
+    "date": "2026-01-14",
+    "sentiment": "Negative",
+    "text": "Kai would expand usage of Advanced Charting if it saved more manual effort.",
+    "feature_requested": "Advanced Charting"
+  },
+  {
+    "voc_id": "VOC-4216",
+    "account_id": "ACC-1259",
+    "user_id": "USR-kai.carter",
+    "source": "call_summary",
+    "date": "2026-01-17",
+    "sentiment": "Negative",
+    "text": "Team feedback: Adverse Media Screening is valued but discovery is hard.",
+    "feature_requested": "Adverse Media Screening"
+  },
+  {
+    "voc_id": "VOC-4217",
+    "account_id": "ACC-1259",
+    "user_id": "USR-kai.carter",
+    "source": "survey",
+    "date": "2026-04-24",
+    "sentiment": "Neutral",
+    "text": "Team feedback: Ongoing Monitoring is valued but discovery is hard.",
+    "feature_requested": "Ongoing Monitoring"
+  },
+  {
+    "voc_id": "VOC-4218",
+    "account_id": "ACC-1260",
+    "user_id": "USR-adil.eli",
+    "source": "health_note",
+    "date": "2026-02-22",
+    "sentiment": "Neutral",
+    "text": "Adil asked whether Advanced Charting could be tailored to their workflow.",
+    "feature_requested": "Advanced Charting"
+  },
+  {
+    "voc_id": "VOC-4219",
+    "account_id": "ACC-1260",
+    "user_id": "USR-adil.eli",
+    "source": "health_note",
+    "date": "2026-01-29",
+    "sentiment": "Negative",
+    "text": "Adil would expand usage of Economic Indicators if it saved more manual effort.",
+    "feature_requested": "Economic Indicators"
+  },
+  {
+    "voc_id": "VOC-4220",
+    "account_id": "ACC-1260",
+    "user_id": "USR-adil.eli",
+    "source": "health_note",
+    "date": "2026-03-28",
+    "sentiment": "Positive",
+    "text": "Adil raised concerns about Equity Screener reliability during the last review.",
+    "feature_requested": "Equity Screener"
+  },
+  {
+    "voc_id": "VOC-4221",
+    "account_id": "ACC-1261",
+    "user_id": "USR-sonia.rees",
+    "source": "call_summary",
+    "date": "2026-02-02",
+    "sentiment": "Positive",
+    "text": "Team feedback: Eikon Messenger is valued but discovery is hard.",
+    "feature_requested": "Eikon Messenger"
+  },
+  {
+    "voc_id": "VOC-4222",
+    "account_id": "ACC-1261",
+    "user_id": "USR-sonia.rees",
+    "source": "call_summary",
+    "date": "2026-05-24",
+    "sentiment": "Frustrated",
+    "text": "Team feedback: Ongoing Monitoring is valued but discovery is hard.",
+    "feature_requested": "Ongoing Monitoring"
+  },
+  {
+    "voc_id": "VOC-4223",
+    "account_id": "ACC-1261",
+    "user_id": "USR-sonia.rees",
+    "source": "survey",
+    "date": "2026-04-17",
+    "sentiment": "Negative",
+    "text": "Survey: satisfaction dipped after a Audit Trail incident; recovery needed.",
+    "feature_requested": "Audit Trail"
+  },
+  {
+    "voc_id": "VOC-4224",
+    "account_id": "ACC-1264",
+    "user_id": "USR-quinn.campbell",
+    "source": "call_summary",
+    "date": "2026-04-12",
+    "sentiment": "Neutral",
+    "text": "Quinn would expand usage of Adverse Media Screening if it saved more manual effort.",
+    "feature_requested": "Adverse Media Screening"
+  },
+  {
+    "voc_id": "VOC-4225",
+    "account_id": "ACC-1269",
+    "user_id": "USR-peyton.davis",
+    "source": "call_summary",
+    "date": "2026-05-16",
+    "sentiment": "Positive",
+    "text": "Peyton requested better onboarding material for Adverse Media Screening.",
+    "feature_requested": "Adverse Media Screening"
+  },
+  {
+    "voc_id": "VOC-4226",
+    "account_id": "ACC-1269",
+    "user_id": "USR-peyton.davis",
+    "source": "support_ticket",
+    "date": "2026-05-29",
+    "sentiment": "Neutral",
+    "text": "Peyton would expand usage of News Monitoring if it saved more manual effort.",
+    "feature_requested": "News Monitoring"
+  },
+  {
+    "voc_id": "VOC-4227",
+    "account_id": "ACC-1269",
+    "user_id": "USR-peyton.davis",
+    "source": "support_ticket",
+    "date": "2026-01-19",
+    "sentiment": "Neutral",
+    "text": "Peyton raised concerns about Watchlists reliability during the last review.",
+    "feature_requested": "Watchlists"
+  },
+  {
+    "voc_id": "VOC-4228",
+    "account_id": "ACC-1270",
+    "user_id": "USR-billie.vester",
+    "source": "call_summary",
+    "date": "2026-03-02",
+    "sentiment": "Negative",
+    "text": "Billie requested better onboarding material for Bulk Screening API.",
+    "feature_requested": "Bulk Screening API"
+  },
+  {
+    "voc_id": "VOC-4229",
+    "account_id": "ACC-1271",
+    "user_id": "USR-monica.thompson",
+    "source": "health_note",
+    "date": "2026-04-03",
+    "sentiment": "Negative",
+    "text": "Monica requested better onboarding material for Economic Indicators.",
+    "feature_requested": "Economic Indicators"
+  },
+  {
+    "voc_id": "VOC-4230",
+    "account_id": "ACC-1271",
+    "user_id": "USR-monica.thompson",
+    "source": "qbr_note",
+    "date": "2026-02-26",
+    "sentiment": "Positive",
+    "text": "Team feedback: Watchlists is valued but discovery is hard.",
+    "feature_requested": "Watchlists"
+  },
+  {
+    "voc_id": "VOC-4231",
+    "account_id": "ACC-1272",
+    "user_id": "USR-kai.carter",
+    "source": "health_note",
+    "date": "2026-02-21",
+    "sentiment": "Positive",
+    "text": "Kai would expand usage of Perpetual KYC Monitoring if it saved more manual effort.",
+    "feature_requested": "Perpetual KYC Monitoring"
+  },
+  {
+    "voc_id": "VOC-4232",
+    "account_id": "ACC-1279",
+    "user_id": "USR-corey.gray",
+    "source": "survey",
+    "date": "2026-03-28",
+    "sentiment": "Frustrated",
+    "text": "Corey requested better onboarding material for Ongoing Monitoring.",
+    "feature_requested": "Ongoing Monitoring"
+  },
+  {
+    "voc_id": "VOC-4233",
+    "account_id": "ACC-1279",
+    "user_id": "USR-corey.gray",
+    "source": "survey",
+    "date": "2026-02-26",
+    "sentiment": "Neutral",
+    "text": "Corey raised concerns about Real-Time Data reliability during the last review.",
+    "feature_requested": "Real-Time Data"
+  },
+  {
+    "voc_id": "VOC-4234",
+    "account_id": "ACC-1279",
+    "user_id": "USR-corey.gray",
+    "source": "survey",
+    "date": "2026-01-19",
+    "sentiment": "Frustrated",
+    "text": "Corey raised concerns about Watchlists reliability during the last review.",
+    "feature_requested": "Watchlists"
+  },
+  {
+    "voc_id": "VOC-4235",
+    "account_id": "ACC-1280",
+    "user_id": "USR-corey.gray",
+    "source": "health_note",
+    "date": "2026-02-20",
+    "sentiment": "Negative",
+    "text": "Corey would expand usage of Watchlist Refresh if it saved more manual effort.",
+    "feature_requested": "Watchlist Refresh"
+  },
+  {
+    "voc_id": "VOC-4236",
+    "account_id": "ACC-1280",
+    "user_id": "USR-corey.gray",
+    "source": "survey",
+    "date": "2026-05-08",
+    "sentiment": "Negative",
+    "text": "Corey requested better onboarding material for Equity Screener.",
+    "feature_requested": "Equity Screener"
+  },
+  {
+    "voc_id": "VOC-4237",
+    "account_id": "ACC-1280",
+    "user_id": "USR-corey.gray",
+    "source": "health_note",
+    "date": "2026-03-25",
+    "sentiment": "Positive",
+    "text": "Corey requested better onboarding material for Risk Scoring.",
+    "feature_requested": "Risk Scoring"
+  },
+  {
+    "voc_id": "VOC-4238",
+    "account_id": "ACC-1281",
+    "user_id": "USR-sasha.ouellet",
+    "source": "survey",
+    "date": "2026-01-16",
+    "sentiment": "Negative",
+    "text": "Team feedback: Real-Time Data is valued but discovery is hard.",
+    "feature_requested": "Real-Time Data"
+  },
+  {
+    "voc_id": "VOC-4239",
+    "account_id": "ACC-1281",
+    "user_id": "USR-sasha.ouellet",
+    "source": "call_summary",
+    "date": "2026-03-20",
+    "sentiment": "Positive",
+    "text": "Sasha requested better onboarding material for Real-Time Data.",
+    "feature_requested": "Real-Time Data"
+  },
+  {
+    "voc_id": "VOC-4240",
+    "account_id": "ACC-1282",
+    "user_id": "USR-monica.thompson",
+    "source": "health_note",
+    "date": "2026-02-10",
+    "sentiment": "Frustrated",
+    "text": "Monica raised concerns about Audit Trail reliability during the last review.",
+    "feature_requested": "Audit Trail"
+  },
+  {
+    "voc_id": "VOC-4241",
+    "account_id": "ACC-1283",
+    "user_id": "USR-monica.thompson",
+    "source": "health_note",
+    "date": "2026-04-05",
+    "sentiment": "Positive",
+    "text": "Monica requested better onboarding material for Onboarding Screening.",
+    "feature_requested": "Onboarding Screening"
+  },
+  {
+    "voc_id": "VOC-4242",
+    "account_id": "ACC-1284",
+    "user_id": "USR-kai.carter",
+    "source": "call_summary",
+    "date": "2026-03-10",
+    "sentiment": "Neutral",
+    "text": "Kai would expand usage of Eikon Messenger if it saved more manual effort.",
+    "feature_requested": "Eikon Messenger"
+  },
+  {
+    "voc_id": "VOC-4243",
+    "account_id": "ACC-1284",
+    "user_id": "USR-kai.carter",
+    "source": "health_note",
+    "date": "2026-04-16",
+    "sentiment": "Positive",
+    "text": "Kai raised concerns about Equity Screener reliability during the last review.",
+    "feature_requested": "Equity Screener"
+  },
+  {
+    "voc_id": "VOC-4244",
+    "account_id": "ACC-1285",
+    "user_id": "USR-peyton.davis",
+    "source": "qbr_note",
+    "date": "2026-04-20",
+    "sentiment": "Frustrated",
+    "text": "Peyton raised concerns about Eikon Messenger reliability during the last review.",
+    "feature_requested": "Eikon Messenger"
+  },
+  {
+    "voc_id": "VOC-4245",
+    "account_id": "ACC-1285",
+    "user_id": "USR-peyton.davis",
+    "source": "call_summary",
+    "date": "2026-02-25",
+    "sentiment": "Neutral",
+    "text": "Team feedback: Eikon Messenger is valued but discovery is hard.",
+    "feature_requested": "Eikon Messenger"
+  },
+  {
+    "voc_id": "VOC-4246",
+    "account_id": "ACC-1285",
+    "user_id": "USR-peyton.davis",
+    "source": "call_summary",
+    "date": "2026-04-23",
+    "sentiment": "Negative",
+    "text": "Peyton raised concerns about Eikon Messenger reliability during the last review.",
+    "feature_requested": "Eikon Messenger"
+  },
+  {
+    "voc_id": "VOC-4247",
+    "account_id": "ACC-1287",
+    "user_id": "USR-daichi.maruyama",
+    "source": "survey",
+    "date": "2026-05-29",
+    "sentiment": "Frustrated",
+    "text": "Daichi would expand usage of Quote Monitor if it saved more manual effort.",
+    "feature_requested": "Quote Monitor"
+  },
+  {
+    "voc_id": "VOC-4248",
+    "account_id": "ACC-1287",
+    "user_id": "USR-daichi.maruyama",
+    "source": "health_note",
+    "date": "2026-04-29",
+    "sentiment": "Neutral",
+    "text": "Daichi raised concerns about Economic Indicators reliability during the last review.",
+    "feature_requested": "Economic Indicators"
+  },
+  {
+    "voc_id": "VOC-4249",
+    "account_id": "ACC-1287",
+    "user_id": "USR-daichi.maruyama",
+    "source": "survey",
+    "date": "2026-01-29",
+    "sentiment": "Frustrated",
+    "text": "Daichi raised concerns about Equity Screener reliability during the last review.",
+    "feature_requested": "Equity Screener"
+  },
+  {
+    "voc_id": "VOC-4250",
+    "account_id": "ACC-1288",
+    "user_id": "USR-quinn.campbell",
+    "source": "health_note",
+    "date": "2026-03-28",
+    "sentiment": "Negative",
+    "text": "Survey: satisfaction dipped after a Onboarding Screening incident; recovery needed.",
+    "feature_requested": "Onboarding Screening"
+  },
+  {
+    "voc_id": "VOC-4251",
+    "account_id": "ACC-1288",
+    "user_id": "USR-quinn.campbell",
+    "source": "qbr_note",
+    "date": "2026-03-01",
+    "sentiment": "Negative",
+    "text": "Survey: satisfaction dipped after a Risk Scoring incident; recovery needed.",
+    "feature_requested": "Risk Scoring"
+  },
+  {
+    "voc_id": "VOC-4252",
+    "account_id": "ACC-1290",
+    "user_id": "USR-omar.bennett",
+    "source": "call_summary",
+    "date": "2026-05-23",
+    "sentiment": "Neutral",
+    "text": "Omar asked whether Onboarding Screening could be tailored to their workflow.",
+    "feature_requested": "Onboarding Screening"
+  },
+  {
+    "voc_id": "VOC-4253",
+    "account_id": "ACC-1290",
+    "user_id": "USR-omar.bennett",
+    "source": "qbr_note",
+    "date": "2026-02-03",
+    "sentiment": "Frustrated",
+    "text": "Survey: satisfaction dipped after a Audit Trail incident; recovery needed.",
+    "feature_requested": "Audit Trail"
+  },
+  {
+    "voc_id": "VOC-4254",
+    "account_id": "ACC-1291",
+    "user_id": "USR-monica.thompson",
+    "source": "support_ticket",
+    "date": "2026-03-01",
+    "sentiment": "Positive",
+    "text": "Survey: satisfaction dipped after a Case Management incident; recovery needed.",
+    "feature_requested": "Case Management"
+  },
+  {
+    "voc_id": "VOC-4255",
+    "account_id": "ACC-1291",
+    "user_id": "USR-monica.thompson",
+    "source": "qbr_note",
+    "date": "2026-02-04",
+    "sentiment": "Neutral",
+    "text": "Monica would expand usage of Audit Trail if it saved more manual effort.",
+    "feature_requested": "Audit Trail"
+  },
+  {
+    "voc_id": "VOC-4256",
+    "account_id": "ACC-1292",
+    "user_id": "USR-vance.deleon",
+    "source": "qbr_note",
+    "date": "2026-05-04",
+    "sentiment": "Neutral",
+    "text": "Vance raised concerns about Equity Screener reliability during the last review.",
+    "feature_requested": "Equity Screener"
+  },
+  {
+    "voc_id": "VOC-4257",
+    "account_id": "ACC-1293",
+    "user_id": "USR-sydney.mattos",
+    "source": "health_note",
+    "date": "2026-02-26",
+    "sentiment": "Frustrated",
+    "text": "Sydney would expand usage of Portfolio Analytics if it saved more manual effort.",
+    "feature_requested": "Portfolio Analytics"
+  },
+  {
+    "voc_id": "VOC-4258",
+    "account_id": "ACC-1295",
+    "user_id": "USR-amber.rodriguez",
+    "source": "survey",
+    "date": "2026-03-28",
+    "sentiment": "Negative",
+    "text": "Amber raised concerns about Adverse Media Screening reliability during the last review.",
+    "feature_requested": "Adverse Media Screening"
+  },
+  {
+    "voc_id": "VOC-4259",
+    "account_id": "ACC-1295",
+    "user_id": "USR-amber.rodriguez",
+    "source": "qbr_note",
+    "date": "2026-05-18",
+    "sentiment": "Frustrated",
+    "text": "Amber raised concerns about Bulk Screening API reliability during the last review.",
+    "feature_requested": "Bulk Screening API"
+  },
+  {
+    "voc_id": "VOC-4260",
+    "account_id": "ACC-1300",
+    "user_id": "USR-corey.gray",
+    "source": "call_summary",
+    "date": "2026-02-05",
+    "sentiment": "Negative",
+    "text": "Corey raised concerns about Portfolio Analytics reliability during the last review.",
+    "feature_requested": "Portfolio Analytics"
+  },
+  {
+    "voc_id": "VOC-4261",
+    "account_id": "ACC-1303",
+    "user_id": "USR-robin.kline",
+    "source": "health_note",
+    "date": "2026-01-31",
+    "sentiment": "Negative",
+    "text": "Robin asked whether News Monitoring could be tailored to their workflow.",
+    "feature_requested": "News Monitoring"
+  },
+  {
+    "voc_id": "VOC-4262",
+    "account_id": "ACC-1303",
+    "user_id": "USR-robin.kline",
+    "source": "qbr_note",
+    "date": "2026-04-12",
+    "sentiment": "Frustrated",
+    "text": "Robin asked whether Company Filings could be tailored to their workflow.",
+    "feature_requested": "Company Filings"
+  },
+  {
+    "voc_id": "VOC-4263",
+    "account_id": "ACC-1304",
+    "user_id": "USR-hadar.caspit",
+    "source": "support_ticket",
+    "date": "2026-04-04",
+    "sentiment": "Negative",
+    "text": "Hadar raised concerns about Excel Add-in reliability during the last review.",
+    "feature_requested": "Excel Add-in"
+  },
+  {
+    "voc_id": "VOC-4264",
+    "account_id": "ACC-1304",
+    "user_id": "USR-hadar.caspit",
+    "source": "health_note",
+    "date": "2026-03-16",
+    "sentiment": "Frustrated",
+    "text": "Survey: satisfaction dipped after a Risk Scoring incident; recovery needed.",
+    "feature_requested": "Risk Scoring"
+  },
+  {
+    "voc_id": "VOC-4265",
+    "account_id": "ACC-1305",
+    "user_id": "USR-teresa.sac",
+    "source": "call_summary",
+    "date": "2026-05-21",
+    "sentiment": "Positive",
+    "text": "Survey: satisfaction dipped after a Risk Scoring incident; recovery needed.",
+    "feature_requested": "Risk Scoring"
+  },
+  {
+    "voc_id": "VOC-4266",
+    "account_id": "ACC-1305",
+    "user_id": "USR-teresa.sac",
+    "source": "qbr_note",
+    "date": "2026-01-31",
+    "sentiment": "Neutral",
+    "text": "Team feedback: Delta Alerts is valued but discovery is hard.",
+    "feature_requested": "Delta Alerts"
+  },
+  {
+    "voc_id": "VOC-4267",
+    "account_id": "ACC-1306",
+    "user_id": "USR-adil.eli",
+    "source": "call_summary",
+    "date": "2026-03-13",
+    "sentiment": "Positive",
+    "text": "Team feedback: Bulk Screening API is valued but discovery is hard.",
+    "feature_requested": "Bulk Screening API"
+  },
+  {
+    "voc_id": "VOC-4268",
+    "account_id": "ACC-1306",
+    "user_id": "USR-adil.eli",
+    "source": "qbr_note",
+    "date": "2026-04-27",
+    "sentiment": "Positive",
+    "text": "Adil requested better onboarding material for Audit Trail.",
+    "feature_requested": "Audit Trail"
+  },
+  {
+    "voc_id": "VOC-4269",
+    "account_id": "ACC-1306",
+    "user_id": "USR-adil.eli",
+    "source": "survey",
+    "date": "2026-05-03",
+    "sentiment": "Frustrated",
+    "text": "Survey: satisfaction dipped after a Risk Scoring incident; recovery needed.",
+    "feature_requested": "Risk Scoring"
+  },
+  {
+    "voc_id": "VOC-4270",
+    "account_id": "ACC-1309",
+    "user_id": "USR-dakota.sanchez",
+    "source": "support_ticket",
+    "date": "2026-04-24",
+    "sentiment": "Positive",
+    "text": "Team feedback: Audit Trail is valued but discovery is hard.",
+    "feature_requested": "Audit Trail"
+  },
+  {
+    "voc_id": "VOC-4271",
+    "account_id": "ACC-1309",
+    "user_id": "USR-dakota.sanchez",
+    "source": "qbr_note",
+    "date": "2026-03-03",
+    "sentiment": "Frustrated",
+    "text": "Dakota requested better onboarding material for Perpetual KYC Monitoring.",
+    "feature_requested": "Perpetual KYC Monitoring"
+  },
+  {
+    "voc_id": "VOC-4272",
+    "account_id": "ACC-1309",
+    "user_id": "USR-dakota.sanchez",
+    "source": "call_summary",
+    "date": "2026-01-30",
+    "sentiment": "Positive",
+    "text": "Dakota requested better onboarding material for Delta Alerts.",
+    "feature_requested": "Delta Alerts"
+  },
+  {
+    "voc_id": "VOC-4273",
+    "account_id": "ACC-1312",
+    "user_id": "USR-dakota.sanchez",
+    "source": "health_note",
+    "date": "2026-05-08",
+    "sentiment": "Negative",
+    "text": "Team feedback: Excel Add-in is valued but discovery is hard.",
+    "feature_requested": "Excel Add-in"
+  },
+  {
+    "voc_id": "VOC-4274",
+    "account_id": "ACC-1312",
+    "user_id": "USR-dakota.sanchez",
+    "source": "call_summary",
+    "date": "2026-02-19",
+    "sentiment": "Frustrated",
+    "text": "Dakota asked whether Perpetual KYC Monitoring could be tailored to their workflow.",
+    "feature_requested": "Perpetual KYC Monitoring"
+  },
+  {
+    "voc_id": "VOC-4275",
+    "account_id": "ACC-1313",
+    "user_id": "USR-peyton.davis",
+    "source": "qbr_note",
+    "date": "2026-03-23",
+    "sentiment": "Negative",
+    "text": "Peyton raised concerns about Quote Monitor reliability during the last review.",
+    "feature_requested": "Quote Monitor"
+  },
+  {
+    "voc_id": "VOC-4276",
+    "account_id": "ACC-1313",
+    "user_id": "USR-peyton.davis",
+    "source": "health_note",
+    "date": "2026-03-05",
+    "sentiment": "Frustrated",
+    "text": "Peyton raised concerns about Perpetual KYC Monitoring reliability during the last review.",
+    "feature_requested": "Perpetual KYC Monitoring"
+  },
+  {
+    "voc_id": "VOC-4277",
+    "account_id": "ACC-1314",
+    "user_id": "USR-monica.thompson",
+    "source": "call_summary",
+    "date": "2026-06-05",
+    "sentiment": "Frustrated",
+    "text": "Team feedback: Risk Scoring is valued but discovery is hard.",
+    "feature_requested": "Risk Scoring"
+  },
+  {
+    "voc_id": "VOC-4278",
+    "account_id": "ACC-1314",
+    "user_id": "USR-monica.thompson",
+    "source": "health_note",
+    "date": "2026-03-07",
+    "sentiment": "Negative",
+    "text": "Monica would expand usage of Onboarding Screening if it saved more manual effort.",
+    "feature_requested": "Onboarding Screening"
+  },
+  {
+    "voc_id": "VOC-4279",
+    "account_id": "ACC-1318",
+    "user_id": "USR-robin.kline",
+    "source": "health_note",
+    "date": "2026-04-29",
+    "sentiment": "Frustrated",
+    "text": "Robin asked whether Case Management could be tailored to their workflow.",
+    "feature_requested": "Case Management"
+  },
+  {
+    "voc_id": "VOC-4280",
+    "account_id": "ACC-1318",
+    "user_id": "USR-robin.kline",
+    "source": "call_summary",
+    "date": "2026-04-28",
+    "sentiment": "Neutral",
+    "text": "Robin would expand usage of Perpetual KYC Monitoring if it saved more manual effort.",
+    "feature_requested": "Perpetual KYC Monitoring"
+  },
+  {
+    "voc_id": "VOC-4281",
+    "account_id": "ACC-1318",
+    "user_id": "USR-robin.kline",
+    "source": "call_summary",
+    "date": "2026-05-19",
+    "sentiment": "Negative",
+    "text": "Survey: satisfaction dipped after a Risk Scoring incident; recovery needed.",
+    "feature_requested": "Risk Scoring"
+  },
+  {
+    "voc_id": "VOC-4282",
+    "account_id": "ACC-1321",
+    "user_id": "USR-dakota.sanchez",
+    "source": "survey",
+    "date": "2026-03-11",
+    "sentiment": "Neutral",
+    "text": "Survey: satisfaction dipped after a Bulk Screening API incident; recovery needed.",
+    "feature_requested": "Bulk Screening API"
+  },
+  {
+    "voc_id": "VOC-4283",
+    "account_id": "ACC-1321",
+    "user_id": "USR-dakota.sanchez",
+    "source": "support_ticket",
+    "date": "2026-03-12",
+    "sentiment": "Frustrated",
+    "text": "Survey: satisfaction dipped after a Company Filings incident; recovery needed.",
+    "feature_requested": "Company Filings"
+  },
+  {
+    "voc_id": "VOC-4284",
+    "account_id": "ACC-1321",
+    "user_id": "USR-dakota.sanchez",
+    "source": "call_summary",
+    "date": "2026-04-18",
+    "sentiment": "Frustrated",
+    "text": "Survey: satisfaction dipped after a Real-Time Data incident; recovery needed.",
+    "feature_requested": "Real-Time Data"
+  },
+  {
+    "voc_id": "VOC-4285",
+    "account_id": "ACC-1322",
+    "user_id": "USR-amber.rodriguez",
+    "source": "call_summary",
+    "date": "2026-05-07",
+    "sentiment": "Positive",
+    "text": "Survey: satisfaction dipped after a AI Research Summaries incident; recovery needed.",
+    "feature_requested": "AI Research Summaries"
+  },
+  {
+    "voc_id": "VOC-4286",
+    "account_id": "ACC-1323",
+    "user_id": "USR-adil.eli",
+    "source": "health_note",
+    "date": "2026-05-14",
+    "sentiment": "Negative",
+    "text": "Adil would expand usage of Ongoing Monitoring if it saved more manual effort.",
+    "feature_requested": "Ongoing Monitoring"
+  },
+  {
+    "voc_id": "VOC-4287",
+    "account_id": "ACC-1323",
+    "user_id": "USR-adil.eli",
+    "source": "qbr_note",
+    "date": "2026-03-06",
+    "sentiment": "Negative",
+    "text": "Adil requested better onboarding material for Case Management.",
+    "feature_requested": "Case Management"
+  },
+  {
+    "voc_id": "VOC-4288",
+    "account_id": "ACC-1324",
+    "user_id": "USR-sydney.mattos",
+    "source": "qbr_note",
+    "date": "2026-01-13",
+    "sentiment": "Negative",
+    "text": "Sydney raised concerns about Economic Indicators reliability during the last review.",
+    "feature_requested": "Economic Indicators"
+  },
+  {
+    "voc_id": "VOC-4289",
+    "account_id": "ACC-1326",
+    "user_id": "USR-sonia.rees",
+    "source": "call_summary",
+    "date": "2026-02-01",
+    "sentiment": "Positive",
+    "text": "Survey: satisfaction dipped after a Quote Monitor incident; recovery needed.",
+    "feature_requested": "Quote Monitor"
+  },
+  {
+    "voc_id": "VOC-4290",
+    "account_id": "ACC-1326",
+    "user_id": "USR-sonia.rees",
+    "source": "survey",
+    "date": "2026-01-26",
+    "sentiment": "Positive",
+    "text": "Sonia requested better onboarding material for Economic Indicators.",
+    "feature_requested": "Economic Indicators"
+  },
+  {
+    "voc_id": "VOC-4291",
+    "account_id": "ACC-1335",
+    "user_id": "USR-sydney.mattos",
+    "source": "support_ticket",
+    "date": "2026-01-22",
+    "sentiment": "Negative",
+    "text": "Sydney would expand usage of Case Management if it saved more manual effort.",
+    "feature_requested": "Case Management"
+  },
+  {
+    "voc_id": "VOC-4292",
+    "account_id": "ACC-1336",
+    "user_id": "USR-ronak.gupta",
+    "source": "support_ticket",
+    "date": "2026-02-28",
+    "sentiment": "Frustrated",
+    "text": "Ronak would expand usage of Real-Time Data if it saved more manual effort.",
+    "feature_requested": "Real-Time Data"
+  },
+  {
+    "voc_id": "VOC-4293",
+    "account_id": "ACC-1336",
+    "user_id": "USR-ronak.gupta",
+    "source": "support_ticket",
+    "date": "2026-03-27",
+    "sentiment": "Frustrated",
+    "text": "Team feedback: Real-Time Data is valued but discovery is hard.",
+    "feature_requested": "Real-Time Data"
+  },
+  {
+    "voc_id": "VOC-4294",
+    "account_id": "ACC-1337",
+    "user_id": "USR-quinn.campbell",
+    "source": "health_note",
+    "date": "2026-02-05",
+    "sentiment": "Neutral",
+    "text": "Quinn would expand usage of Company Filings if it saved more manual effort.",
+    "feature_requested": "Company Filings"
+  },
+  {
+    "voc_id": "VOC-4295",
+    "account_id": "ACC-1338",
+    "user_id": "USR-eka.siahaan",
+    "source": "qbr_note",
+    "date": "2026-04-21",
+    "sentiment": "Negative",
+    "text": "Team feedback: Watchlists is valued but discovery is hard.",
+    "feature_requested": "Watchlists"
+  }
+]

@@ -1,0 +1,42 @@
+# Runtime dependencies for the **agent host (bot)** container (Linux).
+#
+# Includes the Microsoft 365 Agents SDK (hosting + MSAL auth) so the bot can
+# serve POST /api/messages, but DELIBERATELY EXCLUDES the GitHub Copilot SDK
+# (win_amd64-only). On Linux the agent reasons through the Azure OpenAI
+# tool-calling loop in src/reasoning.py over the shared tool registry.
+
+python-dotenv
+aiohttp
+pydantic
+
+# Microsoft 365 Agents SDK (hosting + auth + activity)
+microsoft-agents-activity
+microsoft-agents-hosting-core
+microsoft-agents-hosting-aiohttp
+microsoft-agents-authentication-msal
+
+# MCP (tool registry imports)
+mcp
+
+# Agent 365 SDK — observability (OTEL spans + exporter), notifications
+# (inbound email/Word/lifecycle + the runtime scope helper used to mint the
+# agentic-user observability token). Pinned to the validated preview version.
+microsoft-agents-a365-observability-core==0.1.0
+microsoft-agents-a365-runtime==0.1.0
+microsoft-agents-a365-notifications==0.1.0
+
+# Reasoning + back ends (managed identity; never key-based)
+openai
+azure-identity
+snowflake-connector-python[pandas]
+cryptography
+
+# OpenTelemetry (best-effort export)
+opentelemetry-api
+opentelemetry-sdk
+opentelemetry-exporter-otlp
+opentelemetry-instrumentation
+opentelemetry-instrumentation-aiohttp-server
+opentelemetry-instrumentation-aiohttp-client
+opentelemetry-instrumentation-requests
+opentelemetry-instrumentation-logging

@@ -1,0 +1,25 @@
+# Runtime dependencies for the **CSM Autopilot control plane** container (Linux).
+# Excludes the GitHub Copilot SDK (win_amd64-only) and the Microsoft 365 Agents
+# SDK — the control plane serves the business UI + business APIs and runs the
+# deterministic job engine over the shared tools (TOOL_SPECS), all offline-safe.
+
+python-dotenv
+aiohttp
+pydantic
+openai
+azure-identity
+# Durable cost ledger (Azure Table Storage via managed identity; best-effort).
+azure-data-tables
+mcp
+cryptography
+pyjwt
+
+# Observability (OTEL export is optional/best-effort at startup).
+opentelemetry-api
+opentelemetry-sdk
+opentelemetry-exporter-otlp
+opentelemetry-instrumentation
+opentelemetry-instrumentation-aiohttp-server
+opentelemetry-instrumentation-aiohttp-client
+opentelemetry-instrumentation-requests
+opentelemetry-instrumentation-logging

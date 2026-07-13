@@ -1,0 +1,2198 @@
+[
+  {
+    "engagement_id": "PX-4001",
+    "account_id": "ACC-1001",
+    "user_id": "USR-eleanor.vance",
+    "content_id": "CNT-9006",
+    "content_title": "Onboarding Nudge — Create Your First Watchlist",
+    "shown_date": "2026-01-15",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-4002",
+    "account_id": "ACC-1001",
+    "user_id": "USR-eleanor.vance",
+    "content_id": "CNT-9001",
+    "content_title": "Adoption Recovery Playbook — FlowDesk Charting",
+    "shown_date": "2026-03-02",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-4003",
+    "account_id": "ACC-1003",
+    "user_id": "USR-marcus.bellweather",
+    "content_id": "CNT-9004",
+    "content_title": "Release Alert — AI Research Summaries",
+    "shown_date": "2026-05-29",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-4004",
+    "account_id": "ACC-1002",
+    "user_id": "USR-henrik.solberg",
+    "content_id": "CNT-9005",
+    "content_title": "Feature Tip — Case Management Collaboration",
+    "shown_date": "2026-04-18",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5000",
+    "account_id": "ACC-1001",
+    "user_id": "USR-kai.carter",
+    "content_id": "CNT-9003",
+    "content_title": "Onboarding Screening — in-product guide",
+    "shown_date": "2026-05-16",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5001",
+    "account_id": "ACC-1002",
+    "user_id": "USR-lisa.taylor",
+    "content_id": "CNT-9002",
+    "content_title": "Bulk Screening API — in-product guide",
+    "shown_date": "2026-01-24",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5002",
+    "account_id": "ACC-1003",
+    "user_id": "USR-omar.bennett",
+    "content_id": "CNT-9003",
+    "content_title": "Excel Add-in — in-product guide",
+    "shown_date": "2026-03-18",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5003",
+    "account_id": "ACC-1003",
+    "user_id": "USR-omar.bennett",
+    "content_id": "CNT-9006",
+    "content_title": "Equity Screener — in-product guide",
+    "shown_date": "2026-03-09",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5004",
+    "account_id": "ACC-1005",
+    "user_id": "USR-quinn.campbell",
+    "content_id": "CNT-9001",
+    "content_title": "Perpetual KYC Monitoring — in-product guide",
+    "shown_date": "2026-01-05",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5005",
+    "account_id": "ACC-1005",
+    "user_id": "USR-quinn.campbell",
+    "content_id": "CNT-9004",
+    "content_title": "Watchlist Refresh — in-product guide",
+    "shown_date": "2026-02-10",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5006",
+    "account_id": "ACC-1007",
+    "user_id": "USR-amber.rodriguez",
+    "content_id": "CNT-9003",
+    "content_title": "AI Research Summaries — in-product guide",
+    "shown_date": "2026-02-19",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5007",
+    "account_id": "ACC-1007",
+    "user_id": "USR-amber.rodriguez",
+    "content_id": "CNT-9003",
+    "content_title": "Advanced Charting — in-product guide",
+    "shown_date": "2026-02-24",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5008",
+    "account_id": "ACC-1008",
+    "user_id": "USR-corey.gray",
+    "content_id": "CNT-9001",
+    "content_title": "Economic Indicators — in-product guide",
+    "shown_date": "2026-05-01",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5009",
+    "account_id": "ACC-1009",
+    "user_id": "USR-monica.thompson",
+    "content_id": "CNT-9001",
+    "content_title": "Adverse Media Screening — in-product guide",
+    "shown_date": "2026-05-01",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5010",
+    "account_id": "ACC-1009",
+    "user_id": "USR-monica.thompson",
+    "content_id": "CNT-9002",
+    "content_title": "Company Filings — in-product guide",
+    "shown_date": "2026-01-26",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5011",
+    "account_id": "ACC-1101",
+    "user_id": "USR-corey.gray",
+    "content_id": "CNT-9003",
+    "content_title": "Bulk Screening API — in-product guide",
+    "shown_date": "2026-03-20",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5012",
+    "account_id": "ACC-1102",
+    "user_id": "USR-daichi.maruyama",
+    "content_id": "CNT-9004",
+    "content_title": "Equity Screener — in-product guide",
+    "shown_date": "2026-03-07",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5013",
+    "account_id": "ACC-1105",
+    "user_id": "USR-monica.thompson",
+    "content_id": "CNT-9004",
+    "content_title": "Adverse Media Screening — in-product guide",
+    "shown_date": "2026-04-09",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5014",
+    "account_id": "ACC-1106",
+    "user_id": "USR-kai.carter",
+    "content_id": "CNT-9004",
+    "content_title": "Excel Add-in — in-product guide",
+    "shown_date": "2026-01-03",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5015",
+    "account_id": "ACC-1106",
+    "user_id": "USR-kai.carter",
+    "content_id": "CNT-9005",
+    "content_title": "Company Filings — in-product guide",
+    "shown_date": "2026-05-27",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5016",
+    "account_id": "ACC-1107",
+    "user_id": "USR-monica.thompson",
+    "content_id": "CNT-9004",
+    "content_title": "Real-Time Data — in-product guide",
+    "shown_date": "2026-05-06",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5017",
+    "account_id": "ACC-1107",
+    "user_id": "USR-monica.thompson",
+    "content_id": "CNT-9006",
+    "content_title": "Economic Indicators — in-product guide",
+    "shown_date": "2026-04-12",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5018",
+    "account_id": "ACC-1108",
+    "user_id": "USR-adil.eli",
+    "content_id": "CNT-9001",
+    "content_title": "Onboarding Screening — in-product guide",
+    "shown_date": "2026-02-09",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5019",
+    "account_id": "ACC-1108",
+    "user_id": "USR-adil.eli",
+    "content_id": "CNT-9003",
+    "content_title": "Ongoing Monitoring — in-product guide",
+    "shown_date": "2026-03-01",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5020",
+    "account_id": "ACC-1109",
+    "user_id": "USR-kai.carter",
+    "content_id": "CNT-9001",
+    "content_title": "Advanced Charting — in-product guide",
+    "shown_date": "2026-01-10",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5021",
+    "account_id": "ACC-1109",
+    "user_id": "USR-kai.carter",
+    "content_id": "CNT-9002",
+    "content_title": "Quote Monitor — in-product guide",
+    "shown_date": "2026-01-12",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5022",
+    "account_id": "ACC-1110",
+    "user_id": "USR-omar.bennett",
+    "content_id": "CNT-9002",
+    "content_title": "AI Research Summaries — in-product guide",
+    "shown_date": "2026-04-01",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5023",
+    "account_id": "ACC-1110",
+    "user_id": "USR-omar.bennett",
+    "content_id": "CNT-9005",
+    "content_title": "Company Filings — in-product guide",
+    "shown_date": "2026-05-11",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5024",
+    "account_id": "ACC-1111",
+    "user_id": "USR-eka.siahaan",
+    "content_id": "CNT-9006",
+    "content_title": "Advanced Charting — in-product guide",
+    "shown_date": "2026-05-21",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5025",
+    "account_id": "ACC-1112",
+    "user_id": "USR-daichi.maruyama",
+    "content_id": "CNT-9006",
+    "content_title": "Risk Scoring — in-product guide",
+    "shown_date": "2026-02-18",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5026",
+    "account_id": "ACC-1112",
+    "user_id": "USR-daichi.maruyama",
+    "content_id": "CNT-9006",
+    "content_title": "Risk Scoring — in-product guide",
+    "shown_date": "2026-05-30",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5027",
+    "account_id": "ACC-1114",
+    "user_id": "USR-ronak.gupta",
+    "content_id": "CNT-9005",
+    "content_title": "Onboarding Screening — in-product guide",
+    "shown_date": "2026-02-12",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5028",
+    "account_id": "ACC-1117",
+    "user_id": "USR-robin.kline",
+    "content_id": "CNT-9002",
+    "content_title": "Advanced Charting — in-product guide",
+    "shown_date": "2026-02-05",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5029",
+    "account_id": "ACC-1118",
+    "user_id": "USR-teresa.sac",
+    "content_id": "CNT-9003",
+    "content_title": "Audit Trail — in-product guide",
+    "shown_date": "2026-03-07",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5030",
+    "account_id": "ACC-1118",
+    "user_id": "USR-teresa.sac",
+    "content_id": "CNT-9003",
+    "content_title": "Bulk Screening API — in-product guide",
+    "shown_date": "2026-01-21",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5031",
+    "account_id": "ACC-1119",
+    "user_id": "USR-daichi.maruyama",
+    "content_id": "CNT-9002",
+    "content_title": "Onboarding Screening — in-product guide",
+    "shown_date": "2026-03-05",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5032",
+    "account_id": "ACC-1122",
+    "user_id": "USR-adil.eli",
+    "content_id": "CNT-9003",
+    "content_title": "Economic Indicators — in-product guide",
+    "shown_date": "2026-01-03",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5033",
+    "account_id": "ACC-1122",
+    "user_id": "USR-adil.eli",
+    "content_id": "CNT-9004",
+    "content_title": "Watchlists — in-product guide",
+    "shown_date": "2026-01-16",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5034",
+    "account_id": "ACC-1123",
+    "user_id": "USR-vance.deleon",
+    "content_id": "CNT-9003",
+    "content_title": "Economic Indicators — in-product guide",
+    "shown_date": "2026-05-26",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5035",
+    "account_id": "ACC-1127",
+    "user_id": "USR-teresa.sac",
+    "content_id": "CNT-9006",
+    "content_title": "Watchlist Refresh — in-product guide",
+    "shown_date": "2026-01-30",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5036",
+    "account_id": "ACC-1127",
+    "user_id": "USR-teresa.sac",
+    "content_id": "CNT-9003",
+    "content_title": "Risk Scoring — in-product guide",
+    "shown_date": "2026-05-28",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5037",
+    "account_id": "ACC-1129",
+    "user_id": "USR-sasha.ouellet",
+    "content_id": "CNT-9006",
+    "content_title": "AI Research Summaries — in-product guide",
+    "shown_date": "2026-06-08",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5038",
+    "account_id": "ACC-1131",
+    "user_id": "USR-omar.bennett",
+    "content_id": "CNT-9002",
+    "content_title": "Excel Add-in — in-product guide",
+    "shown_date": "2026-04-27",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5039",
+    "account_id": "ACC-1131",
+    "user_id": "USR-omar.bennett",
+    "content_id": "CNT-9005",
+    "content_title": "Company Filings — in-product guide",
+    "shown_date": "2026-02-22",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5040",
+    "account_id": "ACC-1133",
+    "user_id": "USR-lisa.taylor",
+    "content_id": "CNT-9001",
+    "content_title": "Case Management — in-product guide",
+    "shown_date": "2026-04-28",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5041",
+    "account_id": "ACC-1133",
+    "user_id": "USR-lisa.taylor",
+    "content_id": "CNT-9003",
+    "content_title": "Case Management — in-product guide",
+    "shown_date": "2026-06-03",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5042",
+    "account_id": "ACC-1134",
+    "user_id": "USR-sonia.rees",
+    "content_id": "CNT-9003",
+    "content_title": "Case Management — in-product guide",
+    "shown_date": "2026-01-18",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5043",
+    "account_id": "ACC-1136",
+    "user_id": "USR-monica.thompson",
+    "content_id": "CNT-9004",
+    "content_title": "Ongoing Monitoring — in-product guide",
+    "shown_date": "2026-03-29",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5044",
+    "account_id": "ACC-1136",
+    "user_id": "USR-monica.thompson",
+    "content_id": "CNT-9001",
+    "content_title": "Watchlist Refresh — in-product guide",
+    "shown_date": "2026-01-08",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5045",
+    "account_id": "ACC-1137",
+    "user_id": "USR-billie.vester",
+    "content_id": "CNT-9004",
+    "content_title": "Delta Alerts — in-product guide",
+    "shown_date": "2026-01-13",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5046",
+    "account_id": "ACC-1139",
+    "user_id": "USR-teresa.sac",
+    "content_id": "CNT-9004",
+    "content_title": "Risk Scoring — in-product guide",
+    "shown_date": "2026-01-27",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5047",
+    "account_id": "ACC-1139",
+    "user_id": "USR-teresa.sac",
+    "content_id": "CNT-9002",
+    "content_title": "Case Management — in-product guide",
+    "shown_date": "2026-05-10",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5048",
+    "account_id": "ACC-1140",
+    "user_id": "USR-monica.thompson",
+    "content_id": "CNT-9004",
+    "content_title": "Equity Screener — in-product guide",
+    "shown_date": "2026-04-20",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5049",
+    "account_id": "ACC-1141",
+    "user_id": "USR-teresa.sac",
+    "content_id": "CNT-9002",
+    "content_title": "Case Management — in-product guide",
+    "shown_date": "2026-01-09",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5050",
+    "account_id": "ACC-1142",
+    "user_id": "USR-ronak.gupta",
+    "content_id": "CNT-9005",
+    "content_title": "Risk Scoring — in-product guide",
+    "shown_date": "2026-01-11",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5051",
+    "account_id": "ACC-1143",
+    "user_id": "USR-daichi.maruyama",
+    "content_id": "CNT-9005",
+    "content_title": "News Monitoring — in-product guide",
+    "shown_date": "2026-05-30",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5052",
+    "account_id": "ACC-1144",
+    "user_id": "USR-vance.deleon",
+    "content_id": "CNT-9001",
+    "content_title": "Delta Alerts — in-product guide",
+    "shown_date": "2026-02-21",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5053",
+    "account_id": "ACC-1144",
+    "user_id": "USR-vance.deleon",
+    "content_id": "CNT-9002",
+    "content_title": "Case Management — in-product guide",
+    "shown_date": "2026-03-21",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5054",
+    "account_id": "ACC-1146",
+    "user_id": "USR-hadar.caspit",
+    "content_id": "CNT-9005",
+    "content_title": "Eikon Messenger — in-product guide",
+    "shown_date": "2026-03-07",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5055",
+    "account_id": "ACC-1146",
+    "user_id": "USR-hadar.caspit",
+    "content_id": "CNT-9003",
+    "content_title": "Excel Add-in — in-product guide",
+    "shown_date": "2026-04-12",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5056",
+    "account_id": "ACC-1147",
+    "user_id": "USR-vance.deleon",
+    "content_id": "CNT-9005",
+    "content_title": "Watchlist Refresh — in-product guide",
+    "shown_date": "2026-03-23",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5057",
+    "account_id": "ACC-1147",
+    "user_id": "USR-vance.deleon",
+    "content_id": "CNT-9005",
+    "content_title": "Audit Trail — in-product guide",
+    "shown_date": "2026-01-31",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5058",
+    "account_id": "ACC-1149",
+    "user_id": "USR-sasha.ouellet",
+    "content_id": "CNT-9001",
+    "content_title": "Real-Time Data — in-product guide",
+    "shown_date": "2026-04-09",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5059",
+    "account_id": "ACC-1149",
+    "user_id": "USR-sasha.ouellet",
+    "content_id": "CNT-9005",
+    "content_title": "Company Filings — in-product guide",
+    "shown_date": "2026-02-02",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5060",
+    "account_id": "ACC-1150",
+    "user_id": "USR-corey.gray",
+    "content_id": "CNT-9004",
+    "content_title": "Case Management — in-product guide",
+    "shown_date": "2026-05-03",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5061",
+    "account_id": "ACC-1150",
+    "user_id": "USR-corey.gray",
+    "content_id": "CNT-9001",
+    "content_title": "News Monitoring — in-product guide",
+    "shown_date": "2026-04-26",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5062",
+    "account_id": "ACC-1151",
+    "user_id": "USR-adil.eli",
+    "content_id": "CNT-9004",
+    "content_title": "Quote Monitor — in-product guide",
+    "shown_date": "2026-02-02",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5063",
+    "account_id": "ACC-1153",
+    "user_id": "USR-peyton.davis",
+    "content_id": "CNT-9002",
+    "content_title": "Adverse Media Screening — in-product guide",
+    "shown_date": "2026-04-18",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5064",
+    "account_id": "ACC-1153",
+    "user_id": "USR-peyton.davis",
+    "content_id": "CNT-9003",
+    "content_title": "Watchlist Refresh — in-product guide",
+    "shown_date": "2026-02-28",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5065",
+    "account_id": "ACC-1154",
+    "user_id": "USR-amber.rodriguez",
+    "content_id": "CNT-9005",
+    "content_title": "Perpetual KYC Monitoring — in-product guide",
+    "shown_date": "2026-04-08",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5066",
+    "account_id": "ACC-1156",
+    "user_id": "USR-sonia.rees",
+    "content_id": "CNT-9006",
+    "content_title": "Quote Monitor — in-product guide",
+    "shown_date": "2026-04-10",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5067",
+    "account_id": "ACC-1158",
+    "user_id": "USR-omar.bennett",
+    "content_id": "CNT-9001",
+    "content_title": "Perpetual KYC Monitoring — in-product guide",
+    "shown_date": "2026-04-23",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5068",
+    "account_id": "ACC-1158",
+    "user_id": "USR-omar.bennett",
+    "content_id": "CNT-9006",
+    "content_title": "Onboarding Screening — in-product guide",
+    "shown_date": "2026-01-12",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5069",
+    "account_id": "ACC-1160",
+    "user_id": "USR-robin.kline",
+    "content_id": "CNT-9005",
+    "content_title": "Portfolio Analytics — in-product guide",
+    "shown_date": "2026-04-07",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5070",
+    "account_id": "ACC-1160",
+    "user_id": "USR-robin.kline",
+    "content_id": "CNT-9003",
+    "content_title": "News Monitoring — in-product guide",
+    "shown_date": "2026-04-02",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5071",
+    "account_id": "ACC-1161",
+    "user_id": "USR-amber.rodriguez",
+    "content_id": "CNT-9005",
+    "content_title": "Adverse Media Screening — in-product guide",
+    "shown_date": "2026-04-19",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5072",
+    "account_id": "ACC-1161",
+    "user_id": "USR-amber.rodriguez",
+    "content_id": "CNT-9002",
+    "content_title": "Portfolio Analytics — in-product guide",
+    "shown_date": "2026-02-11",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5073",
+    "account_id": "ACC-1162",
+    "user_id": "USR-dakota.sanchez",
+    "content_id": "CNT-9005",
+    "content_title": "Case Management — in-product guide",
+    "shown_date": "2026-04-25",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5074",
+    "account_id": "ACC-1162",
+    "user_id": "USR-dakota.sanchez",
+    "content_id": "CNT-9004",
+    "content_title": "Real-Time Data — in-product guide",
+    "shown_date": "2026-01-23",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5075",
+    "account_id": "ACC-1163",
+    "user_id": "USR-kai.carter",
+    "content_id": "CNT-9001",
+    "content_title": "Adverse Media Screening — in-product guide",
+    "shown_date": "2026-01-10",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5076",
+    "account_id": "ACC-1163",
+    "user_id": "USR-kai.carter",
+    "content_id": "CNT-9001",
+    "content_title": "Onboarding Screening — in-product guide",
+    "shown_date": "2026-05-11",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5077",
+    "account_id": "ACC-1164",
+    "user_id": "USR-robin.kline",
+    "content_id": "CNT-9001",
+    "content_title": "Adverse Media Screening — in-product guide",
+    "shown_date": "2026-01-04",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5078",
+    "account_id": "ACC-1164",
+    "user_id": "USR-robin.kline",
+    "content_id": "CNT-9003",
+    "content_title": "Equity Screener — in-product guide",
+    "shown_date": "2026-02-10",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5079",
+    "account_id": "ACC-1167",
+    "user_id": "USR-quinn.campbell",
+    "content_id": "CNT-9006",
+    "content_title": "Portfolio Analytics — in-product guide",
+    "shown_date": "2026-02-09",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5080",
+    "account_id": "ACC-1168",
+    "user_id": "USR-sydney.mattos",
+    "content_id": "CNT-9003",
+    "content_title": "Onboarding Screening — in-product guide",
+    "shown_date": "2026-01-27",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5081",
+    "account_id": "ACC-1168",
+    "user_id": "USR-sydney.mattos",
+    "content_id": "CNT-9001",
+    "content_title": "Delta Alerts — in-product guide",
+    "shown_date": "2026-03-31",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5082",
+    "account_id": "ACC-1169",
+    "user_id": "USR-sonia.rees",
+    "content_id": "CNT-9005",
+    "content_title": "Economic Indicators — in-product guide",
+    "shown_date": "2026-02-12",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5083",
+    "account_id": "ACC-1169",
+    "user_id": "USR-sonia.rees",
+    "content_id": "CNT-9005",
+    "content_title": "News Monitoring — in-product guide",
+    "shown_date": "2026-06-02",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5084",
+    "account_id": "ACC-1170",
+    "user_id": "USR-sasha.ouellet",
+    "content_id": "CNT-9006",
+    "content_title": "AI Research Summaries — in-product guide",
+    "shown_date": "2026-01-13",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5085",
+    "account_id": "ACC-1170",
+    "user_id": "USR-sasha.ouellet",
+    "content_id": "CNT-9002",
+    "content_title": "News Monitoring — in-product guide",
+    "shown_date": "2026-03-04",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5086",
+    "account_id": "ACC-1172",
+    "user_id": "USR-hadar.caspit",
+    "content_id": "CNT-9002",
+    "content_title": "Watchlist Refresh — in-product guide",
+    "shown_date": "2026-04-13",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5087",
+    "account_id": "ACC-1173",
+    "user_id": "USR-sasha.ouellet",
+    "content_id": "CNT-9001",
+    "content_title": "Portfolio Analytics — in-product guide",
+    "shown_date": "2026-04-05",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5088",
+    "account_id": "ACC-1175",
+    "user_id": "USR-eka.siahaan",
+    "content_id": "CNT-9006",
+    "content_title": "Watchlists — in-product guide",
+    "shown_date": "2026-03-20",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5089",
+    "account_id": "ACC-1175",
+    "user_id": "USR-eka.siahaan",
+    "content_id": "CNT-9001",
+    "content_title": "Bulk Screening API — in-product guide",
+    "shown_date": "2026-01-10",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5090",
+    "account_id": "ACC-1178",
+    "user_id": "USR-kai.carter",
+    "content_id": "CNT-9004",
+    "content_title": "News Monitoring — in-product guide",
+    "shown_date": "2026-01-03",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5091",
+    "account_id": "ACC-1178",
+    "user_id": "USR-kai.carter",
+    "content_id": "CNT-9003",
+    "content_title": "Economic Indicators — in-product guide",
+    "shown_date": "2026-04-08",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5092",
+    "account_id": "ACC-1179",
+    "user_id": "USR-corey.gray",
+    "content_id": "CNT-9006",
+    "content_title": "Audit Trail — in-product guide",
+    "shown_date": "2026-03-13",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5093",
+    "account_id": "ACC-1180",
+    "user_id": "USR-corey.gray",
+    "content_id": "CNT-9001",
+    "content_title": "News Monitoring — in-product guide",
+    "shown_date": "2026-03-19",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5094",
+    "account_id": "ACC-1181",
+    "user_id": "USR-sasha.ouellet",
+    "content_id": "CNT-9001",
+    "content_title": "News Monitoring — in-product guide",
+    "shown_date": "2026-06-04",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5095",
+    "account_id": "ACC-1182",
+    "user_id": "USR-peyton.davis",
+    "content_id": "CNT-9002",
+    "content_title": "Adverse Media Screening — in-product guide",
+    "shown_date": "2026-04-06",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5096",
+    "account_id": "ACC-1182",
+    "user_id": "USR-peyton.davis",
+    "content_id": "CNT-9003",
+    "content_title": "Watchlist Refresh — in-product guide",
+    "shown_date": "2026-01-12",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5097",
+    "account_id": "ACC-1184",
+    "user_id": "USR-lisa.taylor",
+    "content_id": "CNT-9003",
+    "content_title": "Economic Indicators — in-product guide",
+    "shown_date": "2026-05-24",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5098",
+    "account_id": "ACC-1184",
+    "user_id": "USR-lisa.taylor",
+    "content_id": "CNT-9002",
+    "content_title": "Economic Indicators — in-product guide",
+    "shown_date": "2026-02-16",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5099",
+    "account_id": "ACC-1187",
+    "user_id": "USR-corey.gray",
+    "content_id": "CNT-9003",
+    "content_title": "Equity Screener — in-product guide",
+    "shown_date": "2026-03-05",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5100",
+    "account_id": "ACC-1187",
+    "user_id": "USR-corey.gray",
+    "content_id": "CNT-9003",
+    "content_title": "Equity Screener — in-product guide",
+    "shown_date": "2026-02-10",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5101",
+    "account_id": "ACC-1189",
+    "user_id": "USR-omar.bennett",
+    "content_id": "CNT-9005",
+    "content_title": "Excel Add-in — in-product guide",
+    "shown_date": "2026-04-03",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5102",
+    "account_id": "ACC-1190",
+    "user_id": "USR-dakota.sanchez",
+    "content_id": "CNT-9004",
+    "content_title": "Perpetual KYC Monitoring — in-product guide",
+    "shown_date": "2026-06-05",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5103",
+    "account_id": "ACC-1190",
+    "user_id": "USR-dakota.sanchez",
+    "content_id": "CNT-9001",
+    "content_title": "Onboarding Screening — in-product guide",
+    "shown_date": "2026-01-20",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5104",
+    "account_id": "ACC-1191",
+    "user_id": "USR-teresa.sac",
+    "content_id": "CNT-9006",
+    "content_title": "Company Filings — in-product guide",
+    "shown_date": "2026-03-27",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5105",
+    "account_id": "ACC-1191",
+    "user_id": "USR-teresa.sac",
+    "content_id": "CNT-9005",
+    "content_title": "News Monitoring — in-product guide",
+    "shown_date": "2026-01-15",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5106",
+    "account_id": "ACC-1196",
+    "user_id": "USR-hadar.caspit",
+    "content_id": "CNT-9002",
+    "content_title": "Audit Trail — in-product guide",
+    "shown_date": "2026-05-02",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5107",
+    "account_id": "ACC-1196",
+    "user_id": "USR-hadar.caspit",
+    "content_id": "CNT-9005",
+    "content_title": "Audit Trail — in-product guide",
+    "shown_date": "2026-05-28",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5108",
+    "account_id": "ACC-1198",
+    "user_id": "USR-sasha.ouellet",
+    "content_id": "CNT-9005",
+    "content_title": "Company Filings — in-product guide",
+    "shown_date": "2026-04-17",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5109",
+    "account_id": "ACC-1200",
+    "user_id": "USR-ronak.gupta",
+    "content_id": "CNT-9001",
+    "content_title": "Delta Alerts — in-product guide",
+    "shown_date": "2026-02-13",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5110",
+    "account_id": "ACC-1200",
+    "user_id": "USR-ronak.gupta",
+    "content_id": "CNT-9006",
+    "content_title": "Bulk Screening API — in-product guide",
+    "shown_date": "2026-03-29",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5111",
+    "account_id": "ACC-1202",
+    "user_id": "USR-teresa.sac",
+    "content_id": "CNT-9001",
+    "content_title": "Portfolio Analytics — in-product guide",
+    "shown_date": "2026-01-30",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5112",
+    "account_id": "ACC-1203",
+    "user_id": "USR-teresa.sac",
+    "content_id": "CNT-9002",
+    "content_title": "Equity Screener — in-product guide",
+    "shown_date": "2026-01-29",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5113",
+    "account_id": "ACC-1205",
+    "user_id": "USR-quinn.campbell",
+    "content_id": "CNT-9001",
+    "content_title": "Audit Trail — in-product guide",
+    "shown_date": "2026-01-04",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5114",
+    "account_id": "ACC-1205",
+    "user_id": "USR-quinn.campbell",
+    "content_id": "CNT-9001",
+    "content_title": "Onboarding Screening — in-product guide",
+    "shown_date": "2026-01-16",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5115",
+    "account_id": "ACC-1207",
+    "user_id": "USR-adil.eli",
+    "content_id": "CNT-9001",
+    "content_title": "Watchlist Refresh — in-product guide",
+    "shown_date": "2026-02-14",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5116",
+    "account_id": "ACC-1208",
+    "user_id": "USR-quinn.campbell",
+    "content_id": "CNT-9006",
+    "content_title": "Perpetual KYC Monitoring — in-product guide",
+    "shown_date": "2026-03-07",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5117",
+    "account_id": "ACC-1208",
+    "user_id": "USR-quinn.campbell",
+    "content_id": "CNT-9001",
+    "content_title": "Risk Scoring — in-product guide",
+    "shown_date": "2026-02-06",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5118",
+    "account_id": "ACC-1210",
+    "user_id": "USR-lisa.taylor",
+    "content_id": "CNT-9004",
+    "content_title": "Economic Indicators — in-product guide",
+    "shown_date": "2026-01-17",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5119",
+    "account_id": "ACC-1210",
+    "user_id": "USR-lisa.taylor",
+    "content_id": "CNT-9003",
+    "content_title": "Portfolio Analytics — in-product guide",
+    "shown_date": "2026-02-10",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5120",
+    "account_id": "ACC-1211",
+    "user_id": "USR-lisa.taylor",
+    "content_id": "CNT-9006",
+    "content_title": "News Monitoring — in-product guide",
+    "shown_date": "2026-02-10",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5121",
+    "account_id": "ACC-1211",
+    "user_id": "USR-lisa.taylor",
+    "content_id": "CNT-9003",
+    "content_title": "Advanced Charting — in-product guide",
+    "shown_date": "2026-04-07",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5122",
+    "account_id": "ACC-1212",
+    "user_id": "USR-eka.siahaan",
+    "content_id": "CNT-9001",
+    "content_title": "Ongoing Monitoring — in-product guide",
+    "shown_date": "2026-04-25",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5123",
+    "account_id": "ACC-1212",
+    "user_id": "USR-eka.siahaan",
+    "content_id": "CNT-9002",
+    "content_title": "Adverse Media Screening — in-product guide",
+    "shown_date": "2026-01-19",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5124",
+    "account_id": "ACC-1215",
+    "user_id": "USR-amber.rodriguez",
+    "content_id": "CNT-9001",
+    "content_title": "AI Research Summaries — in-product guide",
+    "shown_date": "2026-06-03",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5125",
+    "account_id": "ACC-1220",
+    "user_id": "USR-lisa.taylor",
+    "content_id": "CNT-9004",
+    "content_title": "Advanced Charting — in-product guide",
+    "shown_date": "2026-03-13",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5126",
+    "account_id": "ACC-1220",
+    "user_id": "USR-lisa.taylor",
+    "content_id": "CNT-9004",
+    "content_title": "Quote Monitor — in-product guide",
+    "shown_date": "2026-04-27",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5127",
+    "account_id": "ACC-1221",
+    "user_id": "USR-quinn.campbell",
+    "content_id": "CNT-9005",
+    "content_title": "Watchlist Refresh — in-product guide",
+    "shown_date": "2026-05-04",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5128",
+    "account_id": "ACC-1221",
+    "user_id": "USR-quinn.campbell",
+    "content_id": "CNT-9005",
+    "content_title": "News Monitoring — in-product guide",
+    "shown_date": "2026-03-23",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5129",
+    "account_id": "ACC-1223",
+    "user_id": "USR-lisa.taylor",
+    "content_id": "CNT-9003",
+    "content_title": "Advanced Charting — in-product guide",
+    "shown_date": "2026-04-04",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5130",
+    "account_id": "ACC-1223",
+    "user_id": "USR-lisa.taylor",
+    "content_id": "CNT-9005",
+    "content_title": "Eikon Messenger — in-product guide",
+    "shown_date": "2026-03-07",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5131",
+    "account_id": "ACC-1224",
+    "user_id": "USR-eka.siahaan",
+    "content_id": "CNT-9001",
+    "content_title": "Ongoing Monitoring — in-product guide",
+    "shown_date": "2026-04-13",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5132",
+    "account_id": "ACC-1225",
+    "user_id": "USR-peyton.davis",
+    "content_id": "CNT-9001",
+    "content_title": "Advanced Charting — in-product guide",
+    "shown_date": "2026-05-16",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5133",
+    "account_id": "ACC-1226",
+    "user_id": "USR-daichi.maruyama",
+    "content_id": "CNT-9005",
+    "content_title": "Portfolio Analytics — in-product guide",
+    "shown_date": "2026-03-14",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5134",
+    "account_id": "ACC-1230",
+    "user_id": "USR-quinn.campbell",
+    "content_id": "CNT-9001",
+    "content_title": "Case Management — in-product guide",
+    "shown_date": "2026-01-11",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5135",
+    "account_id": "ACC-1230",
+    "user_id": "USR-quinn.campbell",
+    "content_id": "CNT-9001",
+    "content_title": "Delta Alerts — in-product guide",
+    "shown_date": "2026-01-05",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5136",
+    "account_id": "ACC-1233",
+    "user_id": "USR-lisa.taylor",
+    "content_id": "CNT-9006",
+    "content_title": "Adverse Media Screening — in-product guide",
+    "shown_date": "2026-03-26",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5137",
+    "account_id": "ACC-1234",
+    "user_id": "USR-monica.thompson",
+    "content_id": "CNT-9002",
+    "content_title": "Economic Indicators — in-product guide",
+    "shown_date": "2026-04-10",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5138",
+    "account_id": "ACC-1235",
+    "user_id": "USR-peyton.davis",
+    "content_id": "CNT-9004",
+    "content_title": "News Monitoring — in-product guide",
+    "shown_date": "2026-05-20",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5139",
+    "account_id": "ACC-1237",
+    "user_id": "USR-sonia.rees",
+    "content_id": "CNT-9001",
+    "content_title": "AI Research Summaries — in-product guide",
+    "shown_date": "2026-02-10",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5140",
+    "account_id": "ACC-1240",
+    "user_id": "USR-corey.gray",
+    "content_id": "CNT-9001",
+    "content_title": "Company Filings — in-product guide",
+    "shown_date": "2026-02-09",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5141",
+    "account_id": "ACC-1240",
+    "user_id": "USR-corey.gray",
+    "content_id": "CNT-9002",
+    "content_title": "Real-Time Data — in-product guide",
+    "shown_date": "2026-05-29",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5142",
+    "account_id": "ACC-1241",
+    "user_id": "USR-hadar.caspit",
+    "content_id": "CNT-9005",
+    "content_title": "Ongoing Monitoring — in-product guide",
+    "shown_date": "2026-04-21",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5143",
+    "account_id": "ACC-1241",
+    "user_id": "USR-hadar.caspit",
+    "content_id": "CNT-9006",
+    "content_title": "Bulk Screening API — in-product guide",
+    "shown_date": "2026-01-04",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5144",
+    "account_id": "ACC-1242",
+    "user_id": "USR-daichi.maruyama",
+    "content_id": "CNT-9005",
+    "content_title": "Real-Time Data — in-product guide",
+    "shown_date": "2026-03-08",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5145",
+    "account_id": "ACC-1242",
+    "user_id": "USR-daichi.maruyama",
+    "content_id": "CNT-9003",
+    "content_title": "Excel Add-in — in-product guide",
+    "shown_date": "2026-03-06",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5146",
+    "account_id": "ACC-1243",
+    "user_id": "USR-adil.eli",
+    "content_id": "CNT-9002",
+    "content_title": "Eikon Messenger — in-product guide",
+    "shown_date": "2026-03-02",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5147",
+    "account_id": "ACC-1245",
+    "user_id": "USR-adil.eli",
+    "content_id": "CNT-9003",
+    "content_title": "Delta Alerts — in-product guide",
+    "shown_date": "2026-05-08",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5148",
+    "account_id": "ACC-1245",
+    "user_id": "USR-adil.eli",
+    "content_id": "CNT-9001",
+    "content_title": "Audit Trail — in-product guide",
+    "shown_date": "2026-06-06",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5149",
+    "account_id": "ACC-1246",
+    "user_id": "USR-peyton.davis",
+    "content_id": "CNT-9001",
+    "content_title": "Perpetual KYC Monitoring — in-product guide",
+    "shown_date": "2026-04-20",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5150",
+    "account_id": "ACC-1248",
+    "user_id": "USR-amber.rodriguez",
+    "content_id": "CNT-9002",
+    "content_title": "Watchlists — in-product guide",
+    "shown_date": "2026-03-20",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5151",
+    "account_id": "ACC-1248",
+    "user_id": "USR-amber.rodriguez",
+    "content_id": "CNT-9004",
+    "content_title": "Eikon Messenger — in-product guide",
+    "shown_date": "2026-01-12",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5152",
+    "account_id": "ACC-1249",
+    "user_id": "USR-amber.rodriguez",
+    "content_id": "CNT-9003",
+    "content_title": "Perpetual KYC Monitoring — in-product guide",
+    "shown_date": "2026-04-29",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5153",
+    "account_id": "ACC-1249",
+    "user_id": "USR-amber.rodriguez",
+    "content_id": "CNT-9002",
+    "content_title": "Real-Time Data — in-product guide",
+    "shown_date": "2026-05-21",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5154",
+    "account_id": "ACC-1250",
+    "user_id": "USR-lisa.taylor",
+    "content_id": "CNT-9003",
+    "content_title": "Delta Alerts — in-product guide",
+    "shown_date": "2026-03-23",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5155",
+    "account_id": "ACC-1251",
+    "user_id": "USR-sydney.mattos",
+    "content_id": "CNT-9004",
+    "content_title": "Case Management — in-product guide",
+    "shown_date": "2026-05-01",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5156",
+    "account_id": "ACC-1253",
+    "user_id": "USR-hadar.caspit",
+    "content_id": "CNT-9004",
+    "content_title": "Bulk Screening API — in-product guide",
+    "shown_date": "2026-03-27",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5157",
+    "account_id": "ACC-1253",
+    "user_id": "USR-hadar.caspit",
+    "content_id": "CNT-9006",
+    "content_title": "Eikon Messenger — in-product guide",
+    "shown_date": "2026-04-03",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5158",
+    "account_id": "ACC-1254",
+    "user_id": "USR-sasha.ouellet",
+    "content_id": "CNT-9002",
+    "content_title": "Watchlists — in-product guide",
+    "shown_date": "2026-03-19",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5159",
+    "account_id": "ACC-1255",
+    "user_id": "USR-robin.kline",
+    "content_id": "CNT-9006",
+    "content_title": "Delta Alerts — in-product guide",
+    "shown_date": "2026-03-12",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5160",
+    "account_id": "ACC-1255",
+    "user_id": "USR-robin.kline",
+    "content_id": "CNT-9003",
+    "content_title": "Ongoing Monitoring — in-product guide",
+    "shown_date": "2026-03-13",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5161",
+    "account_id": "ACC-1256",
+    "user_id": "USR-teresa.sac",
+    "content_id": "CNT-9004",
+    "content_title": "Delta Alerts — in-product guide",
+    "shown_date": "2026-04-21",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5162",
+    "account_id": "ACC-1256",
+    "user_id": "USR-teresa.sac",
+    "content_id": "CNT-9003",
+    "content_title": "Perpetual KYC Monitoring — in-product guide",
+    "shown_date": "2026-04-18",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5163",
+    "account_id": "ACC-1257",
+    "user_id": "USR-sonia.rees",
+    "content_id": "CNT-9006",
+    "content_title": "Risk Scoring — in-product guide",
+    "shown_date": "2026-01-20",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5164",
+    "account_id": "ACC-1257",
+    "user_id": "USR-sonia.rees",
+    "content_id": "CNT-9004",
+    "content_title": "Onboarding Screening — in-product guide",
+    "shown_date": "2026-05-09",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5165",
+    "account_id": "ACC-1258",
+    "user_id": "USR-kai.carter",
+    "content_id": "CNT-9006",
+    "content_title": "Risk Scoring — in-product guide",
+    "shown_date": "2026-01-13",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5166",
+    "account_id": "ACC-1258",
+    "user_id": "USR-kai.carter",
+    "content_id": "CNT-9005",
+    "content_title": "Delta Alerts — in-product guide",
+    "shown_date": "2026-03-14",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5167",
+    "account_id": "ACC-1259",
+    "user_id": "USR-kai.carter",
+    "content_id": "CNT-9002",
+    "content_title": "Ongoing Monitoring — in-product guide",
+    "shown_date": "2026-06-05",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5168",
+    "account_id": "ACC-1263",
+    "user_id": "USR-vance.deleon",
+    "content_id": "CNT-9004",
+    "content_title": "Case Management — in-product guide",
+    "shown_date": "2026-04-03",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5169",
+    "account_id": "ACC-1263",
+    "user_id": "USR-vance.deleon",
+    "content_id": "CNT-9002",
+    "content_title": "Economic Indicators — in-product guide",
+    "shown_date": "2026-05-23",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5170",
+    "account_id": "ACC-1266",
+    "user_id": "USR-hadar.caspit",
+    "content_id": "CNT-9003",
+    "content_title": "Real-Time Data — in-product guide",
+    "shown_date": "2026-05-18",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5171",
+    "account_id": "ACC-1270",
+    "user_id": "USR-billie.vester",
+    "content_id": "CNT-9006",
+    "content_title": "Case Management — in-product guide",
+    "shown_date": "2026-02-06",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5172",
+    "account_id": "ACC-1270",
+    "user_id": "USR-billie.vester",
+    "content_id": "CNT-9005",
+    "content_title": "Risk Scoring — in-product guide",
+    "shown_date": "2026-04-04",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5173",
+    "account_id": "ACC-1271",
+    "user_id": "USR-monica.thompson",
+    "content_id": "CNT-9003",
+    "content_title": "Economic Indicators — in-product guide",
+    "shown_date": "2026-01-02",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5174",
+    "account_id": "ACC-1271",
+    "user_id": "USR-monica.thompson",
+    "content_id": "CNT-9003",
+    "content_title": "Watchlists — in-product guide",
+    "shown_date": "2026-04-21",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5175",
+    "account_id": "ACC-1272",
+    "user_id": "USR-kai.carter",
+    "content_id": "CNT-9005",
+    "content_title": "Case Management — in-product guide",
+    "shown_date": "2026-02-04",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5176",
+    "account_id": "ACC-1272",
+    "user_id": "USR-kai.carter",
+    "content_id": "CNT-9001",
+    "content_title": "Case Management — in-product guide",
+    "shown_date": "2026-01-06",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5177",
+    "account_id": "ACC-1273",
+    "user_id": "USR-corey.gray",
+    "content_id": "CNT-9003",
+    "content_title": "Company Filings — in-product guide",
+    "shown_date": "2026-02-28",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5178",
+    "account_id": "ACC-1273",
+    "user_id": "USR-corey.gray",
+    "content_id": "CNT-9005",
+    "content_title": "Advanced Charting — in-product guide",
+    "shown_date": "2026-05-27",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5179",
+    "account_id": "ACC-1276",
+    "user_id": "USR-quinn.campbell",
+    "content_id": "CNT-9005",
+    "content_title": "Delta Alerts — in-product guide",
+    "shown_date": "2026-03-02",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5180",
+    "account_id": "ACC-1276",
+    "user_id": "USR-quinn.campbell",
+    "content_id": "CNT-9004",
+    "content_title": "Onboarding Screening — in-product guide",
+    "shown_date": "2026-01-04",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5181",
+    "account_id": "ACC-1277",
+    "user_id": "USR-vance.deleon",
+    "content_id": "CNT-9005",
+    "content_title": "Audit Trail — in-product guide",
+    "shown_date": "2026-01-14",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5182",
+    "account_id": "ACC-1278",
+    "user_id": "USR-amber.rodriguez",
+    "content_id": "CNT-9006",
+    "content_title": "Advanced Charting — in-product guide",
+    "shown_date": "2026-01-04",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5183",
+    "account_id": "ACC-1278",
+    "user_id": "USR-amber.rodriguez",
+    "content_id": "CNT-9005",
+    "content_title": "Portfolio Analytics — in-product guide",
+    "shown_date": "2026-01-03",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5184",
+    "account_id": "ACC-1280",
+    "user_id": "USR-corey.gray",
+    "content_id": "CNT-9002",
+    "content_title": "Delta Alerts — in-product guide",
+    "shown_date": "2026-04-19",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5185",
+    "account_id": "ACC-1280",
+    "user_id": "USR-corey.gray",
+    "content_id": "CNT-9006",
+    "content_title": "Adverse Media Screening — in-product guide",
+    "shown_date": "2026-04-23",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5186",
+    "account_id": "ACC-1281",
+    "user_id": "USR-sasha.ouellet",
+    "content_id": "CNT-9001",
+    "content_title": "Watchlists — in-product guide",
+    "shown_date": "2026-03-31",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5187",
+    "account_id": "ACC-1283",
+    "user_id": "USR-monica.thompson",
+    "content_id": "CNT-9005",
+    "content_title": "Onboarding Screening — in-product guide",
+    "shown_date": "2026-02-20",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5188",
+    "account_id": "ACC-1283",
+    "user_id": "USR-monica.thompson",
+    "content_id": "CNT-9005",
+    "content_title": "Audit Trail — in-product guide",
+    "shown_date": "2026-05-24",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5189",
+    "account_id": "ACC-1284",
+    "user_id": "USR-kai.carter",
+    "content_id": "CNT-9004",
+    "content_title": "Advanced Charting — in-product guide",
+    "shown_date": "2026-04-12",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5190",
+    "account_id": "ACC-1285",
+    "user_id": "USR-peyton.davis",
+    "content_id": "CNT-9002",
+    "content_title": "Quote Monitor — in-product guide",
+    "shown_date": "2026-04-15",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5191",
+    "account_id": "ACC-1285",
+    "user_id": "USR-peyton.davis",
+    "content_id": "CNT-9001",
+    "content_title": "Eikon Messenger — in-product guide",
+    "shown_date": "2026-02-21",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5192",
+    "account_id": "ACC-1286",
+    "user_id": "USR-corey.gray",
+    "content_id": "CNT-9001",
+    "content_title": "Ongoing Monitoring — in-product guide",
+    "shown_date": "2026-01-29",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5193",
+    "account_id": "ACC-1289",
+    "user_id": "USR-hadar.caspit",
+    "content_id": "CNT-9005",
+    "content_title": "Advanced Charting — in-product guide",
+    "shown_date": "2026-02-20",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5194",
+    "account_id": "ACC-1290",
+    "user_id": "USR-omar.bennett",
+    "content_id": "CNT-9002",
+    "content_title": "Adverse Media Screening — in-product guide",
+    "shown_date": "2026-02-16",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5195",
+    "account_id": "ACC-1290",
+    "user_id": "USR-omar.bennett",
+    "content_id": "CNT-9002",
+    "content_title": "Onboarding Screening — in-product guide",
+    "shown_date": "2026-04-19",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5196",
+    "account_id": "ACC-1291",
+    "user_id": "USR-monica.thompson",
+    "content_id": "CNT-9002",
+    "content_title": "Real-Time Data — in-product guide",
+    "shown_date": "2026-03-05",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5197",
+    "account_id": "ACC-1293",
+    "user_id": "USR-sydney.mattos",
+    "content_id": "CNT-9006",
+    "content_title": "Watchlists — in-product guide",
+    "shown_date": "2026-01-10",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5198",
+    "account_id": "ACC-1294",
+    "user_id": "USR-robin.kline",
+    "content_id": "CNT-9002",
+    "content_title": "Advanced Charting — in-product guide",
+    "shown_date": "2026-04-01",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5199",
+    "account_id": "ACC-1294",
+    "user_id": "USR-robin.kline",
+    "content_id": "CNT-9003",
+    "content_title": "Company Filings — in-product guide",
+    "shown_date": "2026-06-07",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5200",
+    "account_id": "ACC-1297",
+    "user_id": "USR-sasha.ouellet",
+    "content_id": "CNT-9002",
+    "content_title": "Bulk Screening API — in-product guide",
+    "shown_date": "2026-01-13",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5201",
+    "account_id": "ACC-1297",
+    "user_id": "USR-sasha.ouellet",
+    "content_id": "CNT-9006",
+    "content_title": "Audit Trail — in-product guide",
+    "shown_date": "2026-01-19",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5202",
+    "account_id": "ACC-1299",
+    "user_id": "USR-ronak.gupta",
+    "content_id": "CNT-9004",
+    "content_title": "Risk Scoring — in-product guide",
+    "shown_date": "2026-06-02",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5203",
+    "account_id": "ACC-1299",
+    "user_id": "USR-ronak.gupta",
+    "content_id": "CNT-9002",
+    "content_title": "Audit Trail — in-product guide",
+    "shown_date": "2026-01-06",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5204",
+    "account_id": "ACC-1300",
+    "user_id": "USR-corey.gray",
+    "content_id": "CNT-9005",
+    "content_title": "Watchlists — in-product guide",
+    "shown_date": "2026-01-24",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5205",
+    "account_id": "ACC-1300",
+    "user_id": "USR-corey.gray",
+    "content_id": "CNT-9001",
+    "content_title": "Eikon Messenger — in-product guide",
+    "shown_date": "2026-04-16",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5206",
+    "account_id": "ACC-1301",
+    "user_id": "USR-eka.siahaan",
+    "content_id": "CNT-9001",
+    "content_title": "Onboarding Screening — in-product guide",
+    "shown_date": "2026-05-10",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5207",
+    "account_id": "ACC-1303",
+    "user_id": "USR-robin.kline",
+    "content_id": "CNT-9004",
+    "content_title": "Watchlists — in-product guide",
+    "shown_date": "2026-01-24",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5208",
+    "account_id": "ACC-1305",
+    "user_id": "USR-teresa.sac",
+    "content_id": "CNT-9003",
+    "content_title": "Case Management — in-product guide",
+    "shown_date": "2026-01-24",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5209",
+    "account_id": "ACC-1307",
+    "user_id": "USR-omar.bennett",
+    "content_id": "CNT-9006",
+    "content_title": "Case Management — in-product guide",
+    "shown_date": "2026-05-05",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5210",
+    "account_id": "ACC-1307",
+    "user_id": "USR-omar.bennett",
+    "content_id": "CNT-9001",
+    "content_title": "Delta Alerts — in-product guide",
+    "shown_date": "2026-03-19",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5211",
+    "account_id": "ACC-1309",
+    "user_id": "USR-dakota.sanchez",
+    "content_id": "CNT-9001",
+    "content_title": "Audit Trail — in-product guide",
+    "shown_date": "2026-05-20",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5212",
+    "account_id": "ACC-1309",
+    "user_id": "USR-dakota.sanchez",
+    "content_id": "CNT-9005",
+    "content_title": "Delta Alerts — in-product guide",
+    "shown_date": "2026-03-29",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5213",
+    "account_id": "ACC-1310",
+    "user_id": "USR-lisa.taylor",
+    "content_id": "CNT-9001",
+    "content_title": "Economic Indicators — in-product guide",
+    "shown_date": "2026-04-19",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5214",
+    "account_id": "ACC-1311",
+    "user_id": "USR-corey.gray",
+    "content_id": "CNT-9003",
+    "content_title": "Quote Monitor — in-product guide",
+    "shown_date": "2026-02-22",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5215",
+    "account_id": "ACC-1311",
+    "user_id": "USR-corey.gray",
+    "content_id": "CNT-9006",
+    "content_title": "Watchlist Refresh — in-product guide",
+    "shown_date": "2026-01-17",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5216",
+    "account_id": "ACC-1314",
+    "user_id": "USR-monica.thompson",
+    "content_id": "CNT-9003",
+    "content_title": "Delta Alerts — in-product guide",
+    "shown_date": "2026-04-17",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5217",
+    "account_id": "ACC-1314",
+    "user_id": "USR-monica.thompson",
+    "content_id": "CNT-9005",
+    "content_title": "Bulk Screening API — in-product guide",
+    "shown_date": "2026-04-29",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5218",
+    "account_id": "ACC-1315",
+    "user_id": "USR-quinn.campbell",
+    "content_id": "CNT-9002",
+    "content_title": "Audit Trail — in-product guide",
+    "shown_date": "2026-05-02",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5219",
+    "account_id": "ACC-1316",
+    "user_id": "USR-vance.deleon",
+    "content_id": "CNT-9005",
+    "content_title": "AI Research Summaries — in-product guide",
+    "shown_date": "2026-01-02",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5220",
+    "account_id": "ACC-1317",
+    "user_id": "USR-billie.vester",
+    "content_id": "CNT-9006",
+    "content_title": "Portfolio Analytics — in-product guide",
+    "shown_date": "2026-01-22",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5221",
+    "account_id": "ACC-1318",
+    "user_id": "USR-robin.kline",
+    "content_id": "CNT-9003",
+    "content_title": "Case Management — in-product guide",
+    "shown_date": "2026-03-13",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5222",
+    "account_id": "ACC-1318",
+    "user_id": "USR-robin.kline",
+    "content_id": "CNT-9004",
+    "content_title": "Perpetual KYC Monitoring — in-product guide",
+    "shown_date": "2026-04-23",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5223",
+    "account_id": "ACC-1321",
+    "user_id": "USR-dakota.sanchez",
+    "content_id": "CNT-9003",
+    "content_title": "News Monitoring — in-product guide",
+    "shown_date": "2026-04-27",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5224",
+    "account_id": "ACC-1321",
+    "user_id": "USR-dakota.sanchez",
+    "content_id": "CNT-9004",
+    "content_title": "Quote Monitor — in-product guide",
+    "shown_date": "2026-04-18",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5225",
+    "account_id": "ACC-1322",
+    "user_id": "USR-amber.rodriguez",
+    "content_id": "CNT-9006",
+    "content_title": "Economic Indicators — in-product guide",
+    "shown_date": "2026-01-11",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5226",
+    "account_id": "ACC-1323",
+    "user_id": "USR-adil.eli",
+    "content_id": "CNT-9005",
+    "content_title": "Perpetual KYC Monitoring — in-product guide",
+    "shown_date": "2026-01-15",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5227",
+    "account_id": "ACC-1323",
+    "user_id": "USR-adil.eli",
+    "content_id": "CNT-9001",
+    "content_title": "Case Management — in-product guide",
+    "shown_date": "2026-04-20",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5228",
+    "account_id": "ACC-1324",
+    "user_id": "USR-sydney.mattos",
+    "content_id": "CNT-9002",
+    "content_title": "Case Management — in-product guide",
+    "shown_date": "2026-03-07",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5229",
+    "account_id": "ACC-1327",
+    "user_id": "USR-lisa.taylor",
+    "content_id": "CNT-9001",
+    "content_title": "Adverse Media Screening — in-product guide",
+    "shown_date": "2026-03-12",
+    "action": "viewed"
+  },
+  {
+    "engagement_id": "PX-5230",
+    "account_id": "ACC-1329",
+    "user_id": "USR-daichi.maruyama",
+    "content_id": "CNT-9003",
+    "content_title": "Quote Monitor — in-product guide",
+    "shown_date": "2026-06-07",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5231",
+    "account_id": "ACC-1329",
+    "user_id": "USR-daichi.maruyama",
+    "content_id": "CNT-9003",
+    "content_title": "Company Filings — in-product guide",
+    "shown_date": "2026-02-15",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5232",
+    "account_id": "ACC-1330",
+    "user_id": "USR-billie.vester",
+    "content_id": "CNT-9002",
+    "content_title": "Delta Alerts — in-product guide",
+    "shown_date": "2026-04-24",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5233",
+    "account_id": "ACC-1333",
+    "user_id": "USR-robin.kline",
+    "content_id": "CNT-9001",
+    "content_title": "Eikon Messenger — in-product guide",
+    "shown_date": "2026-01-20",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5234",
+    "account_id": "ACC-1333",
+    "user_id": "USR-robin.kline",
+    "content_id": "CNT-9005",
+    "content_title": "Excel Add-in — in-product guide",
+    "shown_date": "2026-04-19",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5235",
+    "account_id": "ACC-1334",
+    "user_id": "USR-amber.rodriguez",
+    "content_id": "CNT-9002",
+    "content_title": "Bulk Screening API — in-product guide",
+    "shown_date": "2026-03-11",
+    "action": "ignored"
+  },
+  {
+    "engagement_id": "PX-5236",
+    "account_id": "ACC-1334",
+    "user_id": "USR-amber.rodriguez",
+    "content_id": "CNT-9006",
+    "content_title": "Risk Scoring — in-product guide",
+    "shown_date": "2026-02-02",
+    "action": "dismissed"
+  },
+  {
+    "engagement_id": "PX-5237",
+    "account_id": "ACC-1335",
+    "user_id": "USR-sydney.mattos",
+    "content_id": "CNT-9003",
+    "content_title": "Bulk Screening API — in-product guide",
+    "shown_date": "2026-05-26",
+    "action": "clicked"
+  },
+  {
+    "engagement_id": "PX-5238",
+    "account_id": "ACC-1336",
+    "user_id": "USR-ronak.gupta",
+    "content_id": "CNT-9001",
+    "content_title": "Portfolio Analytics — in-product guide",
+    "shown_date": "2026-01-26",
+    "action": "completed"
+  },
+  {
+    "engagement_id": "PX-5239",
+    "account_id": "ACC-1337",
+    "user_id": "USR-quinn.campbell",
+    "content_id": "CNT-9004",
+    "content_title": "News Monitoring — in-product guide",
+    "shown_date": "2026-02-01",
+    "action": "viewed"
+  }
+]

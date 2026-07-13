@@ -1,0 +1,119 @@
+[
+  {
+    "voice_id": "CV-2001",
+    "csm_manager_id": "csm-svasireddy",
+    "csm_name": "Siva Vasireddy",
+    "channel": "email",
+    "message_type": "feature_tip",
+    "text": "Hi {first_name}, quick one from me — I noticed your team could get a lot more out of {feature}. It genuinely saves people time once it clicks. Happy to walk you through it whenever suits. Best, Siva",
+    "accepted_date": "2026-04-10"
+  },
+  {
+    "voice_id": "CV-2002",
+    "csm_manager_id": "csm-svasireddy",
+    "csm_name": "Siva Vasireddy",
+    "channel": "email",
+    "message_type": "release_alert",
+    "text": "Hi {first_name}, you mentioned wanting {feature} earlier this year — good news, it's just landed. No setup needed on your side. Want me to set up 20 minutes to show the team? Siva",
+    "accepted_date": "2026-05-03"
+  },
+  {
+    "voice_id": "CV-2003",
+    "csm_manager_id": "csm-svasireddy",
+    "csm_name": "Siva Vasireddy",
+    "channel": "email",
+    "message_type": "guided_recovery_outreach",
+    "text": "Hi {first_name}, I noticed usage has dipped and I don't want the team to lose momentum. Could we grab 30 minutes so I can tailor {feature} to how you actually work? No slides, just practical. Siva",
+    "accepted_date": "2026-05-20"
+  },
+  {
+    "voice_id": "CV-2004",
+    "csm_manager_id": "csm-cora-thomas",
+    "csm_name": "Cora Thomas",
+    "channel": "email",
+    "message_type": "feature_tip",
+    "text": "Hi {first_name}, Cora here. A lot of teams like yours have had real success with {feature} — it's a small change that tends to pay off quickly. Glad to show you how it fits your workflow. Best, Cora",
+    "accepted_date": "2026-04-18"
+  },
+  {
+    "voice_id": "CV-2005",
+    "csm_manager_id": "csm-cora-thomas",
+    "csm_name": "Cora Thomas",
+    "channel": "email",
+    "message_type": "release_alert",
+    "text": "Hi {first_name}, good news — {feature} is now generally available. It lines up nicely with what you raised last quarter. Happy to set up a quick session whenever works for you. Cora",
+    "accepted_date": "2026-05-09"
+  },
+  {
+    "voice_id": "CV-2006",
+    "csm_manager_id": "csm-mario-rogers",
+    "csm_name": "Mario Rogers",
+    "channel": "email",
+    "message_type": "feature_tip",
+    "text": "Hi {first_name}, Mario here. I think {feature} could be a genuine win for your team — it's quick to pick up and people tend to wonder how they managed without it. Want me to run through it? Best, Mario",
+    "accepted_date": "2026-04-22"
+  },
+  {
+    "voice_id": "CV-2007",
+    "csm_manager_id": "csm-mario-rogers",
+    "csm_name": "Mario Rogers",
+    "channel": "email",
+    "message_type": "guided_recovery_outreach",
+    "text": "Hi {first_name}, I noticed things have been quieter on {feature} lately. Let's not lose the ground you've made — 30 minutes and I'll tailor it to how your team actually works. Mario",
+    "accepted_date": "2026-05-22"
+  },
+  {
+    "voice_id": "CV-3000",
+    "csm_manager_id": "csm-svasireddy",
+    "csm_name": "Siva Vasireddy",
+    "channel": "email",
+    "message_type": "onboarding_nudge",
+    "text": "Hi {first_name}, welcome aboard — just a nudge that getting {feature} set up early really pays off. Want me to send a 2-minute starter? Best, Siva",
+    "accepted_date": "2026-03-13"
+  },
+  {
+    "voice_id": "CV-3001",
+    "csm_manager_id": "csm-svasireddy",
+    "csm_name": "Siva Vasireddy",
+    "channel": "email",
+    "message_type": "risk_intervention_brief",
+    "text": "Hi {first_name}, I'd like to grab 30 minutes to walk through {feature} and make sure we're on the same page ahead of renewal. No slides — just a practical conversation. Siva",
+    "accepted_date": "2026-05-20"
+  },
+  {
+    "voice_id": "CV-3002",
+    "csm_manager_id": "csm-cora-thomas",
+    "csm_name": "Cora Thomas",
+    "channel": "email",
+    "message_type": "onboarding_nudge",
+    "text": "Hi {first_name}, welcome aboard — just a nudge that getting {feature} set up early really pays off. Want me to send a 2-minute starter? Best, Cora",
+    "accepted_date": "2026-05-22"
+  },
+  {
+    "voice_id": "CV-3003",
+    "csm_manager_id": "csm-cora-thomas",
+    "csm_name": "Cora Thomas",
+    "channel": "email",
+    "message_type": "risk_intervention_brief",
+    "text": "Hi {first_name}, I'd like to grab 30 minutes to walk through {feature} and make sure we're on the same page ahead of renewal. No slides — just a practical conversation. Cora",
+    "accepted_date": "2026-04-04"
+  },
+  {
+    "voice_id": "CV-3004",
+    "csm_manager_id": "csm-mario-rogers",
+    "csm_name": "Mario Rogers",
+    "channel": "email",
+    "message_type": "onboarding_nudge",
+    "text": "Hi {first_name}, welcome aboard — just a nudge that getting {feature} set up early really pays off. Want me to send a 2-minute starter? Best, Mario",
+    "accepted_date": "2026-04-02"
+  },
+  {
+    "voice_id": "CV-3005",
+    "csm_manager_id": "csm-mario-rogers",
+    "csm_name": "Mario Rogers",
+    "channel": "email",
+    "message_type": "risk_intervention_brief",
+    "text": "Hi {first_name}, I'd like to grab 30 minutes to walk through {feature} and make sure we're on the same page ahead of renewal. No slides — just a practical conversation. Mario",
+    "accepted_date": "2026-04-26"
+  }
+]

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Email delivery (simulated) — CSM Autopilot</title>
+<style>
+  :root { --navy:#00263A; --teal:#0097A9; --teal-bright:#00B8C7; --bg:#F4F6F8; --surface:#fff;
+          --border:#E0E4E8; --text:#1A2B3C; --muted:#6B7A8D; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI',-apple-system,Arial,sans-serif; background:var(--bg); color:var(--text); min-height:100vh; padding:30px 16px; }
+  .sim-tag { text-align:center; font-size:11px; font-weight:700; color:var(--teal); letter-spacing:.03em; margin-bottom:14px; }
+  .mail { max-width:620px; margin:0 auto; background:var(--surface); border:1px solid var(--border); border-radius:14px;
+          box-shadow:0 10px 40px rgba(0,38,58,.10); overflow:hidden; }
+  .mail .accent { height:6px; background:linear-gradient(90deg,var(--teal-bright),#55C985 48%,#F0B24A); }
+  .mail .hdr { padding:18px 22px 14px; border-bottom:1px solid var(--border); }
+  .mail .subj { font-size:18px; font-weight:750; color:var(--navy); }
+  .mail .from { display:flex; align-items:center; gap:11px; margin-top:12px; }
+  .mail .from .ava { width:40px; height:40px; border-radius:10px; background:linear-gradient(135deg,var(--navy),var(--teal));
+                     display:grid; place-items:center; color:#fff; font-weight:800; }
+  .mail .from .who { font-size:13px; font-weight:700; color:var(--navy); }
+  .mail .from .addr { font-size:11px; color:var(--muted); }
+  .mail .from .date { margin-left:auto; font-size:11px; color:var(--muted); }
+  .mail .to { font-size:11.5px; color:var(--muted); margin-top:8px; }
+  .mail .body { padding:22px; font-size:14px; line-height:1.65; white-space:pre-wrap; color:#23303d; }
+  .mail .sig { padding:0 22px 8px; }
+  .mail .foot { padding:14px 22px 20px; border-top:1px solid var(--border); font-size:11px; color:var(--muted); display:flex; align-items:center; gap:8px; }
+  .mail .foot .dot { width:7px; height:7px; border-radius:50%; background:var(--teal); }
+  .mail .actions { padding:0 22px 20px; display:flex; gap:9px; }
+  .mail .actions button { font:inherit; font-weight:700; font-size:13px; padding:9px 16px; border-radius:8px; cursor:pointer; border:1px solid var(--border); background:#fff; color:var(--navy); }
+  .mail .actions button.primary { background:var(--teal); border-color:var(--teal); color:#fff; }
+  .empty { max-width:620px; margin:0 auto; text-align:center; color:var(--muted); padding:50px; background:#fff; border:1px solid var(--border); border-radius:14px; }
+</style>
+</head>
+<body>
+<div class="sim-tag">◉ SIMULATED — email delivery preview (exactly the HTML the customer receives)</div>
+<div id="host"></div>
+<script>
+const oid = new URLSearchParams(location.search).get('o');
+async function load() {
+  const host = document.getElementById('host');
+  // Find the outcome to label the preview (recipient/sender), then render the REAL
+  // branded HTML email from the server in a sandboxed iframe.
+  const outcomes = await fetch('/api/outcomes').then(r=>r.json()).catch(()=>[]);
+  const o = oid ? outcomes.find(x=>x.id===oid)
+                : outcomes.find(x=>['email','csm_review','queued_agent'].includes(x.channel));
+  if (!o) {
+    host.innerHTML = '<div class="empty">No email delivered yet. Start an autopilot whose next-best-action sends an email, or accept a draft from the review queue.</div>';
+    return;
+  }
+  const previewUrl = '/api/email/preview?o=' + encodeURIComponent(o.id);
+  const date = o.createdAt ? new Date(o.createdAt).toLocaleString() : 'just now';
+  host.innerHTML = `
+    <div class="mail">
+      <div class="hdr">
+        <div class="to">To: ${o.recipient||'Customer'} · From: ${o.manager||'Your CSM'} (Customer Success) · ${date}</div>
+      </div>
+      <iframe title="Branded email" sandbox="allow-popups allow-popups-to-escape-sandbox"
+        style="width:100%;border:0;height:760px;background:#F4F6F8" src="${previewUrl}"></iframe>
+      <div class="actions"><button class="primary">Reply</button><button>Book a walkthrough</button></div>
+      <div class="foot"><span class="dot"></span> Delivered by CSM Autopilot on behalf of ${o.manager||'your CSM'} · in their voice, grounded in Microsoft 365 activity + approved content</div>
+    </div>`;
+}
+load();
+</script>
+</body>
+</html>

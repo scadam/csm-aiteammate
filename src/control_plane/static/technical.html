@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CSM Autopilot — Technical &amp; governance</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script src="https://res.cdn.office.net/teams-js/2.31.0/js/MicrosoftTeams.min.js" crossorigin="anonymous"></script>
+<script src="/static/identity.js"></script>
+<style>
+  :root{
+    --navy:#0A2540;--navy-2:#001B2B;--teal:#00A3A1;--teal-bright:#00C2C0;--teal-light:#E6F7F6;
+    --green:#059669;--green-bg:#ECFDF5;--amber:#D97706;--amber-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;
+    --blue:#1565C0;--purple:#7a4cc2;--bg:#F7F9FB;--surface:#FFFFFF;--surface-2:#F1F5F9;--border:#E2E8F0;
+    --border-light:#EEF2F6;--text:#0A2540;--muted:#64748B;--dim:#94A3B8;--logo-border:rgba(255,255,255,.25);
+    --shadow:0 1px 3px rgba(2,23,43,.06),0 1px 2px rgba(2,23,43,.04);--shadow-lg:0 8px 30px rgba(2,23,43,.12);
+    --radius:8px;--radius-sm:6px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Inter,Arial,sans-serif;background:var(--bg);color:var(--text);font-size:13px;min-height:100vh}
+  a{color:var(--teal);text-decoration:none}
+  ::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-thumb{background:#cfd8e0;border-radius:6px}
+  .topbar{height:48px;background:var(--navy-2);border-top:3px solid var(--teal);display:flex;align-items:center;gap:16px;padding:0 22px;position:sticky;top:0;z-index:30;box-shadow:0 2px 12px rgba(2,23,43,.18)}
+  .brand{display:flex;align-items:center;gap:13px}
+  .brand .word{font-size:13px;font-weight:700;letter-spacing:.16em;color:#fff;border:1.5px solid var(--logo-border);border-radius:4px;padding:3px 9px}
+  .brand .bar{display:none}
+  .brand .product{font-size:12px;font-weight:500;color:rgba(255,255,255,.82);letter-spacing:.02em}
+  .topbar .spacer{flex:1}
+  .who{display:flex;align-items:center;gap:10px;color:#cdd9e1;font-size:12px}
+  .who .ava{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--purple),#a06fe0)}
+  .who b{color:#fff;font-weight:700}
+  .live{display:flex;align-items:center;gap:7px;color:#9fb4c2;font-size:11px;font-weight:600}
+  .live .dot{width:8px;height:8px;border-radius:50%;background:#3FD27E;box-shadow:0 0 0 3px rgba(63,210,126,.2);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  .wrap{max-width:1560px;margin:0 auto;padding:12px 22px 30px}
+
+  .hero{background:linear-gradient(120deg,var(--navy),#0c2438 60%,#103a4a);border-radius:var(--radius);padding:12px 18px;color:#fff;box-shadow:var(--shadow-lg);position:relative;overflow:hidden;margin-bottom:12px;display:flex;align-items:center;gap:14px}
+  .hero::after{content:'';position:absolute;right:-50px;top:-80px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(0,151,169,.30),transparent 70%)}
+  .hero .orb{width:42px;height:42px;border-radius:12px;flex-shrink:0;display:grid;place-items:center;font-size:18px;font-weight:800;background:linear-gradient(135deg,var(--teal),var(--teal-bright));box-shadow:0 6px 18px rgba(0,151,169,.45);z-index:1}
+  .hero h1{font-size:17px;font-weight:800;letter-spacing:-.01em;z-index:1}
+  .hero .sub{font-size:11.5px;color:#9fd9e2;margin-top:2px;z-index:1}
+
+  .section{font-size:12px;font-weight:750;color:var(--navy);text-transform:uppercase;letter-spacing:.04em;margin:16px 2px 10px;display:flex;align-items:center;gap:9px}
+  .section .count{color:var(--dim);font-weight:600}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+  .card h3{font-size:12.5px;font-weight:750;color:var(--navy);margin-bottom:13px;display:flex;align-items:center;gap:8px}
+  .chart-wrap{position:relative;height:210px}
+
+  .fleet-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+  table{width:100%;border-collapse:collapse}
+  th{text-align:left;font-size:9px;font-weight:750;text-transform:uppercase;letter-spacing:.04em;color:#fff;background:var(--navy);padding:11px 13px;white-space:nowrap}
+  th.num,td.num{text-align:right}
+  td{padding:12px 13px;border-bottom:1px solid var(--border-light);font-size:12px;vertical-align:middle}
+  tbody tr{transition:background .1s}
+  tbody tr:hover{background:var(--teal-light)}
+  .state{font-size:9.5px;font-weight:750;padding:3px 10px;border-radius:20px;display:inline-flex;align-items:center;gap:6px}
+  .state.idle{background:#eef2f5;color:#5d6f7e}.state.running{background:var(--amber-bg);color:var(--amber)}.state.needs_review{background:#f5efff;color:var(--purple)}
+  .state .d{width:7px;height:7px;border-radius:50%;background:currentColor}
+  .empty{text-align:center;color:var(--dim);padding:30px;font-size:12px}
+
+  /* technical */
+  .grid-tech{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  .grid-tech2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  @media(max-width:1100px){.grid-tech,.grid-tech2{grid-template-columns:1fr}}
+  .idcard h3{margin-bottom:10px}
+  .kv{display:flex;flex-direction:column;gap:7px}
+  .kvr{display:flex;justify-content:space-between;gap:12px;font-size:12px;padding:5px 0;border-bottom:1px solid var(--border-light)}
+  .kvr:last-child{border-bottom:none}
+  .kvk{color:var(--muted);font-weight:600;white-space:nowrap}
+  .kvv{color:var(--navy);font-weight:600;text-align:right;word-break:break-all}
+  .kvv i{color:var(--dim)}
+  .mono{font-family:'Cascadia Code',Consolas,monospace;font-size:11px;color:var(--navy)}
+  td .u{font-size:10px;color:var(--dim)}
+  .bdg{font-size:9px;font-weight:750;padding:2px 8px;border-radius:20px}.bdg.on{background:var(--green-bg);color:var(--green)}.bdg.off{background:#eef2f5;color:#5d6f7e}
+  .lbl-pill{font-size:9.5px;font-weight:750;padding:2px 9px;border-radius:20px;border:1px solid;display:inline-block}
+  .sit{font-size:9px;font-weight:700;color:#7a4cc2;background:#f5efff;padding:2px 7px;border-radius:5px;white-space:nowrap}
+  .pol{font-size:9px;font-weight:750;padding:2px 8px;border-radius:20px}
+  .pol.ok{background:var(--green-bg);color:var(--green)}.pol.audit{background:#eef4ff;color:var(--blue)}.pol.block{background:var(--red-bg);color:var(--red)}
+  .prev{font-size:11px;color:var(--muted);max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .govt-totals .kvv{font-weight:800}
+  .skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+  .skill{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--teal);border-radius:10px;padding:13px 14px;box-shadow:var(--shadow)}
+  .skill b{font-size:13px;color:var(--navy)}.skill .sd{font-size:11.5px;color:var(--muted);margin:5px 0 8px;line-height:1.45}
+  .skill .sp{font-size:10px;color:var(--dim)}
+  /* DSPM activity filters + drill-down */
+  .dspm-filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 10px}
+  .dspm-filters input,.dspm-filters select{font:inherit;font-size:12px;padding:6px 9px;border:1px solid var(--border);border-radius:7px;background:var(--surface);color:var(--ink,#1a2530)}
+  .dspm-filters input[type=search]{flex:1;min-width:200px}
+  .dspm-clear{font:inherit;font-size:11px;font-weight:700;color:var(--muted);background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:6px 11px;cursor:pointer}
+  .dspm-clear:hover{color:var(--navy)}
+  tr.dspmRow{cursor:pointer}tr.dspmRow:hover{background:var(--bg)}
+  .dspm-more{font-size:10px;font-weight:800;color:var(--teal)}
+  .kvr.wrap .kvv{white-space:pre-wrap;word-break:break-word;font-family:var(--mono,monospace);font-size:11px}
+  /* AI security scenarios */
+  .sec-table td{vertical-align:top;font-size:12px;line-height:1.5}
+  .sec-table .act{font-weight:650;color:var(--navy)}
+  .sec-table .mapsto{display:block;margin-top:4px;font-size:10px;color:var(--dim);font-style:italic}
+  .ctrl{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px;margin:2px 3px 2px 0;border:1px solid transparent}
+  .ctrl.real{background:var(--green-bg);color:var(--green)}
+  .ctrl.platform{background:#eef4ff;color:var(--blue)}
+  .runbtn{font:inherit;font-size:11px;font-weight:700;color:#fff;background:var(--teal);border:0;border-radius:7px;padding:7px 12px;cursor:pointer;white-space:nowrap}
+  .runbtn:hover{filter:brightness(1.07)}.runbtn:disabled{opacity:.55;cursor:default}
+  .secres-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .secres-out{font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.4px}
+  .secres-out.blocked{background:var(--red-bg);color:var(--red)}
+  .secres-out.verified{background:var(--green-bg);color:var(--green)}
+  .secres-det{font-size:11.5px;color:var(--muted);background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 11px;margin-top:8px;font-family:var(--mono,monospace);white-space:pre-wrap;word-break:break-word}
+  .gate{max-width:560px;margin:60px auto;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 32px;text-align:center}
+  .gate h2{font-size:18px;color:var(--navy);margin-bottom:8px}
+  .gate p{font-size:13px;color:var(--muted);line-height:1.6}
+  /* clickable autopilot row + memory modal */
+  tr.apRow{cursor:pointer}
+  tr.apRow:hover{background:var(--teal-light)}
+  .memlink{font-size:10px;font-weight:750;color:var(--teal)}
+  .modal{position:fixed;inset:0;background:rgba(0,38,58,.55);display:none;align-items:center;justify-content:center;z-index:90;padding:24px}
+  .modal.show{display:flex}
+  .modal-card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow-lg);max-width:760px;width:100%;max-height:84vh;display:flex;flex-direction:column;overflow:hidden}
+  .modal-head{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--border-light)}
+  .modal-head .ava{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--navy),var(--teal))}
+  .modal-head b{font-size:15px;color:var(--navy)}
+  .modal-head .mst{font-size:11px;color:var(--muted)}
+  .modal-head .x{margin-left:auto;cursor:pointer;font-size:20px;color:var(--muted);border:none;background:none;line-height:1}
+  .modal-body{padding:18px 22px;overflow:auto;font-size:13px;line-height:1.6;color:var(--text)}
+  .modal-body h2{font-size:13px;color:var(--navy);margin:14px 0 6px;text-transform:uppercase;letter-spacing:.03em}
+  .modal-body h1{font-size:16px;color:var(--navy);margin:0 0 8px}
+  .modal-body ul{margin:4px 0 10px 18px}
+  .modal-body li{margin:3px 0}
+  .modal-body code{font-family:'Cascadia Code',Consolas,monospace;font-size:12px;background:var(--surface-2);padding:1px 5px;border-radius:4px}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="brand"><span class="word">CSM Autopilot</span><span class="product">Technical &amp; governance</span></div>
+  <div class="spacer"></div>
+  <div class="live"><span class="dot"></span><span>Live</span></div>
+  <div class="who"><div class="ava" id="ownAva">··</div><div><div id="ownName">—</div><div style="font-size:10.5px;color:#9fb4c2" id="ownRole"></div></div></div>
+</div>
+
+<div class="wrap">
+  <div id="gate" class="gate" style="display:none">
+    <h2>Technical &amp; governance view</h2>
+    <p id="gateMsg">This view is for the programme sponsor. Open the <b>Manager</b> tab to see your CSM Autopilot cockpit.</p>
+  </div>
+
+  <div id="content" style="display:none">
+    <div class="hero">
+      <div class="orb">🛡</div>
+      <div>
+        <h1>Technical &amp; governance</h1>
+        <div class="sub">Agent 365 identity, observability and Microsoft Purview (DSPM for AI) — real platform footprint.</div>
+      </div>
+    </div>
+
+    <div class="section">Agent identity &amp; instances</div>
+    <div class="grid-tech">
+      <div class="card idcard"><h3>🪪 Agent 365 identity</h3><div id="agentIdentity" class="kv"></div></div>
+      <div class="card idcard"><h3>📡 Observability (A365 OTEL)</h3><div id="obsInfo" class="kv"></div></div>
+      <div class="card idcard"><h3>🛡 Microsoft Purview (DSPM for AI)</h3><div id="purviewInfo" class="kv"></div></div>
+    </div>
+
+    <div class="section">Agent 365 fleet <span class="count" id="apCount"></span>
+      <span style="margin-left:auto;font-size:11px;font-weight:600;color:var(--muted);text-transform:none">one governed agent per CSM · identity, role &amp; access read from Microsoft Entra</span></div>
+    <div class="note" id="instNote" style="font-size:12px;color:var(--muted);margin:0 0 8px"></div>
+    <div class="fleet-card">
+      <table>
+        <thead><tr>
+          <th>Agent instance (acts on behalf of)</th><th>Role · Region (Entra)</th>
+          <th>Agent identity (Entra)</th><th class="num">Accounts</th><th>Status</th>
+          <th>Access package (governance)</th><th>Memory</th>
+        </tr></thead>
+        <tbody id="apRows"></tbody>
+      </table>
+    </div>
+    <div class="note" id="apkgNote" style="font-size:11.5px;color:var(--muted);margin:8px 0 0"></div>
+
+    <div class="section">Sensitive information types <span class="count" id="sitTotal"></span>
+      <span style="margin-left:auto;font-size:11px;font-weight:600;color:var(--muted);text-transform:none" id="dspmMode"></span></div>
+    <div class="note" style="font-size:11.5px;color:var(--muted);margin:0 0 10px">
+      The <b>processContent</b> call to Microsoft Graph is the real Purview DSPM activity (see it in
+      <b>Purview portal → DSPM for AI → Activity explorer</b>). The sensitive-information-type detections and the
+      <b>classification</b> shown below are computed <b>locally by the agent</b> (Purview exposes no API to read SIT
+      analytics back) using a Purview-style taxonomy — they are the agent’s own DLP classification, <b>not</b> a
+      published Microsoft Purview sensitivity label applied to a stored item. The <b>Policy</b> column is the real
+      Purview DLP action returned by processContent.</div>
+    <div class="card" id="govEmpty" style="display:none">
+      <div class="empty">No real Microsoft Purview DSPM activity recorded yet. Microsoft Purview (DSPM for AI) is configured (see the card above); the agent’s sensitive-information-type detections, its local DLP classification, and real prompt/response evaluations appear here once the agent processes content on a manager’s behalf via the Microsoft Graph DSPM API (<b>processContent</b> / <b>protectionScopes</b>), enforced by real Purview DLP policy. Nothing simulated is shown.</div>
+    </div>
+    <div class="grid-tech2" id="govCharts">
+      <div class="card"><h3>🔎 SITs detected (prompts &amp; responses)</h3><div class="chart-wrap"><canvas id="sitChart"></canvas></div></div>
+      <div class="card"><h3>🏷 Classification applied (agent DLP, local)</h3><div class="chart-wrap"><canvas id="labelChart"></canvas></div></div>
+      <div class="card govt-totals"><h3>📋 Governance activity</h3><div id="govTotals" class="kv"></div></div>
+    </div>
+
+    <div class="section">Recent DSPM activity (prompts, responses, data access)
+      <span class="count" id="dspmCount"></span></div>
+    <div class="dspm-filters" id="dspmFilters">
+      <input type="search" id="dspmSearch" placeholder="Search source, CSM, classification, preview…" />
+      <select id="dspmActivity"><option value="">All activity</option><option value="uploadText">Prompt (uploadText)</option><option value="downloadText">Response (downloadText)</option><option value="toolCall">Tool call</option><option value="dataClassification">Data access</option></select>
+      <select id="dspmLabel"><option value="">All classifications</option></select>
+      <select id="dspmPolicy"><option value="">All policy</option><option value="blocked">Blocked</option><option value="evaluated">Evaluated</option></select>
+      <button class="dspm-clear" id="dspmClear" type="button">Clear</button>
+    </div>
+    <div class="fleet-card">
+      <table>
+        <thead><tr><th>When</th><th>Activity</th><th>Source / CSM</th><th>Classification</th><th>SITs</th><th>Policy</th><th>Preview (redacted)</th><th></th></tr></thead>
+        <tbody id="dspmRows"></tbody>
+      </table>
+    </div>
+
+    <div class="section">AI security scenarios — risk &amp; control <span class="count" id="secCount"></span>
+      <span style="margin-left:auto;font-size:11px;font-weight:600;color:var(--muted);text-transform:none" id="secPosture"></span></div>
+    <div class="note" style="font-size:12px;color:var(--muted);margin:0 0 8px">
+      Each row is an activity this teammate performs — the risk is specific, and so is the control that mitigates it.
+      Press <b>Run demo</b> to watch the control stop a safe, synthetic attack (nothing is ever sent).</div>
+    <div class="fleet-card">
+      <table class="sec-table">
+        <thead><tr><th>Agent activity</th><th>The risk — how it emerges</th><th>The control</th><th style="width:140px"></th></tr></thead>
+        <tbody id="secRows"></tbody>
+      </table>
+    </div>
+    <div id="secResult" class="card" style="display:none;margin-top:12px"></div>
+
+    <div class="section">Skills the agent can apply</div>
+    <div class="skills-grid" id="skillsGrid"></div>
+  </div>
+</div>
+
+<!-- autopilot working-memory modal -->
+<div class="modal" id="memModal" onclick="if(event.target===this)closeMemory()">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div class="ava" id="memAva">··</div>
+      <div><b id="memName">—</b><div class="mst" id="memStat"></div></div>
+      <button class="x" onclick="closeMemory()" title="Close">×</button>
+    </div>
+    <div class="modal-body" id="memBody"></div>
+  </div>
+</div>
+
+<!-- DSPM event detail modal -->
+<div class="modal" id="dspmModal" onclick="if(event.target===this)closeDspm()">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div class="ava" id="dspmAva">🛡</div>
+      <div><b id="dspmTitle">DSPM event</b><div class="mst" id="dspmSub"></div></div>
+      <button class="x" onclick="closeDspm()" title="Close">×</button>
+    </div>
+    <div class="modal-body" id="dspmBody"></div>
+  </div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+let charts={};
+const LABEL_COLOR={'Public':'#0F8B3A','General':'#0097A9','Confidential':'#D97706','Highly Confidential':'#D42A2A'};
+function mono(v){return v?`<span class="mono">${v}</span>`:'';}
+function badge(b){return b?'<span class="bdg on">on</span>':'<span class="bdg off">off</span>';}
+function kv(obj){return Object.entries(obj).map(([k,v])=>`<div class="kvr"><span class="kvk">${k}</span><span class="kvv">${v==null||v===''?'<i>—</i>':v}</span></div>`).join('');}
+function pill(label){const c=LABEL_COLOR[label]||'#9AA8B6';return `<span class="lbl-pill" style="background:${c}1a;color:${c};border-color:${c}55">${label||'General'}</span>`;}
+function upd(id,type,data,opts,plugins){const el=$(id);if(!el)return;if(charts[id]){charts[id].data=data;charts[id].update('none');return;}charts[id]=new Chart(el,{type,data,options:Object.assign({responsive:true,maintainAspectRatio:false},opts),plugins:(plugins||[]).filter(Boolean)});}
+// On-segment data labels for doughnut charts: value + share, zero slices hidden.
+const DONUT_LABELS={color:'#fff',font:{weight:'700',size:11},textStrokeColor:'rgba(0,0,0,.35)',textStrokeWidth:3,
+  formatter:(v,ctx)=>{const d=ctx.chart.data.datasets[0].data||[];const tot=d.reduce((a,b)=>a+(+b||0),0);if(!v||!tot)return '';return v+' ('+Math.round(100*v/tot)+'%)';}};
+
+// ── autopilot working-memory viewer ──
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function mdToHtml(md){
+  const lines=(md||'').split('\n');let html='';let inList=false;
+  const flush=()=>{if(inList){html+='</ul>';inList=false;}};
+  for(let ln of lines){
+    if(/^#\s+/.test(ln)){flush();html+='<h1>'+esc(ln.replace(/^#\s+/,''))+'</h1>';}
+    else if(/^##\s+/.test(ln)){flush();html+='<h2>'+esc(ln.replace(/^##\s+/,''))+'</h2>';}
+    else if(/^\s*-\s+/.test(ln)){if(!inList){html+='<ul>';inList=true;}let t=esc(ln.replace(/^\s*-\s+/,''));t=t.replace(/_\(([^)]+)\)_/g,'<code>$1</code>');html+='<li>'+t+'</li>';}
+    else if(ln.trim()===''){flush();}
+    else{flush();html+='<p>'+esc(ln)+'</p>';}
+  }
+  flush();return html||'<p class="u">(empty)</p>';
+}
+async function openMemory(mid){
+  if(!mid)return;
+  const m=$('memModal');m.classList.add('show');
+  $('memName').textContent='Loading…';$('memStat').textContent='';$('memBody').innerHTML='<p class="u">Loading working memory…</p>';
+  try{
+    const d=await (await fetch('/api/autopilot/'+encodeURIComponent(mid)+'/memory')).json();
+    if(d.error){$('memBody').innerHTML='<p class="u">'+esc(d.error)+'</p>';return;}
+    $('memName').textContent='Working memory · '+(d.managerName||mid);
+    $('memAva').textContent=(d.managerName||'··').split(' ').map(s=>s[0]).slice(0,2).join('');
+    const st=d.stats||{};
+    $('memStat').textContent=(st.bullets||0)+' notes · '+((st.chars||0)/1000).toFixed(1)+'k chars · '+(st.path||'');
+    $('memBody').innerHTML=mdToHtml(d.markdown);
+  }catch(e){$('memBody').innerHTML='<p class="u">Could not load memory.</p>';}
+}
+function closeMemory(){$('memModal').classList.remove('show');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeMemory();closeDspm();}});
+
+// ── DSPM activity: client-side filter + drill-down ───────────────────
+let DSPM_ROWS=[], DSPM_BY_ID={};
+function syncDspmLabelOptions(){
+  const sel=$('dspmLabel'); if(!sel) return; const cur=sel.value;
+  const labels=[...new Set(DSPM_ROWS.map(r=>r.label||'General'))];
+  sel.innerHTML='<option value="">All labels</option>'+labels.map(l=>`<option value="${esc(l)}">${esc(l)}</option>`).join('');
+  if(labels.includes(cur)) sel.value=cur;
+}
+function dspmPolicyOf(r){ return r.allowed===false?'blocked':'evaluated'; }
+function renderDspm(){
+  const q=($('dspmSearch').value||'').toLowerCase().trim();
+  const fa=$('dspmActivity').value, fl=$('dspmLabel').value, fp=$('dspmPolicy').value;
+  const rows=DSPM_ROWS.filter(r=>{
+    if(fa && (r.activity||'')!==fa) return false;
+    if(fl && (r.label||'General')!==fl) return false;
+    if(fp && dspmPolicyOf(r)!==fp) return false;
+    if(q){ const hay=[r.source,r.managerName,r.label,r.activityLabel,r.activity,r.preview,(r.sits||[]).map(s=>s.sit).join(' ')].join(' ').toLowerCase(); if(!hay.includes(q)) return false; }
+    return true;
+  });
+  $('dspmCount').textContent=rows.length+(rows.length!==DSPM_ROWS.length?(' of '+DSPM_ROWS.length):'');
+  if(!DSPM_ROWS.length){ return; }
+  $('dspmRows').innerHTML=rows.map(r=>{
+    const sits=(r.sits||[]).map(s=>`<span class="sit">${esc(s.sit)} ×${s.count}</span>`).join(' ')||'<span class="u">none</span>';
+    const when=r.createdDateTime? r.createdDateTime.replace('T',' '):'';
+    const pol = r.allowed===false ? '<span class="pol block">blocked</span>' : (r.real?'<span class="pol ok">evaluated</span>':'<span class="pol audit">audit</span>');
+    return `<tr class="dspmRow" onclick="openDspm('${r.id}')" title="View full event detail">
+      <td class="mono">${when}</td>
+      <td>${esc(r.activityLabel||r.activity||'')}</td>
+      <td>${esc(r.source||'')}${r.managerName?('<div class="u">'+esc(r.managerName)+'</div>'):''}</td>
+      <td>${pill(r.label)}</td>
+      <td>${sits}</td>
+      <td>${pol}</td>
+      <td class="prev">${esc(r.preview||'')}</td>
+      <td><span class="dspm-more">detail ▸</span></td>
+    </tr>`;
+  }).join('')||'<tr><td colspan="8"><div class="empty">No events match these filters.</div></td></tr>';
+}
+function openDspm(id){
+  const r=DSPM_BY_ID[id]; if(!r) return;
+  const m=$('dspmModal'); m.classList.add('show');
+  $('dspmTitle').textContent=(r.activityLabel||r.activity||'DSPM event');
+  $('dspmSub').textContent=(r.real?'Real Microsoft Purview Graph call':'local ledger')+(r.scopeState?(' · scope '+r.scopeState):'');
+  const sits=(r.sits||[]).map(s=>`${esc(s.sit)} ×${s.count} (${esc(s.confidence||'')})`).join('<br>')||'<i>none</i>';
+  const policy = r.allowed===false ? ('<span class="pol block">blocked by policy</span> '+esc(r.detail||r.action||'')) : (r.real?'<span class="pol ok">evaluated (allowed)</span>':'<span class="pol audit">audit</span>');
+  const rows={
+    'Event id':mono(r.id),'When (UTC)':mono(r.createdDateTime||''),
+    'Activity':esc((r.activityLabel||'')+' · '+(r.activity||'')),
+    'Graph processContent':r.real?'<span class="pol ok">real call</span>':'<span class="u">not a real call</span>',
+    'Classification (agent DLP, local)':pill(r.label),'Policy decision':policy,
+    'Sensitive info types':sits,'SIT count':(r.sitCount!=null?r.sitCount:'0'),
+    'Source':esc(r.source||'—'),'CSM (manager)':esc(r.managerName||'—')+(r.managerId?(' ('+esc(r.managerId)+')'):''),
+    'Account':esc(r.accountId||'—'),
+    'Correlation id':mono(r.correlationId||'—'),'Sequence':(r.sequence!=null?r.sequence:'—'),
+    'Scope state':esc(r.scopeState||'—'),
+  };
+  if(r.activity==='toolCall'){ rows['Tool']=esc(r.tool||'—'); rows['Graph activity']=esc(r.graphActivity||'uploadText'); }
+  let html=Object.entries(rows).map(([k,v])=>`<div class="kvr"><span class="kvk">${k}</span><span class="kvv">${v==null||v===''?'<i>—</i>':v}</span></div>`).join('');
+  if(r.activity==='toolCall'){
+    html+=`<div class="kvr wrap"><span class="kvk">Arguments</span><span class="kvv">${esc(r.argsPreview||'(none)')}</span></div>`;
+    html+=`<div class="kvr wrap"><span class="kvk">Result (summary)</span><span class="kvv">${esc(r.resultPreview||'(none)')}</span></div>`;
+  }
+  html+=`<div class="kvr wrap"><span class="kvk">Preview (redacted)</span><span class="kvv">${esc(r.preview||'(none)')}</span></div>`;
+  $('dspmBody').innerHTML=html;
+}
+function closeDspm(){$('dspmModal').classList.remove('show');}
+['dspmSearch','dspmActivity','dspmLabel','dspmPolicy'].forEach(id=>{
+  const el=$(id); if(el) el.addEventListener('input',renderDspm);
+});
+{ const c=$('dspmClear'); if(c) c.addEventListener('click',()=>{ $('dspmSearch').value='';$('dspmActivity').value='';$('dspmLabel').value='';$('dspmPolicy').value='';renderDspm(); }); }
+
+async function loadTechnical(){
+  let d; try{ d=await (await fetch('/api/sponsor/technical')).json(); }catch(e){ return; }
+  if(d.error) return;
+  const ai=d.agentIdentity||{};
+  $('agentIdentity').innerHTML=kv({'Display name':ai.displayName,'Blueprint ID':mono(ai.blueprintId),'Agent ID':mono(ai.agentId),'Tenant ID':mono(ai.tenantId)});
+  const o=d.observability||{};
+  $('obsInfo').innerHTML=kv({'Service':o.serviceName,'A365 OTEL endpoint':mono(o.otelEndpoint),'A365 enabled':badge(o.a365Enabled),'Exporter enabled':badge(o.a365ExporterEnabled),'Cluster':o.clusterCategory});
+  const p=d.purview||{};
+  $('purviewInfo').innerHTML=kv({'Enabled':badge(p.enabled),'Mode':p.mode,'App location (Entra app)':mono(p.appLocationId),'Graph':mono(p.graphBaseUrl),'App perms':(p.applicationPermissions||[]).join(', '),'Delegated perms':(p.delegatedPermissions||[]).join(', '),'Agent blueprint':mono(p.agentBlueprintId)});
+
+  const fp=d.footprint||{}; const inst=fp.instances||d.instances||[];
+  const apkg=d.accessPackage||{};
+  // Index the discovered Entra instances by manager name so each fleet row can show its real agent identity.
+  const instByMgr={}; inst.forEach(i=>{ if(i.managerName) instByMgr[i.managerName]=i; });
+  $('instNote').innerHTML=(fp.note?('ℹ️ '+fp.note):'')
+    + (fp.blueprint?(' Blueprint SP: <span class="mono">'+(fp.blueprint.displayName||'')+'</span> · object <span class="mono">'+(fp.blueprint.objectId||'')+'</span>.')
+       : (fp.discovered===false?'':' Blueprint service principal not found in the directory.'));
+
+  const aps=d.autopilots||[];
+  $('apCount').textContent=aps.length;
+  $('apRows').innerHTML=aps.map(a=>{
+    const m=a.manager||{}; const src=m.attributeSource==='entra'?'':' <span class="u">(unavailable)</span>';
+    const mid=m.id||'';
+    const i=a.instance||instByMgr[m.name]||{};
+    const instName=i.displayName||'—';
+    const instId=i.agentUserId||i.instanceObjectId||'';
+    const instMeta=instId?('<div class="u mono">'+instId+'</div>'):'';
+    const enabledChip=(i.enabled==null)?'':(' '+badge(i.enabled));
+    // Access-package governance chip (real Entra ID Governance assignment state).
+    let pkg='<span class="u">—</span>';
+    const ap=a.accessPackage;
+    if(ap&&ap.state){ const st=String(ap.state).toLowerCase();
+      const cls=st==='delivered'?'ok':(st==='expired'?'block':'audit');
+      const exp=ap.expires?(' · exp '+String(ap.expires).slice(0,10)):'';
+      pkg='<span class="pol '+cls+'">'+esc(ap.state)+'</span><span class="u" style="font-size:10px">'+exp+'</span>';
+    } else if(apkg.exists){ pkg='<span class="u" style="font-size:10.5px">no assignment</span>'; }
+    const mem=a.memory?`<span class="mono">${a.memory.bullets} notes · ${(a.memory.chars/1000).toFixed(1)}k</span> <span class="memlink">view ▸</span>`:'<span class="u">—</span>';
+    return `<tr class="apRow" onclick="openMemory('${mid}')" title="View this autopilot's working memory">
+    <td><b>${esc(instName)}</b>${enabledChip}<div class="u">acts for ${esc(m.name||'—')}${m.upn?(' · '+esc(m.upn)):''}</div></td>
+    <td>${m.role?esc(m.role):('<i>—</i>'+src)}${m.region?(' · '+esc(m.region)):''}</td>
+    <td class="mono">${instId||(m.entraObjectId||'—')}${instMeta?'':''}</td>
+    <td class="num"><b>${a.accounts}</b></td>
+    <td><span class="state ${a.status}"><span class="d"></span>${(a.status||'').replace('_',' ')}</span></td>
+    <td>${pkg}</td>
+    <td>${mem}</td>
+  </tr>`;}).join('')||'<tr><td colspan="7"><div class="empty">No agents.</div></td></tr>';
+  // Honest access-package footnote (real governance state from Entra ID Governance).
+  if(apkg.configured){
+    const tag=apkg.exists?('✓ <b>'+esc(apkg.name)+'</b> live in catalog “'+esc(apkg.catalog||'')+'”'+(typeof apkg.deliveredCount==='number'?(' — '+apkg.deliveredCount+'/'+(apkg.assignments||[]).length+' agent assignment(s) delivered'):'')) : ('• Access package <b>'+esc(apkg.name)+'</b> + group “'+esc(apkg.groupName||'')+'” — '+esc(apkg.note||'not created yet'));
+    $('apkgNote').innerHTML='🔑 Microsoft Entra ID Governance: '+tag+'. Agents (or their sponsor) request it; it grants time-bound, sponsor-approved access and auto-expires.';
+  } else { $('apkgNote').innerHTML=''; }
+
+  const g=d.governance||{}; const t=g.totals||{};
+  const hasReal=(t.events||0)>0;
+  $('sitTotal').textContent=(t.sitDetections||0)+' detected';
+  $('dspmMode').textContent=hasReal?((t.realGraphCalls||0)+' real Purview Graph call(s)'):'real Purview activity only — none recorded yet';
+  $('govEmpty').style.display=hasReal?'none':'';
+  $('govCharts').style.display=hasReal?'':'none';
+  if(hasReal){
+    $('govTotals').innerHTML=kv({'Prompts evaluated':t.prompts||0,'Responses evaluated':t.responses||0,'Tool calls':t.toolCalls||0,'Data-access events':t.dataAccessEvents||0,'SIT detections':t.sitDetections||0,'Blocked by policy':t.blocked||0,'Real Graph calls':t.realGraphCalls||0});
+    const bySit=g.bySit||{};
+    upd('sitChart','bar',{labels:Object.keys(bySit),datasets:[{data:Object.values(bySit),backgroundColor:'#7a4cc2',borderRadius:6}]},
+      {indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,ticks:{precision:0}}}});
+    const byLabel=g.byLabel||{};
+    upd('labelChart','doughnut',{labels:Object.keys(byLabel),datasets:[{data:Object.values(byLabel),backgroundColor:Object.keys(byLabel).map(l=>LABEL_COLOR[l]||'#9AA8B6'),borderWidth:2,borderColor:'#fff'}]},
+      {cutout:'60%',plugins:{legend:{position:'right',labels:{boxWidth:11,font:{size:11}}},datalabels:DONUT_LABELS}},[window.ChartDataLabels]);
+
+    $('dspmRows').innerHTML=(g.recent||[]).map(r=>{
+      const sits=(r.sits||[]).map(s=>`<span class="sit">${s.sit} ×${s.count}</span>`).join(' ')||'<span class="u">none</span>';
+      const when=r.createdDateTime? r.createdDateTime.replace('T',' '):'';
+      const pol = r.allowed===false ? '<span class="pol block">blocked</span>' : (r.real?'<span class="pol ok">evaluated</span>':'<span class="pol audit">audit</span>');
+      return `<tr>
+        <td class="mono">${when}</td>
+        <td>${r.activityLabel||r.activity}</td>
+        <td>${r.source||''}${r.managerName?('<div class="u">'+r.managerName+'</div>'):''}</td>
+        <td>${pill(r.label)}</td>
+        <td>${sits}</td>
+        <td>${pol}</td>
+        <td class="prev">${(r.preview||'').replace(/</g,'&lt;')}</td>
+      </tr>`;
+    }).join('')||'<tr><td colspan="7"><div class="empty">No real DSPM activity yet.</div></td></tr>';
+  } else {
+    $('dspmRows').innerHTML='<tr><td colspan="8"><div class="empty">No real Microsoft Purview DSPM activity recorded yet. Live prompt/response and data-access evaluations appear here once the agent runs on a manager\u2019s behalf (Microsoft Graph DSPM — processContent / protectionScopes).</div></td></tr>';
+  }
+  // Keep the full recent set for client-side filtering + drill-down.
+  DSPM_ROWS=(g.recent||[]); DSPM_BY_ID={}; DSPM_ROWS.forEach(r=>{ if(r.id) DSPM_BY_ID[r.id]=r; });
+  syncDspmLabelOptions(); renderDspm();
+
+  $('skillsGrid').innerHTML=(d.skills||[]).map(s=>{
+    const tools=(s.allowedTools||[]).map(t=>`<span class="sit">${t}</span>`).join(' ');
+    return `<div class="skill"><b>${s.name}</b><div class="sd">${s.description}</div>`
+      + (tools?`<div class="sp" style="margin:6px 0">${tools}</div>`:'')
+      + `<div class="sp mono">${s.path}</div></div>`;
+  }).join('');
+}
+
+// ── AI security scenarios (risk -> control) ──────────────────────────
+let SEC_LOADED=false;
+async function loadSecurity(){
+  let d; try{ d=await (await fetch('/api/security/scenarios')).json(); }catch(e){ return; }
+  if(!d || d.error || !d.scenarios) return;
+  const st=d.status||{};
+  $('secCount').textContent=d.scenarios.length;
+  const posture=[];
+  if(st.purviewEnabled) posture.push('DSPM for AI: on');
+  posture.push(st.dlpPolicyConfigured?('DLP policy: '+st.dlpPolicyName):'DLP policy: not yet configured');
+  if(st.agentId) posture.push('Entra Agent ID: set');
+  $('secPosture').textContent=posture.join('  ·  ');
+  $('secRows').innerHTML=d.scenarios.map(s=>{
+    const ctrls=(s.controls||[]).map(c=>`<span class="ctrl ${c.real?'real':'platform'}" title="${(c.detail||'').replace(/"/g,'&quot;')}">${c.layer}${c.real?'':' (platform)'}</span>`).join(' ');
+    return `<tr data-id="${s.id}">
+      <td><span class="act">${s.title}</span><span class="mapsto">${s.agent_activity}</span></td>
+      <td>${s.risk}</td>
+      <td>${s.control_summary}<div style="margin-top:6px">${ctrls}</div></td>
+      <td><button class="runbtn" onclick="runScenario('${s.id}',this)">Run demo</button></td>
+    </tr>`;
+  }).join('');
+  SEC_LOADED=true;
+}
+async function runScenario(id,btn){
+  const box=$('secResult');
+  if(btn){ btn.disabled=true; btn.textContent='Running…'; }
+  let r; try{ r=await (await fetch('/api/security/scenarios/'+id+'/simulate',{method:'POST'})).json(); }
+  catch(e){ r={error:String(e)}; }
+  if(btn){ btn.disabled=false; btn.textContent='Run demo'; }
+  box.style.display='';
+  if(r.error){ box.innerHTML='<div class="empty">'+r.error+'</div>'; return; }
+  const outClass = r.outcome==='blocked' ? 'blocked' : 'verified';
+  const outLabel = r.outcome==='blocked' ? 'Blocked' : (r.outcome==='verified'?'Verified':r.outcome);
+  const purview = r.purviewReal ? '<span class="pol ok" title="A real Microsoft Purview Graph processContent call recorded this attempt">recorded in Purview DSPM</span>' : '';
+  const dets=(r.detections||[]).map(x=>'• '+String(x).replace(/</g,'&lt;')).join('\n')||'(none)';
+  box.innerHTML =
+    `<div class="secres-head"><span class="secres-out ${outClass}">${outLabel}</span>`
+    + `<b style="font-size:13px;color:var(--navy)">${r.title||id}</b>${purview}</div>`
+    + `<div style="font-size:12.5px;color:var(--ink,#1a2530);line-height:1.5">${r.headline||''}</div>`
+    + `<div class="secres-det"><b>Synthetic attempt (safe, never sent):</b>\n${(r.attempt||'').replace(/</g,'&lt;')}\n\n<b>What the control caught:</b>\n${dets}</div>`;
+  box.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// Technical view is owner-only — verify identity, then either gate (inline, no
+// cross-tab navigation) or render. The Manager tab is the universal one.
+(async function(){
+  let me;
+  try{ me = await window.CSMIdentity.whoami(true); }catch(e){ me = {}; }
+  const u=(me&&me.user)||{};
+  $('ownName').textContent=u.name||'—';
+  $('ownAva').textContent=(u.name||'··').split(' ').map(s=>s[0]).slice(0,2).join('');
+  if(!u.isOwner){
+    $('gate').style.display='';
+    $('gateMsg').innerHTML = (u.roles&&u.roles.length)
+      ? 'This view is for the programme sponsor. Open the <b>Manager</b> tab to see your CSM Autopilot cockpit.'
+      : 'Your account isn\u2019t mapped to a CSM Autopilot yet.';
+    return;
+  }
+  $('ownRole').textContent=u.roles?u.roles.join(' · '):'';
+  $('content').style.display='';
+  loadTechnical();
+  loadSecurity();
+  setInterval(loadTechnical,5000);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.25/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.25",
+  "version": "1.1.2",
+  "id": "${{TEAMS_APP_ID}}",
+  "developer": {
+    "name": "CSM Autopilot",
+    "websiteUrl": "https://${{AGENT_DOMAIN}}",
+    "privacyUrl": "https://${{AGENT_DOMAIN}}/privacy",
+    "termsOfUseUrl": "https://${{AGENT_DOMAIN}}/terms"
+  },
+  "name": {
+    "short": "CSM Autopilot",
+    "full": "CSM Autopilot — Digital Customer Success Teammate"
+  },
+  "description": {
+    "short": "Dashboards for the Digital CSM teammate: programme, cockpit and governance.",
+    "full": "CSM Autopilot is a Digital Customer Success Manager AI teammate. It has its own Agent 365 identity and acts on behalf of its assigned CSM (its manager) to monitor product adoption signals, build customer context, decide the next best action from approved rules, draft personalised outreach from approved content in the CSM's voice, and route anything needing judgment to the CSM review queue. This app surfaces the teammate's work as tabs: a Sponsor programme dashboard, a Manager cockpit, and a Technical / governance view (identity, observability and Microsoft Purview)."
+  },
+  "icons": {
+    "outline": "outline.png",
+    "color": "color.png"
+  },
+  "accentColor": "#0A2540",
+  "permissions": [
+    "identity"
+  ],
+  "staticTabs": [
+    {
+      "entityId": "sponsor",
+      "name": "Sponsor",
+      "contentUrl": "https://${{AGENT_DOMAIN}}/sponsor",
+      "websiteUrl": "https://${{AGENT_DOMAIN}}/sponsor",
+      "scopes": [
+        "personal"
+      ]
+    },
+    {
+      "entityId": "manager",
+      "name": "Manager",
+      "contentUrl": "https://${{AGENT_DOMAIN}}/manager",
+      "websiteUrl": "https://${{AGENT_DOMAIN}}/manager",
+      "scopes": [
+        "personal"
+      ]
+    },
+    {
+      "entityId": "technical",
+      "name": "Technical",
+      "contentUrl": "https://${{AGENT_DOMAIN}}/technical",
+      "websiteUrl": "https://${{AGENT_DOMAIN}}/technical",
+      "scopes": [
+        "personal"
+      ]
+    }
+  ],
+  "webApplicationInfo": {
+    "id": "${{BOT_ID}}",
+    "resource": "api://${{AGENT_DOMAIN}}/${{BOT_ID}}"
+  },
+  "defaultInstallScope": "personal",
+  "validDomains": [
+    "${{AGENT_DOMAIN}}"
+  ]
+}

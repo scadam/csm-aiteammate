@@ -1,0 +1,11 @@
+[project]
+name = "csm-aiteammate"
+version = "0.1.0"
+description = "Digital Customer Success Manager — an Agent 365 AI Teammate"
+requires-python = ">=3.10"
+readme = "README.md"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+asyncio_mode = "auto"

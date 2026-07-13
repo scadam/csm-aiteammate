@@ -1,0 +1,9 @@
+{
+  "tenantId": "8030d928-e557-4a4c-ae1e-95c1c4125eaa",
+  "clientAppId": "fa39c649-52d4-408c-bc64-c9f9882ecb96",
+  "agentIdentityDisplayName": "CSM Autopilot Identity",
+  "agentBlueprintDisplayName": "CSM Autopilot Blueprint",
+  "agentDescription": "CSM Autopilot",
+  "aiTeammate": false,
+  "useBlueprint": true
+}

@@ -1,0 +1,9 @@
+[
+  {
+    "owner_id": "owner-svasireddy",
+    "upn": "svasireddy@M365CPI81302533.onmicrosoft.com",
+    "entra_object_id": "44f6b89e-de3e-4afe-a77a-d75fdcd2785c",
+    "display_name": "Siva Vasireddy",
+    "manages": ["csm-svasireddy", "csm-cora-thomas", "csm-mario-rogers"]
+  }
+]

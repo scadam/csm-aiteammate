@@ -1,0 +1,28 @@
+# CSM Autopilot — agent host (bot) container image.
+#
+# Serves the Microsoft 365 Agents SDK bot endpoint (POST /api/messages) plus the
+# control plane (mounted by start_server). Reasons via the Azure OpenAI
+# tool-calling loop (src/reasoning.py) — the GitHub Copilot SDK is Windows-only
+# and is intentionally not installed here.
+
+# Base: python:3.12-slim (Docker Hub) — the canonical, reliable Python base. (Previously
+# mcr.microsoft.com/devcontainers/python:3.12; switched off MCR for build reliability.)
+FROM python:3.12-slim-bookworm
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PORT=8080
+
+WORKDIR /app
+
+COPY requirements-agent.txt ./
+RUN pip install --upgrade pip && pip install -r requirements-agent.txt
+
+COPY src ./src
+COPY data ./data
+
+EXPOSE 8080
+
+# Runs the bot endpoint + the mounted control plane on 0.0.0.0:8080.
+CMD ["python", "-m", "src.main"]

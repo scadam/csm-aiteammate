@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CSM Autopilot · Manager cockpit</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script src="https://res.cdn.office.net/teams-js/2.31.0/js/MicrosoftTeams.min.js" crossorigin="anonymous"></script>
+<script src="/static/identity.js"></script>
+<style>
+  :root{
+    --navy:#0A2540;--navy-2:#001B2B;--teal:#00A3A1;--teal-bright:#00C2C0;--teal-light:#E6F7F6;
+    --green:#059669;--green-bg:#ECFDF5;--amber:#D97706;--amber-bg:#FFFBEB;--red:#DC2626;--red-bg:#FEF2F2;
+    --blue:#1565C0;--purple:#7a4cc2;--bg:#F7F9FB;--surface:#FFFFFF;--surface-2:#F1F5F9;--border:#E2E8F0;
+    --border-light:#EEF2F6;--text:#0A2540;--muted:#64748B;--dim:#94A3B8;--logo-border:rgba(255,255,255,.25);
+    --shadow:0 1px 3px rgba(2,23,43,.06),0 1px 2px rgba(2,23,43,.04);--shadow-lg:0 8px 30px rgba(2,23,43,.12);
+    --radius:8px;--radius-sm:6px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Inter,Arial,sans-serif;background:var(--bg);
+       color:var(--text);font-size:13px;min-height:100vh}
+  a{color:var(--teal);text-decoration:none}
+  ::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-thumb{background:#cfd8e0;border-radius:6px}
+  .topbar{height:48px;background:var(--navy-2);border-top:3px solid var(--teal);display:flex;align-items:center;gap:16px;padding:0 22px;
+          position:sticky;top:0;z-index:30;box-shadow:0 2px 12px rgba(2,23,43,.18)}
+  .brand{display:flex;align-items:center;gap:13px}
+  .brand .word{font-size:13px;font-weight:700;letter-spacing:.16em;color:#fff;border:1.5px solid var(--logo-border);border-radius:4px;padding:3px 9px}
+  .brand .bar{display:none}
+  .brand .product{font-size:12px;font-weight:500;color:rgba(255,255,255,.82);letter-spacing:.02em}
+  .topbar .spacer{flex:1}
+  .who{display:flex;align-items:center;gap:10px;color:#cdd9e1;font-size:12px}
+  .who .ava{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font-weight:800;color:#fff;
+            background:linear-gradient(135deg,var(--teal),var(--teal-bright))}
+  .who b{color:#fff;font-weight:700}
+  select.mgr{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.18);border-radius:8px;
+             padding:7px 10px;font:inherit;font-size:12px;font-weight:600;cursor:pointer}
+  select.mgr option{color:#1A2B3C}
+  .toplink{color:#9fb4c2;font-size:12px;font-weight:600;padding:7px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.14)}
+  .toplink:hover{color:#fff;background:rgba(255,255,255,.07)}
+  .live{display:flex;align-items:center;gap:7px;color:#9fb4c2;font-size:11px;font-weight:600}
+  .live .dot{width:8px;height:8px;border-radius:50%;background:#3FD27E;box-shadow:0 0 0 3px rgba(63,210,126,.2);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  .wrap{max-width:1480px;margin:0 auto;padding:12px 22px 30px}
+
+  /* hero (compact) */
+  .hero{display:flex;align-items:center;gap:16px;background:linear-gradient(120deg,var(--navy),#013F54 70%,#015668);
+        border-radius:var(--radius);padding:12px 18px;color:#fff;box-shadow:var(--shadow-lg);position:relative;
+        overflow:hidden;margin-bottom:12px}
+  .hero::after{content:'';position:absolute;right:-60px;top:-80px;width:220px;height:220px;border-radius:50%;
+               background:radial-gradient(circle,rgba(0,184,199,.26),transparent 70%)}
+  .hero .orb{width:44px;height:44px;border-radius:12px;flex-shrink:0;display:grid;place-items:center;font-size:17px;
+             font-weight:800;background:linear-gradient(135deg,var(--teal),var(--teal-bright));box-shadow:0 6px 18px rgba(0,151,169,.4);z-index:1}
+  .hero-id{min-width:0;z-index:1}
+  .hero h1{font-size:17px;font-weight:800;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .hero .role{font-size:11px;color:#9fd9e2;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:560px}
+  .hero-right{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:7px;z-index:1}
+  .hero .state-row{display:flex;align-items:center;gap:10px}
+  .hero .s{font-size:10.5px;font-weight:750;padding:4px 11px;border-radius:20px;background:rgba(255,255,255,.14)}
+  .hero .s.running{background:rgba(240,178,74,.24);color:#FFD58A}
+  .hero .s.needs_review{background:rgba(122,76,194,.3);color:#E5D5FF}
+  .hero .s.idle{background:rgba(63,210,126,.2);color:#9DF0BE}
+  .hero .act{font-size:11.5px;color:#bfe6ec;min-height:0;display:flex;align-items:center;gap:8px;justify-content:flex-end}
+  .hero .act .spin{width:11px;height:11px;border:2px solid rgba(255,213,138,.4);border-top-color:#FFD58A;border-radius:50%;animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .hero-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+  .btn{font:inherit;font-weight:750;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);
+       color:var(--navy);padding:9px 16px;cursor:pointer;transition:.12s;display:inline-flex;align-items:center;gap:7px}
+  .btn:hover{border-color:var(--teal);color:var(--teal)}
+  .btn.primary{background:var(--teal);border-color:var(--teal);color:#fff}
+  .btn.primary:hover{background:#007e8d;color:#fff}
+  .btn.ghost{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25);color:#fff}
+  .btn.ghost:hover{background:rgba(255,255,255,.18);color:#fff}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+
+  /* kpis */
+  .kpis{display:grid;grid-template-columns:repeat(9,1fr);gap:11px;margin-bottom:6px}
+  .kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:13px 14px;
+       box-shadow:var(--shadow);position:relative;overflow:hidden}
+  .kpi::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--teal)}
+  .kpi.green::before{background:var(--green)}.kpi.amber::before{background:var(--amber)}
+  .kpi.purple::before{background:var(--purple)}.kpi.navy::before{background:var(--navy)}.kpi.red::before{background:var(--red)}
+  .kpi .val{font-size:21px;font-weight:800;color:var(--navy);line-height:1.05;letter-spacing:-.02em}
+  .kpi .lbl{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;margin-top:6px}
+  .kpi .sub{font-size:9.5px;color:var(--dim);margin-top:2px}
+
+  .section{font-size:12px;font-weight:750;color:var(--navy);text-transform:uppercase;letter-spacing:.04em;
+           margin:16px 2px 10px;display:flex;align-items:center;gap:9px}
+  .section .count{color:var(--dim);font-weight:600}
+  .section .act{margin-left:auto;font-size:11px;font-weight:700;color:var(--teal);cursor:pointer;text-transform:none}
+  .section .tag{font-size:10px;font-weight:700;color:var(--purple);background:#f5efff;padding:3px 9px;border-radius:20px;text-transform:none}
+
+  .grid{display:grid;grid-template-columns:1.6fr 1fr;gap:16px;align-items:start}
+  @media(max-width:1120px){.grid{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(4,1fr)}}
+
+  /* accounts — searchable / sortable / filterable list (scales to a big book) */
+  .acct-toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:9px}
+  .acct-toolbar input.search{flex:1;min-width:150px;font:inherit;font-size:12px;padding:8px 11px;border:1px solid var(--border);
+        border-radius:var(--radius-sm);background:var(--surface);color:var(--text)}
+  .acct-toolbar input.search:focus{outline:none;border-color:var(--teal)}
+  .acct-toolbar select.sort{font:inherit;font-size:12px;font-weight:600;padding:8px 10px;border:1px solid var(--border);
+        border-radius:var(--radius-sm);background:var(--surface);color:var(--navy);cursor:pointer}
+  .acct-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:9px}
+  .fchip{font-size:10px;font-weight:700;padding:4px 11px;border-radius:20px;background:var(--surface);color:var(--muted);
+        border:1px solid var(--border);cursor:pointer;transition:.12s;user-select:none}
+  .fchip:hover{border-color:var(--teal);color:var(--teal)}
+  .fchip.on{background:var(--navy);border-color:var(--navy);color:#fff}
+  .accts{display:flex;flex-direction:column;gap:8px;max-height:430px;overflow-y:auto;padding-right:5px}
+  .acct{display:flex;align-items:center;gap:11px;background:var(--surface);border:1px solid var(--border);
+        border-radius:var(--radius-sm);padding:9px 12px;box-shadow:var(--shadow);transition:.15s;cursor:pointer}
+  .acct:hover{box-shadow:var(--shadow-lg);border-color:var(--teal)}
+  .acct.strategic{border-left:3px solid var(--navy)}
+  .acct .sigbadge{flex-shrink:0;text-align:center;min-width:30px}
+  .acct .sigbadge .n{font-size:15px;font-weight:800;line-height:1}
+  .acct .sigbadge .nl{font-size:7.5px;font-weight:700;color:var(--dim);text-transform:uppercase}
+  .acct .sigbadge.crit .n{color:var(--red)}.acct .sigbadge.high .n{color:var(--amber)}
+  .acct .sigbadge.none .n{color:var(--dim)}
+  .acct .ava{width:34px;height:34px;border-radius:9px;flex-shrink:0;display:grid;place-items:center;font-size:12px;
+             font-weight:800;color:#fff;background:linear-gradient(135deg,var(--navy),var(--teal))}
+  .acct .nm{flex:1;min-width:0}
+  .acct .nm b{font-size:13px;font-weight:750;color:var(--navy);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .acct .nm .m{font-size:10px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .acct-row{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+  .acct .health{text-align:center;flex-shrink:0}
+  .acct .health .h{font-size:17px;font-weight:800;line-height:1}
+  .acct .health .hl{font-size:7.5px;font-weight:700;color:var(--dim);text-transform:uppercase}
+  .acct .work{padding:6px 12px;font-size:11px;flex-shrink:0}
+  .chip{font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;background:var(--surface-2);color:var(--muted);border:1px solid var(--border-light)}
+  .chip.prod{background:var(--teal-light);color:#007e8d;border-color:#bde9ee}
+  .chip.frustrated{background:var(--red-bg);color:var(--red)}.chip.positive{background:var(--green-bg);color:var(--green)}
+  .chip.neutral{background:#eef2f5;color:#5d6f7e}
+  .chip.sig{background:var(--amber-bg);color:var(--amber)}
+
+  /* charts quad (2x2) */
+  .quad{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .quad .card{padding:13px}
+  .quad .chart-wrap{height:150px}
+
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+  .card h3{font-size:12.5px;font-weight:750;color:var(--navy);margin-bottom:13px;display:flex;align-items:center;gap:8px}
+  .card h3 .count{color:var(--dim);font-weight:600}
+  .chart-wrap{position:relative;height:180px}
+
+  /* review queue (HITL) */
+  .rq{display:flex;flex-direction:column;gap:11px}
+  .ritem{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--purple);border-radius:var(--radius-sm);
+         padding:13px 14px;box-shadow:var(--shadow);animation:slidein .25s ease}
+  @keyframes slidein{from{opacity:0;transform:translateX(8px)}to{opacity:1;transform:none}}
+  .ritem.High{border-left-color:var(--red)}
+  .ritem-top{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+  .ritem-top b{font-size:12.5px;color:var(--navy);font-weight:750}
+  .ritem-top .pri{margin-left:auto;font-size:9px;font-weight:750;padding:2px 8px;border-radius:20px;background:var(--amber-bg);color:var(--amber)}
+  .ritem-top .pri.High{background:var(--red-bg);color:var(--red)}
+  .ritem .why{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+  .ritem .why .r{font-size:9px;font-weight:700;color:var(--purple);background:#f5efff;padding:2px 7px;border-radius:5px}
+  .ritem .body{font-size:11.5px;color:var(--text);background:var(--surface-2);border:1px solid var(--border-light);
+               border-radius:7px;padding:10px 11px;max-height:96px;overflow:auto;white-space:pre-wrap;line-height:1.5}
+  .ritem-actions{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap}
+  .ritem-actions .btn{padding:6px 13px;font-size:11px;flex:0 0 auto}
+  .btn.accept{background:var(--green);border-color:var(--green);color:#fff}.btn.accept:hover{background:#0b7330;color:#fff}
+  .btn.discard{color:var(--red);border-color:#f3c9c9}.btn.discard:hover{background:var(--red-bg);color:var(--red)}
+  .btn.draft{color:var(--blue);border-color:#c5d8f2}.btn.draft:hover{background:#eef4ff;color:var(--blue)}
+  .btn.preview{color:var(--purple);border-color:#e4d7f7}.btn.preview:hover{background:#f5efff;color:var(--purple)}
+  .ritem.busy{opacity:.5;pointer-events:none}
+
+  /* review-queue toolbar + bulk actions */
+  .rq-toolbar{display:flex;gap:8px;margin-bottom:8px}
+  .rq-toolbar input.search{flex:1;min-width:120px;font:inherit;font-size:12px;padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text)}
+  .rq-toolbar input.search:focus{outline:none;border-color:var(--teal)}
+  .rq-toolbar select.pri{font:inherit;font-size:12px;font-weight:600;padding:7px 9px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--navy);cursor:pointer}
+  .rq-bulk{display:none;align-items:center;gap:7px;flex-wrap:wrap;background:var(--surface-2);border:1px solid var(--border-light);border-radius:var(--radius-sm);padding:8px 10px;margin-bottom:10px}
+  .rq-bulk .lbl{font-size:10.5px;font-weight:750;color:var(--muted);margin-right:2px}
+  .rq-bulk .btn{padding:6px 12px;font-size:11px}
+
+  /* preview modal */
+  .modal{position:fixed;inset:0;background:rgba(0,38,58,.55);display:none;align-items:center;justify-content:center;z-index:120;padding:24px}
+  .modal.show{display:flex;animation:fade .18s}
+  .modal-card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow-lg);width:660px;max-width:96vw;max-height:92vh;display:flex;flex-direction:column;overflow:hidden}
+  .modal-head{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--border);background:var(--navy);color:#fff}
+  .modal-head b{font-size:14px;font-weight:750}
+  .modal-head .sub{font-size:11px;color:#9fb4c2}
+  .modal-head .modal-x{margin-left:auto;cursor:pointer;font-size:18px;color:#9fb4c2;line-height:1}
+  .modal-head .modal-x:hover{color:#fff}
+  .modal-frame{border:0;width:100%;height:64vh;background:var(--bg)}
+  .modal-foot{display:flex;gap:8px;justify-content:flex-end;padding:12px 18px;border-top:1px solid var(--border)}
+
+  /* live journey */
+  .journey{display:none;background:var(--surface);border:1px solid var(--amber);border-radius:var(--radius);
+           box-shadow:var(--shadow-lg);padding:16px;margin-bottom:18px}
+  .journey.show{display:block;animation:fade .25s}
+  @keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+  .journey h3{font-size:13px;font-weight:750;color:var(--navy);display:flex;align-items:center;gap:9px;margin-bottom:14px}
+  .journey h3 .badge{font-size:10px;font-weight:700;color:var(--amber);background:var(--amber-bg);padding:3px 9px;border-radius:20px}
+  .stages{display:flex;gap:6px;margin-bottom:14px}
+  .stg{flex:1;text-align:center;position:relative}
+  .stg .dot{width:26px;height:26px;border-radius:50%;margin:0 auto 6px;display:grid;place-items:center;font-size:11px;
+            font-weight:800;background:#eef2f5;color:var(--dim);border:2px solid var(--border);transition:.2s}
+  .stg.running .dot{background:var(--amber-bg);color:var(--amber);border-color:var(--amber);animation:pop .5s}
+  .stg.done .dot{background:var(--green);color:#fff;border-color:var(--green)}
+  @keyframes pop{0%{transform:scale(.8)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+  .stg .lab{font-size:9px;font-weight:700;color:var(--muted)}
+  .stg.done .lab,.stg.running .lab{color:var(--navy)}
+  .stg::after{content:'';position:absolute;top:13px;left:60%;width:80%;height:2px;background:var(--border)}
+  .stg:last-child::after{display:none}
+  .stg.done::after{background:var(--green)}
+  .feed{font-family:'Cascadia Code',Consolas,monospace;font-size:11px;background:var(--navy-2);color:#bfe6ec;
+        border-radius:8px;padding:12px 14px;max-height:160px;overflow:auto;line-height:1.7}
+  .feed .ln{opacity:0;animation:fade .2s forwards}
+  .feed .t{color:#5d8aa0}.feed .ev{color:#FFD58A;font-weight:700}.feed .tool{color:#7DE0EC}
+
+  .empty{text-align:center;color:var(--dim);padding:26px;font-size:12px}
+  .toast{position:fixed;bottom:22px;right:22px;background:var(--navy);color:#fff;padding:13px 18px;border-radius:10px;
+         box-shadow:var(--shadow-lg);font-size:12.5px;font-weight:600;opacity:0;transform:translateY(12px);transition:.25s;z-index:80}
+  .toast.show{opacity:1;transform:none}
+  .toast .bar{height:3px;border-radius:3px;margin-top:8px;background:linear-gradient(90deg,var(--teal-bright),#55C985)}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="brand"><span class="word">CSM Autopilot</span><span class="product">Manager cockpit</span></div>
+  <div class="spacer"></div>
+  <select class="mgr" id="mgrSwitch" title="View as CSM" style="display:none"></select>
+  <div class="live"><span class="dot"></span><span id="liveLabel">Live</span></div>
+  <div class="who"><div class="ava" id="whoAva">··</div><div><div id="whoName">—</div><div style="font-size:10.5px;color:#9fb4c2" id="whoRole"></div></div></div>
+</div>
+
+<div class="wrap">
+  <div id="bootMsg" style="display:none;margin:18px 0;padding:14px 16px;border-radius:10px;background:#fff;border:1px solid #e3e9ee;color:#1A2B3C;font-size:14px"></div>
+  <!-- hero (compact) -->
+  <div class="hero">
+    <div class="orb" id="heroOrb">··</div>
+    <div class="hero-id">
+      <h1 id="heroName">My CSM Autopilot</h1>
+      <div class="role" id="heroSub">Acting on behalf of —</div>
+    </div>
+    <div class="hero-right">
+      <div class="state-row">
+        <span class="s idle" id="heroState">idle</span>
+        <div class="act" id="heroAct"></div>
+      </div>
+      <div class="hero-actions">
+        <button class="btn primary" id="startBtn" onclick="startTop()">▶ Start working</button>
+        <button class="btn ghost" id="sweepBtn" onclick="sweep()">⚡ Sweep my book</button>
+        <button class="btn ghost" onclick="window.open('/sim/in-product','_blank')">▣ In-product simulator</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- live journey -->
+  <div class="journey" id="journey">
+    <h3>🛰 <span id="jTitle">Working…</span> <span class="badge" id="jModel"></span></h3>
+    <div class="stages" id="jStages"></div>
+    <div class="feed" id="jFeed"></div>
+  </div>
+
+  <!-- kpis -->
+  <div class="kpis" id="kpis"></div>
+
+  <div class="grid">
+    <div>
+      <div class="section">My accounts <span class="count" id="acctCount"></span><span class="act" onclick="load()">↻ refresh</span></div>
+      <div class="acct-toolbar">
+        <input class="search" id="acctSearch" type="search" placeholder="Search accounts, contact, industry, region…" oninput="renderAccountsView()" />
+        <select class="sort" id="acctSort" onchange="renderAccountsView()" title="Sort accounts">
+          <option value="attention">Sort: Needs attention</option>
+          <option value="signals">Most open signals</option>
+          <option value="health">Lowest health</option>
+          <option value="arr">Highest ARR</option>
+          <option value="renewal">Soonest renewal</option>
+          <option value="name">Name (A–Z)</option>
+        </select>
+      </div>
+      <div class="acct-filters" id="acctFilters">
+        <span class="fchip on" data-filter="all" onclick="toggleFilter(this)">All</span>
+        <span class="fchip" data-filter="signals" onclick="toggleFilter(this)">⚑ Open signals</span>
+        <span class="fchip" data-filter="atrisk" onclick="toggleFilter(this)">❤ At risk &lt;50</span>
+        <span class="fchip" data-filter="frustrated" onclick="toggleFilter(this)">😖 Frustrated</span>
+        <span class="fchip" data-filter="strategic" onclick="toggleFilter(this)">★ Strategic</span>
+      </div>
+      <div class="accts" id="accts"></div>
+
+      <div class="section">Activity &amp; insights</div>
+      <div class="quad">
+        <div class="card"><h3>💷 Cost &amp; tokens <span class="count" id="costGrain"></span></h3><div class="chart-wrap"><canvas id="costChart"></canvas></div></div>
+        <div class="card"><h3>❤ Account health mix</h3><div class="chart-wrap"><canvas id="healthChart"></canvas></div></div>
+        <div class="card"><h3>🚦 Signals by severity</h3><div class="chart-wrap"><canvas id="sevChart"></canvas></div></div>
+        <div class="card"><h3>📨 Outreach by channel</h3><div class="chart-wrap"><canvas id="chanChart"></canvas></div></div>
+      </div>
+    </div>
+    <div>
+      <div class="section">Needs your review <span class="count" id="rqCount"></span><span class="tag">Human in the loop</span></div>
+      <div class="rq-toolbar">
+        <input class="search" id="rqSearch" type="search" placeholder="Search review queue…" oninput="renderQueueView()" />
+        <select class="pri" id="rqPriority" onchange="renderQueueView()" title="Filter by priority">
+          <option value="all">All priorities</option>
+          <option value="High">High only</option>
+          <option value="Medium">Medium only</option>
+          <option value="Low">Low only</option>
+        </select>
+      </div>
+      <div class="rq-bulk" id="rqBulk">
+        <span class="lbl">Bulk · <span id="rqBulkN">0</span> shown</span>
+        <button class="btn accept" onclick="bulkDecide('accept')">✓ Accept &amp; send all</button>
+        <button class="btn draft" onclick="bulkDecide('draft')">📥 Save all to Drafts</button>
+        <button class="btn discard" onclick="bulkDecide('discard')">✕ Discard all</button>
+      </div>
+      <div class="rq" id="rq"></div>
+    </div>
+  </div>
+</div>
+
+<!-- email preview modal (must be dismissed) -->
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div><b>Email preview</b><div class="sub" id="modalSub">As the customer will receive it</div></div>
+      <span class="modal-x" onclick="closeModal()" title="Close">✕</span>
+    </div>
+    <iframe id="modalFrame" class="modal-frame" title="Branded email preview" sandbox="allow-popups allow-popups-to-escape-sandbox"></iframe>
+    <div class="modal-foot">
+      <button class="btn draft" onclick="draftFromModal()">📥 Save to Drafts</button>
+      <button class="btn accept" onclick="acceptFromModal()">✓ Accept &amp; send</button>
+      <button class="btn" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const money=n=>'£'+(n>=1e6?(n/1e6).toFixed(2)+'M':n>=1e3?(n/1e3).toFixed(0)+'k':n);
+const fmtNum=n=>(n==null?'0':Number(n).toLocaleString('en-US'));
+const params=new URLSearchParams(location.search);
+let MGR='';            // scope manager id (resolved from identity)
+let IS_OWNER=false;    // can this user view other CSMs / the programme?
+let charts={};
+let running=false;
+let ACCOUNTS=[];       // the manager's full book (filtered/sorted client-side)
+let ACCT_FILTER='all'; // active quick filter chip
+let QUEUE=[];          // the live review queue (reconciled in place — no flashing)
+let BULK_IDS=[];       // actionable ids currently shown (for bulk actions)
+let MODAL_ID=null;     // outcome id currently open in the preview modal
+let _kSig='',_acctSig='',_chSig='';  // section signatures: only re-render on real change
+
+function toast(msg){const t=$('toast');t.innerHTML=msg+'<div class="bar"></div>';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
+function q(){return MGR?('?manager='+encodeURIComponent(MGR)):'';}
+
+async function boot(){
+  // Resolve who is signed in (Teams SSO -> session -> default).
+  let me;
+  try{ me = await window.CSMIdentity.whoami(true); }catch(e){ me = {}; }
+  const u = (me && me.user) || {};
+  IS_OWNER = !!u.isOwner;
+  // A non-owner with no CSM mapping cannot use this cockpit — explain, don't blank.
+  if((!u.roles || u.roles.length===0)){
+    showBoot('Your account isn\u2019t mapped to a CSM Autopilot. <a href="/signin">Choose a demo user</a>.');
+    return;
+  }
+  MGR = (params.get('manager') && IS_OWNER) ? params.get('manager') : (me.scopeManagerId || u.managerId || '');
+
+  // Owners get the "view as" switcher + the programme link; CSMs are locked to self.
+  if(IS_OWNER){
+    try{
+      const m=await (await fetch('/api/managers')).json();
+      const sw=$('mgrSwitch');sw.style.display='';sw.innerHTML='';
+      (m.managers||[]).forEach(x=>{const o=document.createElement('option');o.value=x.manager_id;o.textContent=x.name+' · '+x.accountCount+' accts';if(x.manager_id===MGR)o.selected=true;sw.appendChild(o);});
+      sw.onchange=()=>{MGR=sw.value;history.replaceState(null,'','/manager?manager='+MGR);load();};
+    }catch(e){}
+  }
+  load();
+  setInterval(()=>{if(!running)load();},4000);
+}
+
+function showBoot(html){ const b=$('bootMsg'); if(b){ b.innerHTML=html; b.style.display=''; } }
+
+async function load(){
+  let d;
+  try{ d=await (await fetch('/api/manager/summary'+q())).json(); }
+  catch(e){ showBoot('Could not reach the control plane. Retrying\u2026'); return; }
+  if(d.error){ showBoot('No CSM Autopilot for this user yet.'+(IS_OWNER?' Use the switcher above, or open the <b>Sponsor</b> tab.':'')); return; }
+  $('bootMsg').style.display='none';
+  const mgr=d.manager,ap=d.autopilot,k=d.metrics.kpis,ch=d.metrics.charts;
+  const ri=ap.realInstance;
+  $('whoName').textContent=mgr.name;$('whoRole').textContent=mgr.role;
+  $('whoAva').textContent=ap.avatar;$('heroOrb').textContent=ap.avatar;
+  $('heroName').textContent='CSM Autopilot · '+mgr.name;
+  $('heroSub').innerHTML='Acting on behalf of '+mgr.name+' · '+(mgr.role||'')+(d.owner&&d.owner.name?' · sponsor '+d.owner.name:'')
+    + (ri?(' · <span title="Real Agent 365 instance">\uD83D\uDFE2 '+ri.agentUserUpn+'</span>'):' · <span style="color:#D97706" title="No Agent 365 instance found for this CSM">\u25CB no live instance</span>');
+  const st=$('heroState');st.className='s '+ap.status;st.textContent=ap.status.replace('_',' ');
+  $('heroAct').innerHTML=ap.activity?((ap.status==='running'?'<span class="spin"></span>':'')+ap.activity):'';
+
+  // Only touch the DOM for sections whose data actually changed, so the live 4s
+  // poll never repaints (and never "flashes") an unchanged list. User-driven
+  // renders (search/sort/filter) call the render functions directly, unguarded.
+  const kSig=JSON.stringify(k);
+  if(kSig!==_kSig){_kSig=kSig;renderKpis(k);}
+
+  ACCOUNTS=ap.accounts||[];
+  const acctSig=JSON.stringify(ACCOUNTS.map(a=>[a.account_id,a.openSignals,a.topSeverityScore,a.health_score,a.sentiment]));
+  if(acctSig!==_acctSig && document.activeElement!==$('acctSearch')){_acctSig=acctSig;renderAccountsView();}
+
+  QUEUE=d.reviewQueue||[];
+  renderQueueView();  // reconciles by id — smooth, no flashing even when unchanged
+
+  const chSig=JSON.stringify((ch.costTimeseries||{}).points||[])+JSON.stringify(ch.signalsBySeverity)+JSON.stringify(ch.outcomesByChannel)+JSON.stringify(ACCOUNTS.map(a=>a.health_score));
+  if(chSig!==_chSig){_chSig=chSig;drawCharts(ch, ap.accounts);}
+}
+
+function renderKpis(k){
+  const cards=[
+    ['navy',k.accountsCovered,'Accounts','in your book'],
+    ['navy',money(k.arrCovered),'ARR covered',''],
+    ['amber',k.signalsWatched,'Signals','being watched'],
+    ['purple',k.pendingReview,'Need review','human in loop'],
+    ['green',k.autoSent,'Auto-handled','at scale'],
+    ['teal',k.jobsTotal,'Journeys','run'],
+    ['red',k.costPriced===false?(k.tokensTotal?'—':'$0.00'):'$'+(k.costUsd||0).toFixed(2),'Inference cost',fmtNum(k.tokensTotal)+' tokens'+(k.costPriced===false&&k.tokensTotal?' · price n/a':'')],
+    ['',k.avgResponseSec!=null?k.avgResponseSec+'s':'—','Avg response','per journey'],
+    ['green',k.acceptanceRate!=null?k.acceptanceRate+'%':'—','Accepted','your edits kept'],
+  ];
+  $('kpis').innerHTML=cards.map(c=>`<div class="kpi ${c[0]}"><div class="val">${c[1]}</div><div class="lbl">${c[2]}</div><div class="sub">${c[3]}</div></div>`).join('');
+}
+
+function toggleFilter(el){
+  document.querySelectorAll('#acctFilters .fchip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  ACCT_FILTER=el.dataset.filter||'all';
+  renderAccountsView();
+}
+
+// Filter + sort + search the manager's book, then render. At scale (dozens–hundreds
+// of accounts) the CSM needs to find and triage the right account fast, so the list
+// surfaces the accounts that need attention first and is fully searchable.
+function renderAccountsView(){
+  const term=($('acctSearch').value||'').trim().toLowerCase();
+  const sortBy=$('acctSort').value||'attention';
+  let list=ACCOUNTS.slice();
+
+  // quick-filter chips
+  if(ACCT_FILTER==='signals') list=list.filter(a=>(a.openSignals||0)>0);
+  else if(ACCT_FILTER==='atrisk') list=list.filter(a=>(a.health_score||0)<50);
+  else if(ACCT_FILTER==='frustrated') list=list.filter(a=>String(a.sentiment||'').toLowerCase()==='frustrated');
+  else if(ACCT_FILTER==='strategic') list=list.filter(a=>String(a.strategic||'').toLowerCase()==='yes');
+
+  // free-text search across the fields a CSM scans by
+  if(term){
+    list=list.filter(a=>[a.account_name,a.industry,a.region,a.primary_contact,a.tier,(a.products||[]).join(' ')]
+      .join(' ').toLowerCase().includes(term));
+  }
+
+  const cmp={
+    attention:(x,y)=>(y.topSeverityScore||0)-(x.topSeverityScore||0)||(y.openSignals||0)-(x.openSignals||0)||(x.health_score||0)-(y.health_score||0),
+    signals:(x,y)=>(y.openSignals||0)-(x.openSignals||0),
+    health:(x,y)=>(x.health_score||0)-(y.health_score||0),
+    arr:(x,y)=>(y.arr_gbp||0)-(x.arr_gbp||0),
+    renewal:(x,y)=>String(x.renewal_date||'').localeCompare(String(y.renewal_date||'')),
+    name:(x,y)=>String(x.account_name||'').localeCompare(String(y.account_name||'')),
+  }[sortBy];
+  if(cmp) list.sort(cmp);
+
+  $('acctCount').textContent = term||ACCT_FILTER!=='all' ? (list.length+' of '+ACCOUNTS.length) : ACCOUNTS.length;
+  $('accts').innerHTML=list.map(a=>{
+    const hc=a.health_score>=70?'var(--green)':a.health_score>=50?'var(--amber)':'var(--red)';
+    const sent=(a.sentiment||'').toLowerCase();
+    const nm=a.account_name.replace(/'/g,'');
+    const sig=a.openSignals||0;
+    const sigCls=sig===0?'none':(a.topSeverityScore>=5?'crit':a.topSeverityScore>=4?'high':'');
+    return `<div class="acct ${String(a.strategic).toLowerCase()==='yes'?'strategic':''}" onclick="startAccount('${a.account_id}','${nm}')">
+      <div class="sigbadge ${sigCls}" title="${sig} open signal(s)${a.topSeverity?(' · top '+a.topSeverity):''}"><div class="n">${sig}</div><div class="nl">signals</div></div>
+      <div class="ava">${a.avatar}</div>
+      <div class="nm">
+        <b>${a.account_name}</b>
+        <div class="m">${a.industry||''} · ${a.region||''} · 👤 ${a.primary_contact||'—'} · renews ${a.renewal_date||'—'}</div>
+        <div class="acct-row">
+          ${(a.products||[]).map(p=>`<span class="chip prod">${p}</span>`).join('')}
+          <span class="chip ${sent}">${a.sentiment||''}</span>
+          ${String(a.strategic).toLowerCase()==='yes'?'<span class="chip" style="background:#eef;color:#3a4cc2">Strategic</span>':''}
+          <span class="chip">${a.tier}</span>
+        </div>
+      </div>
+      <div class="health"><div class="h" style="color:${hc}">${a.health_score??'—'}</div><div class="hl">health</div></div>
+      <button class="btn primary work" onclick="event.stopPropagation();startAccount('${a.account_id}','${nm}')">Work ▶</button>
+    </div>`;
+  }).join('')||'<div class="empty">No accounts match your search/filter.</div>';
+}
+
+// ── HITL review queue: filter + smooth, keyed reconcile (no flashing) ──
+function filteredQueue(){
+  const term=($('rqSearch').value||'').trim().toLowerCase();
+  const pr=$('rqPriority').value||'all';
+  let list=QUEUE.slice();
+  if(pr!=='all') list=list.filter(it=>(it.priority||'Medium')===pr);
+  if(term) list=list.filter(it=>[it.account_name,it.subject,it.messageType,it.recipient,it.body]
+      .join(' ').toLowerCase().includes(term));
+  const RANK={High:0,Medium:1,Low:2};
+  list.sort((a,b)=>(RANK[a.priority]??1)-(RANK[b.priority]??1)||((a.seeded?1:0)-(b.seeded?1:0)));
+  return list;
+}
+
+function itemHTML(it){
+  const reasons=(it.reviewReasons||[]).map(r=>`<span class="r">${r}</span>`).join('');
+  const body=(it.body||'').slice(0,600);
+  const acts = it.seeded ? '' : `<div class="ritem-actions">
+        <button class="btn accept" onclick="decide('${it.id}','accept')">✓ Accept &amp; send</button>
+        <button class="btn preview" onclick="previewItem('${it.id}')">👁 Preview</button>
+        <button class="btn draft" onclick="decide('${it.id}','draft')">📥 Save to Drafts</button>
+        <button class="btn discard" onclick="decide('${it.id}','discard')">✕ Discard</button>
+      </div>`;
+  return `<div class="ritem-top"><b>${it.account_name||'—'}</b><span class="pri ${it.priority||''}">${it.priority||'Medium'}</span></div>
+      <div style="font-size:10.5px;color:var(--muted);margin-bottom:7px">${it.subject||it.messageType||'Outreach'} · ${it.recipient?('to '+it.recipient):''}</div>
+      ${reasons?`<div class="why">${reasons}</div>`:''}
+      <div class="body">${body||'(draft)'}</div>${acts}`;
+}
+
+function renderQueueView(){
+  const host=$('rq');
+  const list=filteredQueue();
+  $('rqCount').textContent=QUEUE.length;
+
+  // bulk bar: act on the actionable (non-seeded) items currently shown
+  BULK_IDS=list.filter(it=>!it.seeded).map(it=>it.id);
+  $('rqBulkN').textContent=BULK_IDS.length;
+  $('rqBulk').style.display=BULK_IDS.length?'flex':'none';
+
+  if(!list.length){
+    host.innerHTML='<div class="card"><div class="empty">✓ Nothing needs your attention. Your autopilot handled it.</div></div>';
+    return;
+  }
+  // Map existing item nodes by id; drop anything that isn't a keyed .ritem.
+  const existing={};
+  [...host.children].forEach(ch=>{ if(ch.classList&&ch.classList.contains('ritem')&&ch.dataset.id) existing[ch.dataset.id]=ch; else ch.remove(); });
+  const want=new Set(list.map(it=>it.id));
+  Object.keys(existing).forEach(id=>{ if(!want.has(id)){ existing[id].remove(); delete existing[id]; } });
+
+  // Add new + keep order, without recreating unchanged nodes (so no flashing).
+  let prev=null;
+  list.forEach(it=>{
+    let node=existing[it.id];
+    if(!node){
+      node=document.createElement('div');
+      node.className='ritem '+(it.priority||'');
+      node.dataset.id=it.id;
+      node.innerHTML=itemHTML(it);
+      existing[it.id]=node;
+    }
+    const after=prev?prev.nextSibling:host.firstChild;
+    if(node!==after) host.insertBefore(node, after);
+    prev=node;
+  });
+}
+
+async function decide(id,decision){
+  const node=$('rq').querySelector(`.ritem[data-id="${id}"]`);
+  if(node) node.classList.add('busy');
+  try{
+    const r=await (await fetch('/api/review/'+id,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({decision})})).json();
+    QUEUE=QUEUE.filter(x=>x.id!==id);   // it's decided — drop it from the live list
+    renderQueueView();
+    if(decision==='accept') toast(r.status==='delivered'?'✓ Sent in your voice':'⚠ Send failed — '+(r.deliveryDetail||'see logs'));
+    else if(decision==='draft') toast(r.status==='drafted'?'📥 Saved to your Outlook Drafts':'⚠ Draft failed — '+(r.deliveryDetail||'see logs'));
+    else toast('Discarded');
+  }catch(e){ if(node) node.classList.remove('busy'); toast('Action failed — try again'); }
+}
+
+async function bulkDecide(decision){
+  const ids=BULK_IDS.slice();
+  if(!ids.length){toast('Nothing to action in the current filter');return;}
+  const label=decision==='accept'?'Accept & send':decision==='draft'?'Save to Drafts':'Discard';
+  if(!confirm(`${label} ${ids.length} item(s) in the current view?`)) return;
+  $('rqBulk').style.display='none';
+  toast(`Working on ${ids.length} item(s)…`);
+  try{
+    const r=await (await fetch('/api/review/bulk',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({decision,ids})})).json();
+    QUEUE=QUEUE.filter(x=>!ids.includes(x.id));
+    renderQueueView();
+    toast(`${label}: ${r.succeeded} of ${r.requested} done`);
+  }catch(e){ renderQueueView(); toast('Bulk action failed — try again'); }
+}
+
+// ── preview modal (branded HTML; must be dismissed) ──
+function previewItem(id){
+  MODAL_ID=id;
+  const it=QUEUE.find(x=>x.id===id)||{};
+  $('modalSub').textContent=(it.account_name?(it.account_name+' · '):'')+'as the customer will receive it';
+  $('modalFrame').src='/api/email/preview?o='+encodeURIComponent(id);
+  $('modal').classList.add('show');
+}
+function closeModal(){ $('modal').classList.remove('show'); $('modalFrame').src='about:blank'; MODAL_ID=null; }
+function acceptFromModal(){ const id=MODAL_ID; closeModal(); if(id) decide(id,'accept'); }
+function draftFromModal(){ const id=MODAL_ID; closeModal(); if(id) decide(id,'draft'); }
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&$('modal').classList.contains('show')) closeModal(); });
+
+/* ── live runs (SSE) ── */
+const STAGES=[['signal','Signal'],['context','Context'],['action','Action'],['content','Content'],['review','Review'],['delivery','Deliver'],['learning','Learn']];
+function showJourney(title){
+  running=true;$('journey').classList.add('show');$('jTitle').textContent=title;$('jFeed').innerHTML='';
+  $('jStages').innerHTML=STAGES.map(s=>`<div class="stg" id="stg-${s[0]}"><div class="dot">${s[0][0].toUpperCase()}</div><div class="lab">${s[1]}</div></div>`).join('');
+}
+function feed(ev,txt){const f=$('jFeed');const t=new Date().toLocaleTimeString();const d=document.createElement('div');d.className='ln';d.innerHTML=`<span class="t">${t}</span> <span class="ev">${ev}</span> ${txt||''}`;f.appendChild(d);f.scrollTop=f.scrollHeight;}
+
+async function startTop(){await runStream('/api/manager/start'+q(),{trigger:'manual_start'});}
+async function startAccount(id,name){await runStream('/api/manager/start'+q(),{account_id:id,trigger:'manual_start'},name);}
+
+async function runStream(url,body,name){
+  if(running){toast('A journey is already running');return;}
+  $('startBtn').disabled=true;$('sweepBtn').disabled=true;
+  showJourney(name?('Working '+name):'Working top-priority account…');
+  try{
+    const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const reader=res.body.getReader();const dec=new TextDecoder();let buf='';
+    while(true){const {done,value}=await reader.read();if(done)break;buf+=dec.decode(value,{stream:true});
+      const parts=buf.split('\n\n');buf=parts.pop();
+      for(const p of parts){const ev=(p.match(/event: (.*)/)||[])[1];const dm=(p.match(/data: (.*)/s)||[])[1];if(!ev)continue;let data={};try{data=JSON.parse(dm);}catch{}
+        handle(ev,data);}
+    }
+  }catch(e){feed('error',e.message);}
+  finally{running=false;$('startBtn').disabled=false;$('sweepBtn').disabled=false;setTimeout(()=>{$('journey').classList.remove('show');load();},2600);load();}
+}
+function handle(ev,d){
+  if(ev==='status'){$('jModel').textContent=d.model||'';feed('status',d.message);}
+  else if(ev==='stage'){const el=$('stg-'+d.key);if(el){if(d.status==='running'){el.className='stg running';}else{el.className='stg done';}}feed('stage',d.label+' · '+(d.status||''));}
+  else if(ev==='tool_call'||ev==='tool_result'){feed(ev,`<span class="tool">${d.tool}</span> ${d.summary||''}`);}
+  else if(ev==='turn'){feed('turn',(d.modelBacked?'🧠 model draft':'draft')+' · turn '+d.turn);}
+  else if(ev==='outcome'){feed('outcome',d.summary||d.channel);}
+  else if(ev==='result'){feed('result',d.content);}
+  else if(ev==='done'){STAGES.forEach(s=>{const el=$('stg-'+s[0]);if(el&&!el.classList.contains('done'))el.className='stg done';});feed('done','journey complete');toast('Journey complete — check "Needs your review"');}
+  else if(ev==='error'){feed('error',d.message);}
+}
+
+async function sweep(){
+  if(running)return;
+  const r=await (await fetch('/api/manager/sweep'+q(),{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'})).json();
+  toast('⚡ Sweeping '+r.count+' account(s) across your book');
+  let n=0;const iv=setInterval(()=>{load();if(++n>8)clearInterval(iv);},1500);
+}
+
+/* ── charts ── */
+function drawCharts(ch, accts){
+  const sev=ch.signalsBySeverity||{};
+  upd('sevChart','bar',{labels:Object.keys(sev),datasets:[{data:Object.values(sev),backgroundColor:['#D42A2A','#D97706','#0097A9','#9AA8B6'],borderRadius:6}]},{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{precision:0}}}});
+  const chn=ch.outcomesByChannel||{};
+  upd('chanChart','doughnut',{labels:Object.keys(chn).map(prettyChan),datasets:[{data:Object.values(chn),backgroundColor:['#1565C0','#0097A9','#7a4cc2','#0F8B3A','#9AA8B6'],borderWidth:2,borderColor:'#fff'}]},{cutout:'62%',plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10}}},datalabels:DONUT_LABELS}},[window.ChartDataLabels]);
+  // Account health — one bar per account, coloured by band.
+  // Account health MIX — a distribution histogram by band. One bar per account is
+  // unreadable across a real book (dozens–hundreds of accounts), so bucket them
+  // into the bands the CSM acts on: Critical (<50), At risk (50–69), Healthy (70+).
+  const A=(accts||[]);
+  const bands={'Critical <50':0,'At risk 50–69':0,'Healthy 70+':0};
+  A.forEach(a=>{const h=a.health_score||0; if(h<50)bands['Critical <50']++; else if(h<70)bands['At risk 50–69']++; else bands['Healthy 70+']++;});
+  upd('healthChart','bar',{labels:Object.keys(bands),datasets:[{data:Object.values(bands),
+      backgroundColor:['#D42A2A','#D97706','#0F8B3A'],borderRadius:6}]},
+    {plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:'#1A2B3C',font:{weight:'700',size:11}}},
+     scales:{y:{beginAtZero:true,ticks:{precision:0},title:{display:true,text:'accounts',font:{size:9}}}}},[window.ChartDataLabels]);
+  const ts=ch.costTimeseries||{points:[]}; const cp=ts.points||[];
+  const grainTxt={minute:'per minute',hour:'per hour',day:'per day'}[ts.granularity]||'';
+  const gb=$('costGrain'); if(gb){gb.textContent=grainTxt+(ts.priced===false?' · price n/a':'');}
+  upd('costChart','line',{labels:cp.map(p=>p.label),datasets:[
+    {label:'Cost $',data:cp.map(p=>p.cost),borderColor:'#0097A9',backgroundColor:'rgba(0,151,169,.14)',fill:true,tension:.3,yAxisID:'y',pointRadius:cp.length>40?0:2},
+    {label:'Tokens',data:cp.map(p=>p.tokens),borderColor:'#7a4cc2',backgroundColor:'transparent',tension:.3,yAxisID:'y1',pointRadius:0,borderDash:[5,4]}
+  ]},{interaction:{mode:'index',intersect:false},plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10}}},
+      tooltip:{callbacks:{afterBody:(items)=>{const i=items[0]&&items[0].dataIndex;const r=(i!=null&&cp[i])?cp[i].runs:0;return r?('runs: '+r):'';}}}},
+    scales:{x:{ticks:{maxRotation:0,autoSkip:true,maxTicksLimit:8,font:{size:9}}},
+      y:{beginAtZero:true,position:'left',title:{display:true,text:'$',font:{size:9}}},
+      y1:{beginAtZero:true,position:'right',grid:{drawOnChartArea:false},title:{display:true,text:'tokens',font:{size:9}}}}});
+}
+function prettyChan(c){return({email:'Email',in_product:'In-product',csm_review:'CSM review',none:'No action',queued_agent:'Queued'})[c]||c;}
+// On-segment data labels for doughnut charts: show the value + its share, hide zero slices.
+const DONUT_LABELS={color:'#fff',font:{weight:'700',size:11},textStrokeColor:'rgba(0,0,0,.35)',textStrokeWidth:3,
+  formatter:(v,ctx)=>{const d=ctx.chart.data.datasets[0].data||[];const tot=d.reduce((a,b)=>a+(+b||0),0);if(!v||!tot)return '';return v+' ('+Math.round(100*v/tot)+'%)';}};
+function upd(id,type,data,opts,plugins){const el=$(id);if(!el)return;if(charts[id]){charts[id].data=data;charts[id].update('none');return;}charts[id]=new Chart(el,{type,data,options:Object.assign({responsive:true,maintainAspectRatio:false},opts),plugins:(plugins||[]).filter(Boolean)});}
+
+boot();
+</script>
+</body>
+</html>

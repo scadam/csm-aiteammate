@@ -1,0 +1,38 @@
+python-dotenv
+aiohttp
+pydantic
+
+# Microsoft 365 Agents SDK (hosting + auth + activity)
+microsoft-agents-activity
+microsoft-agents-hosting-core
+microsoft-agents-hosting-aiohttp
+microsoft-agents-authentication-msal
+
+# GitHub Copilot SDK (PyPI: github-copilot-sdk, imported as `copilot`)
+github-copilot-sdk
+
+# MCP
+mcp
+
+# Agent 365 Observability SDK (telemetry to the A365 service; see A365_SDK_AND_CLI_GUIDE.md)
+microsoft-agents-a365
+
+# NL-to-SQL over Snowflake — generate SQL with Azure OpenAI.
+# Managed identity ONLY (DefaultAzureCredential); never key-based. NOT Snowflake Cortex.
+# Mirror the lseg-snowflake repo approach.
+openai
+azure-identity
+
+# Snowflake (relational back end; key-pair auth)
+snowflake-connector-python[pandas]
+cryptography
+
+# OpenTelemetry (OTLP/gRPC export to the A365 observability endpoint)
+opentelemetry-api
+opentelemetry-sdk
+opentelemetry-exporter-otlp
+opentelemetry-instrumentation
+opentelemetry-instrumentation-aiohttp-server
+opentelemetry-instrumentation-aiohttp-client
+opentelemetry-instrumentation-requests
+opentelemetry-instrumentation-logging

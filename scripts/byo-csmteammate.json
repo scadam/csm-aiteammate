@@ -1,0 +1,73 @@
+{
+  "serverName": "ext_CsmTeammate",
+  "serverUrl": "https://csmmcp-app.gentlecliff-c251c2e5.swedencentral.azurecontainerapps.io/mcp",
+  "authType": "NoAuth",
+  "description": "Digital CSM teammate: Snowflake, Gainsight, KB, content build.",
+  "publisherName": "CSM Autopilot",
+  "tools": [
+    {
+      "name": "query_csm_database",
+      "description": "Answer a natural-language question about CSM data (signals, accounts, rules, content) by generating and running a read-only SQL query."
+    },
+    {
+      "name": "get_schema",
+      "description": "Return the relational schema available to natural-language queries."
+    },
+    {
+      "name": "write_outcome",
+      "description": "Record a CSM decision (accept/edit/discard) on a review item for the learning loop."
+    },
+    {
+      "name": "search_knowledge_base",
+      "description": "Search a knowledge base: voc, content_library, px_engagement, or csm_voice."
+    },
+    {
+      "name": "get_account_context",
+      "description": "Get account profile, recent feedback, and open review items."
+    },
+    {
+      "name": "create_review_task",
+      "description": "Route a draft or brief to the CSM review queue."
+    },
+    {
+      "name": "send_email",
+      "description": "Send an email outreach (auto-routes to review when the spec requires it)."
+    },
+    {
+      "name": "trigger_in_product_message",
+      "description": "Trigger an approved in-product prompt for a user."
+    },
+    {
+      "name": "get_engagement_history",
+      "description": "Read in-product engagement history (what a user has been shown)."
+    },
+    {
+      "name": "gainsight_rest",
+      "description": "Call a Gainsight NXT REST endpoint directly (Company, Person, Timeline, Cockpit/CTA, PX); returns the real Gainsight response envelope."
+    },
+    {
+      "name": "build_draft",
+      "description": "Generate a draft from approved content in the CSM's voice (Content Build)."
+    },
+    {
+      "name": "detect_signals",
+      "description": "Detect signals at or above the severity threshold for the manager's accounts."
+    },
+    {
+      "name": "decide_next_best_action",
+      "description": "Deterministically decide the next best action for a signal."
+    },
+    {
+      "name": "search_microsoft_365",
+      "description": "Search Microsoft 365 work data (Work IQ) for the manager."
+    },
+    {
+      "name": "ask",
+      "description": "Ask Microsoft 365 Copilot a natural-language question, grounded in work data."
+    },
+    {
+      "name": "list_agents",
+      "description": "List available Microsoft 365 Copilot agents."
+    }
+  ]
+}

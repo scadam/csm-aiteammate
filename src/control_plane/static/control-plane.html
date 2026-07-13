@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CSM Autopilot — Control plane</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --navy: #0A2540; --navy-2: #001B2B; --teal: #00A3A1; --teal-bright: #00C2C0;
+    --teal-light: #E6F7F6; --green: #059669; --green-bg: #ECFDF5; --amber: #D97706;
+    --amber-bg: #FFFBEB; --red: #DC2626; --red-bg: #FEF2F2; --blue: #1565C0;
+    --bg: #F7F9FB; --surface: #FFFFFF; --surface-2: #F1F5F9; --border: #E2E8F0;
+    --border-light: #EEF2F6; --text: #0A2540; --muted: #64748B; --dim: #94A3B8;
+    --logo-border: rgba(255,255,255,.25);
+    --shadow: 0 1px 3px rgba(2,23,43,.06), 0 1px 2px rgba(2,23,43,.04);
+    --shadow-lg: 0 8px 30px rgba(2,23,43,.12);
+    --radius: 8px; --radius-sm: 6px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Inter, Arial, sans-serif;
+         background: var(--bg); color: var(--text); font-size: 13px; display: flex; min-height: 100vh; }
+  a { color: var(--teal); text-decoration: none; }
+  ::-webkit-scrollbar { width: 9px; height: 9px; }
+  ::-webkit-scrollbar-thumb { background: #cfd8e0; border-radius: 6px; }
+
+  /* ── Sidebar ── */
+  .sidebar { width: 212px; background: var(--navy); color: #cdd9e1; flex-shrink: 0;
+             display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; }
+  .brand { padding: 18px 18px 14px; }
+  .brand .accent { height: 3px; border-radius: 3px; margin-bottom: 13px; background: var(--teal); }
+  .brand .word { font-size: 13px; font-weight: 700; letter-spacing: .16em; color: #fff; border: 1.5px solid var(--logo-border); border-radius: 4px; padding: 3px 9px; display: inline-block; }
+  .brand .product { font-size: 12px; font-weight: 600; color: var(--teal-bright); margin-top: 8px; letter-spacing: .02em; }
+  .brand .sub { font-size: 10.5px; color: #7e95a4; margin-top: 2px; }
+  .nav { padding: 6px 10px; flex: 1; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: var(--radius-sm);
+              font-size: 12.5px; font-weight: 600; color: #b6c6d1; cursor: pointer; margin-bottom: 2px; transition: .12s; }
+  .nav-item:hover { background: rgba(255,255,255,.06); color: #fff; }
+  .nav-item.active { background: var(--teal); color: #fff; }
+  .nav-item .ic { width: 16px; text-align: center; opacity: .9; }
+  .nav-item .badge { margin-left: auto; background: rgba(255,255,255,.16); color: #fff; font-size: 10px;
+                     font-weight: 700; min-width: 18px; height: 18px; line-height: 18px; text-align: center;
+                     border-radius: 9px; padding: 0 5px; }
+  .nav-item.active .badge { background: rgba(0,0,0,.18); }
+  .side-foot { padding: 14px 18px; border-top: 1px solid rgba(255,255,255,.08); font-size: 10.5px; color: #7e95a4; }
+  .side-foot .who { color: #cdd9e1; font-weight: 600; }
+
+  /* ── Main ── */
+  .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .topbar { height: 56px; background: var(--surface); border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; gap: 14px; padding: 0 22px; position: sticky; top: 0; z-index: 20; }
+  .topbar h1 { font-size: 16px; font-weight: 750; color: var(--navy); }
+  .topbar .crumb { font-size: 11px; color: var(--muted); }
+  .topbar .spacer { flex: 1; }
+  .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 3px var(--green-bg); }
+  .btn { font: inherit; font-weight: 700; border-radius: var(--radius-sm); border: 1px solid var(--border);
+         background: var(--surface); color: var(--navy); padding: 8px 14px; cursor: pointer; transition: .12s; }
+  .btn:hover { border-color: var(--teal); color: var(--teal); }
+  .btn.primary { background: var(--teal); border-color: var(--teal); color: #fff; }
+  .btn.primary:hover { background: #007e8d; color: #fff; }
+  .btn.navy { background: var(--navy); border-color: var(--navy); color: #fff; }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+
+  .content { padding: 18px 22px 32px; flex: 1; }
+  .view { display: none; }
+  .view.active { display: block; animation: fade .2s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  .section { font-size: 12px; font-weight: 750; color: var(--navy); text-transform: uppercase;
+             letter-spacing: .04em; margin: 22px 2px 11px; display: flex; align-items: center; gap: 8px; }
+  .section .count { color: var(--dim); font-weight: 600; }
+  .section .act { margin-left: auto; font-size: 11px; font-weight: 700; color: var(--teal); cursor: pointer; text-transform: none; }
+
+  /* ── KPI cards ── */
+  .kpis { display: grid; grid-template-columns: repeat(6, 1fr); gap: 11px; }
+  .kpi { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+         padding: 13px 14px; box-shadow: var(--shadow); position: relative; overflow: hidden; }
+  .kpi::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--teal); }
+  .kpi.green::before { background: var(--green); } .kpi.amber::before { background: var(--amber); }
+  .kpi.navy::before { background: var(--navy); } .kpi.purple::before { background: #7a4cc2; }
+  .kpi .val { font-size: 23px; font-weight: 800; color: var(--navy); line-height: 1.05; letter-spacing: -.02em; }
+  .kpi .lbl { font-size: 9.5px; font-weight: 700; color: var(--muted); text-transform: uppercase;
+              letter-spacing: .03em; margin-top: 6px; }
+  .kpi .sub { font-size: 10px; color: var(--dim); margin-top: 2px; }
+
+  /* ── Cards / grids ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .grid-3 { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 14px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+          box-shadow: var(--shadow); padding: 15px 16px; }
+  .card h3 { font-size: 12.5px; font-weight: 750; color: var(--navy); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .card h3 .count { color: var(--dim); font-weight: 600; }
+  .chart-wrap { position: relative; height: 200px; }
+  .chart-wrap.tall { height: 230px; }
+
+  /* ── Fleet ── */
+  .fleet { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 12px; }
+  .ap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+        box-shadow: var(--shadow); padding: 14px; display: flex; flex-direction: column; gap: 11px; transition: .15s; }
+  .ap:hover { box-shadow: var(--shadow-lg); transform: translateY(-1px); }
+  .ap.running { border-color: var(--amber); background: linear-gradient(180deg, #fff, #fffdf6); }
+  .ap.needs_review { border-color: #c9a6f0; }
+  .ap-top { display: flex; align-items: flex-start; gap: 11px; }
+  .ap-avatar { width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0; display: grid; place-items: center;
+               font-size: 14px; font-weight: 800; color: #fff; background: linear-gradient(135deg, var(--navy), var(--teal)); }
+  .ap-id { flex: 1; min-width: 0; }
+  .ap-name { font-size: 13px; font-weight: 750; color: var(--navy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ap-meta { font-size: 10.5px; color: var(--muted); margin-top: 2px; }
+  .ap-state { font-size: 9.5px; font-weight: 750; padding: 3px 9px; border-radius: 20px; flex-shrink: 0;
+              background: var(--surface-2); color: var(--muted); }
+  .ap-state.idle { background: #eef2f5; color: #5d6f7e; }
+  .ap-state.running { background: var(--amber-bg); color: var(--amber); }
+  .ap-state.needs_review { background: #f5efff; color: #7a4cc2; }
+  .ap-stats { display: flex; gap: 14px; font-size: 10.5px; color: var(--muted); }
+  .ap-stats b { color: var(--navy); font-weight: 750; }
+  .ap-act { font-size: 11px; color: var(--teal); font-weight: 600; min-height: 15px; display: flex; align-items: center; gap: 7px; }
+  .ap-act .spin { width: 10px; height: 10px; border: 2px solid #f1d49a; border-top-color: var(--amber); border-radius: 50%; animation: spin .8s linear infinite; }
+  .ap-foot { display: flex; gap: 8px; align-items: center; }
+  .ap-foot .mgr { font-size: 10.5px; color: var(--muted); flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ap-foot .mgr b { color: var(--text); }
+  .ap-foot .btn { padding: 6px 12px; font-size: 11.5px; }
+
+  /* ── Tables ── */
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-size: 9.5px; font-weight: 750; text-transform: uppercase; letter-spacing: .04em;
+       color: #fff; background: var(--navy); padding: 9px 12px; position: sticky; top: 0; }
+  th:first-child { border-radius: 8px 0 0 0; } th:last-child { border-radius: 0 8px 0 0; }
+  td { padding: 9px 12px; border-bottom: 1px solid var(--border-light); font-size: 12px; }
+  tbody tr { cursor: pointer; transition: background .1s; }
+  tbody tr:hover { background: var(--teal-light); }
+  tbody tr:nth-child(even) { background: var(--surface-2); }
+  tbody tr:nth-child(even):hover { background: var(--teal-light); }
+  .pill { font-size: 9.5px; font-weight: 750; padding: 3px 9px; border-radius: 20px; display: inline-block; }
+  .pill.running { background: var(--amber-bg); color: var(--amber); }
+  .pill.complete { background: var(--green-bg); color: var(--green); }
+  .pill.needs_review { background: #f5efff; color: #7a4cc2; }
+  .pill.error { background: var(--red-bg); color: var(--red); }
+  .pill.email { background: #eef4ff; color: var(--blue); }
+  .pill.in_product { background: var(--teal-light); color: #007e8d; }
+  .pill.csm_review { background: #f5efff; color: #7a4cc2; }
+  .pill.none { background: #eef2f5; color: #5d6f7e; }
+  .mono { font-family: 'Cascadia Code', Consolas, monospace; font-size: 11px; color: var(--muted); }
+
+  .empty { text-align: center; color: var(--dim); padding: 26px; font-size: 12px; }
+
+  /* ── Drawer (job detail) ── */
+  .scrim { position: fixed; inset: 0; background: rgba(0,38,58,.34); opacity: 0; pointer-events: none;
+           transition: opacity .2s; z-index: 40; }
+  .scrim.open { opacity: 1; pointer-events: auto; }
+  .drawer { position: fixed; top: 0; right: 0; width: 560px; max-width: 94vw; height: 100vh; background: var(--bg);
+            box-shadow: -10px 0 40px rgba(0,38,58,.18); transform: translateX(100%); transition: transform .24s cubic-bezier(.4,0,.2,1);
+            z-index: 50; display: flex; flex-direction: column; }
+  .drawer.open { transform: none; }
+  .drawer-head { background: var(--navy); color: #fff; padding: 16px 18px; }
+  .drawer-head .accent { height: 3px; border-radius: 3px; margin-bottom: 12px;
+                         background: linear-gradient(90deg, var(--teal-bright), #55C985 48%, #F0B24A); }
+  .drawer-head h2 { font-size: 15px; font-weight: 750; }
+  .drawer-head .meta { font-size: 11px; color: #9fb4c2; margin-top: 4px; }
+  .drawer-head .x { position: absolute; top: 16px; right: 16px; cursor: pointer; color: #9fb4c2; font-size: 18px; }
+  .drawer-body { flex: 1; overflow-y: auto; padding: 16px 18px; }
+  .dstat { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; margin-bottom: 14px; }
+  .dstat .b { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 9px 10px; }
+  .dstat .b .v { font-size: 16px; font-weight: 800; color: var(--navy); }
+  .dstat .b .l { font-size: 9px; color: var(--muted); text-transform: uppercase; margin-top: 3px; }
+  .timeline { list-style: none; position: relative; padding-left: 6px; }
+  .stage { display: flex; gap: 11px; padding: 0 0 14px; position: relative; }
+  .stage:not(:last-child)::before { content: ''; position: absolute; left: 6px; top: 16px; bottom: 0; width: 2px; background: var(--border); }
+  .stage .dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; margin-top: 1px; z-index: 1;
+                background: var(--green); box-shadow: 0 0 0 3px var(--green-bg); }
+  .stage.running .dot { background: var(--amber); box-shadow: 0 0 0 3px var(--amber-bg); animation: pulse 1.2s infinite; }
+  .stage.skipped .dot { background: var(--dim); box-shadow: 0 0 0 3px #eef2f5; }
+  .stage .body { flex: 1; min-width: 0; }
+  .stage .t { font-size: 12px; font-weight: 700; color: var(--navy); }
+  .stage .s { font-size: 11px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+  .draft-box { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--teal);
+               border-radius: 8px; padding: 11px 13px; font-size: 12px; line-height: 1.5; color: var(--text);
+               white-space: pre-wrap; margin-top: 8px; }
+  .drawer-foot { border-top: 1px solid var(--border); padding: 13px 18px; display: flex; gap: 9px; background: var(--surface); }
+
+  /* ── Review queue ── */
+  .review { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid #7a4cc2;
+            border-radius: var(--radius); box-shadow: var(--shadow); padding: 15px 16px; margin-bottom: 12px; }
+  .review .rh { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+  .review .rh .who { font-size: 13px; font-weight: 750; color: var(--navy); }
+  .review .rh .pri { margin-left: auto; }
+  .review .why { font-size: 11px; color: var(--muted); margin-bottom: 9px; }
+  .review textarea { width: 100%; border: 1px solid var(--border); border-radius: 8px; padding: 11px 13px;
+                     font: inherit; font-size: 12px; line-height: 1.5; resize: vertical; min-height: 110px; color: var(--text); }
+  .review .ra { display: flex; gap: 8px; margin-top: 10px; }
+  .toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--navy);
+           color: #fff; padding: 11px 18px; border-radius: 10px; font-size: 12.5px; font-weight: 600; box-shadow: var(--shadow-lg);
+           opacity: 0; pointer-events: none; transition: .25s; z-index: 80; }
+  .toast.show { opacity: 1; transform: translateX(-50%); }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .45; } }
+  @media (max-width: 1200px) { .kpis { grid-template-columns: repeat(3, 1fr); } .grid-3, .grid-2 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="brand">
+    <div class="accent"></div>
+    <div class="word">CSM Autopilot</div>
+    <div class="product">Fleet control plane</div>
+    <div class="sub">Agent 365 teammate</div>
+  </div>
+  <nav class="nav">
+    <div class="nav-item active" data-view="dashboard"><span class="ic">◫</span> Dashboard</div>
+    <div class="nav-item" data-view="fleet"><span class="ic">⛶</span> Fleet <span class="badge" id="bFleet">0</span></div>
+    <div class="nav-item" data-view="jobs"><span class="ic">≣</span> Job history <span class="badge" id="bJobs">0</span></div>
+    <div class="nav-item" data-view="review"><span class="ic">✓</span> Review queue <span class="badge" id="bReview">0</span></div>
+    <div class="nav-item" data-view="outcomes"><span class="ic">✉</span> Outcomes <span class="badge" id="bOut">0</span></div>
+  </nav>
+  <div class="side-foot">
+    Signed in as <span class="who" id="csmName">CSM</span><br />
+    <a href="/sim/in-product" target="_blank">Customer in-product view ↗</a>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div>
+      <h1 id="viewTitle">Dashboard</h1>
+      <div class="crumb" id="viewCrumb">Live fleet activity, business outcomes &amp; cost</div>
+    </div>
+    <div class="spacer"></div>
+    <span class="live-dot"></span><span style="font-size:11px;color:var(--muted);font-weight:600">Live</span>
+    <button class="btn primary" id="startFleet">▶ Start fleet sweep</button>
+  </div>
+
+  <div class="content">
+    <!-- DASHBOARD -->
+    <div class="view active" id="view-dashboard">
+      <div class="kpis" id="kpiRow"></div>
+
+      <div class="grid-3" style="margin-top:16px">
+        <div class="card">
+          <h3>Cost &amp; tokens per job <span class="count" id="costNote"></span></h3>
+          <div class="chart-wrap tall"><canvas id="chartCost"></canvas></div>
+        </div>
+        <div class="card">
+          <h3>Outcomes by channel</h3>
+          <div class="chart-wrap tall"><canvas id="chartChannel"></canvas></div>
+        </div>
+        <div class="card">
+          <h3>Signals by severity</h3>
+          <div class="chart-wrap tall"><canvas id="chartSeverity"></canvas></div>
+        </div>
+      </div>
+
+      <div class="section">Now working <span class="count" id="nowCount">(0)</span></div>
+      <div class="fleet" id="nowGrid"><div class="empty">No autopilots are working right now. Start one from the Fleet, or run a fleet sweep.</div></div>
+
+      <div class="section">Recent jobs <span class="act" data-view="jobs">View all →</span></div>
+      <div class="card" style="padding:0;overflow:hidden">
+        <table><thead><tr><th>Account</th><th>Status</th><th>Outcome</th><th>Turns</th><th>Tokens</th><th>Cost</th><th>When</th></tr></thead>
+        <tbody id="recentJobs"><tr><td colspan="7" class="empty">No jobs yet.</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <!-- FLEET -->
+    <div class="view" id="view-fleet">
+      <div class="section">CSM Autopilots <span class="count" id="fleetCount">(0)</span>
+        <span class="act" id="refreshFleet">Refresh</span></div>
+      <div class="fleet" id="fleetGrid"></div>
+    </div>
+
+    <!-- JOBS -->
+    <div class="view" id="view-jobs">
+      <div class="section">Job history <span class="count" id="jobsCount">(0)</span></div>
+      <div class="card" style="padding:0;overflow:hidden">
+        <table><thead><tr><th>Account</th><th>Status</th><th>Outcome</th><th>Turns</th><th>Tokens</th><th>Cost (GitHub)</th><th>Duration</th><th>When</th></tr></thead>
+        <tbody id="jobsTable"></tbody></table>
+      </div>
+    </div>
+
+    <!-- REVIEW -->
+    <div class="view" id="view-review">
+      <div class="section">Awaiting your review <span class="count" id="reviewCount">(0)</span></div>
+      <div id="reviewList"></div>
+    </div>
+
+    <!-- OUTCOMES -->
+    <div class="view" id="view-outcomes">
+      <div class="section">Delivered &amp; queued outcomes <span class="count" id="outCount">(0)</span></div>
+      <div class="card" style="padding:0;overflow:hidden">
+        <table><thead><tr><th>Account</th><th>Channel</th><th>Subject</th><th>Status</th><th>Recipient</th><th>When</th></tr></thead>
+        <tbody id="outTable"></tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Job drawer -->
+<div class="scrim" id="scrim"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head" style="position:relative">
+    <div class="accent"></div>
+    <span class="x" id="drawerClose">✕</span>
+    <h2 id="dTitle">Job</h2>
+    <div class="meta" id="dMeta"></div>
+  </div>
+  <div class="drawer-body">
+    <div class="dstat" id="dStats"></div>
+    <div style="font-size:11px;font-weight:750;color:var(--navy);text-transform:uppercase;letter-spacing:.04em;margin:4px 0 10px">Adoption journey</div>
+    <ul class="timeline" id="dTimeline"></ul>
+    <div id="dDraftWrap"></div>
+  </div>
+  <div class="drawer-foot">
+    <button class="btn" id="dEvidence">⬇ Evidence pack</button>
+    <button class="btn navy" id="dReview" style="display:none">Open in review queue</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const fmt = (n) => (n ?? 0).toLocaleString();
+const money = (n) => '$' + (n ?? 0).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+const gbp = (n) => '£' + Math.round(n ?? 0).toLocaleString();
+const ago = (ms) => { if (!ms) return '—'; const s = (Date.now()-ms)/1000;
+  if (s < 60) return Math.floor(s)+'s ago'; if (s < 3600) return Math.floor(s/60)+'m ago';
+  if (s < 86400) return Math.floor(s/3600)+'h ago'; return Math.floor(s/86400)+'d ago'; };
+
+let state = { fleet: [], jobs: [], metrics: null, review: [], outcomes: [] };
+let charts = {};
+let activeJobId = null;
+const liveStreams = new Set();
+
+// ── Navigation ──
+$$('.nav-item').forEach(n => n.addEventListener('click', () => switchView(n.dataset.view)));
+$$('[data-view]').forEach(el => { if (!el.classList.contains('nav-item'))
+  el.addEventListener('click', () => switchView(el.dataset.view)); });
+const TITLES = { dashboard: ['Dashboard','Live fleet activity, business outcomes & cost'],
+  fleet: ['Fleet','Every CSM Autopilot and its assigned CSM'], jobs: ['Job history','Every job, with GitHub-priced cost & evidence'],
+  review: ['Review queue','Drafts routed to you for a decision'], outcomes: ['Outcomes','What customers received'] };
+function switchView(v) {
+  $$('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.view === v));
+  $$('.view').forEach(x => x.classList.toggle('active', x.id === 'view-'+v));
+  $('#viewTitle').textContent = TITLES[v][0]; $('#viewCrumb').textContent = TITLES[v][1];
+  if (v === 'review') loadReview(); if (v === 'outcomes') loadOutcomes();
+}
+
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2600); }
+
+// ── Data loading ──
+async function loadAll() {
+  const [fleet, jobs, metrics] = await Promise.all([
+    fetch('/api/fleet').then(r => r.json()).catch(() => []),
+    fetch('/api/jobs').then(r => r.json()).catch(() => []),
+    fetch('/api/metrics').then(r => r.json()).catch(() => null),
+  ]);
+  state.fleet = fleet; state.jobs = jobs; state.metrics = metrics;
+  if (fleet[0]?.manager?.name) $('#csmName').textContent = fleet[0].manager.name;
+  render();
+}
+async function loadReview() { state.review = await fetch('/api/review-queue').then(r=>r.json()).catch(()=>[]); renderReview(); }
+async function loadOutcomes() { state.outcomes = await fetch('/api/outcomes').then(r=>r.json()).catch(()=>[]); renderOutcomes(); }
+
+function render() { renderKpis(); renderCharts(); renderFleet(); renderNow(); renderJobs(); updateBadges(); }
+
+function updateBadges() {
+  $('#bFleet').textContent = state.fleet.length;
+  $('#bJobs').textContent = state.jobs.length;
+  $('#bReview').textContent = state.metrics?.kpis?.pendingReview ?? 0;
+  $('#bOut').textContent = state.metrics?.kpis?.outcomesDelivered ?? 0;
+  $('#fleetCount').textContent = `(${state.fleet.length})`;
+  $('#jobsCount').textContent = `(${state.jobs.length})`;
+}
+
+// ── KPIs ──
+function renderKpis() {
+  const k = state.metrics?.kpis || {};
+  const cards = [
+    { c: '', v: k.fleetSize, l: 'Autopilots', s: k.accountsCovered + ' accounts' },
+    { c: 'amber', v: k.activeNow, l: 'Working now', s: 'live jobs' },
+    { c: 'navy', v: k.jobsTotal, l: 'Jobs run', s: k.jobsCompleted + ' completed' },
+    { c: 'green', v: k.outcomesDelivered, l: 'Outcomes delivered', s: k.autoSent + ' auto-sent' },
+    { c: 'purple', v: k.pendingReview, l: 'Awaiting review', s: (k.acceptanceRate==null?'—':k.acceptanceRate+'% accepted') },
+    { c: '', v: (k.costPriced===false ? '—' : money(k.costUsd)), l: 'Inference cost', s: fmt(k.tokensTotal) + ' tokens' + (k.costPriced===false?' · price n/a':'') },
+  ];
+  $('#kpiRow').innerHTML = cards.map(c => `
+    <div class="kpi ${c.c}"><div class="val">${typeof c.v==='number'?fmt(c.v):(c.v??'—')}</div>
+      <div class="lbl">${c.l}</div><div class="sub">${c.s ?? ''}</div></div>`).join('');
+}
+
+// ── Charts ──
+function renderCharts() {
+  const ch = state.metrics?.charts || {};
+  const NAVY='#00263A', TEAL='#0097A9', TEALB='#00B8C7', GREEN='#55C985', AMBER='#F0B24A', RED='#D42A2A';
+  $('#costNote').textContent = `GitHub premium-request pricing`;
+  // Cost + tokens combo
+  const cs = ch.costSeries || [];
+  const labels = cs.map((_,i) => '#'+(i+1));
+  upsertChart('chartCost', {
+    type: 'bar',
+    data: { labels, datasets: [
+      { type:'line', label:'Cost (USD)', yAxisID:'y', data: cs.map(p=>p.cost), borderColor: TEAL,
+        backgroundColor:'rgba(0,151,169,.12)', fill:true, tension:.35, pointRadius:3, pointBackgroundColor: TEAL, borderWidth:2 },
+      { type:'bar', label:'Tokens', yAxisID:'y1', data: cs.map(p=>p.tokens), backgroundColor:'rgba(0,38,58,.14)', borderRadius:4, barThickness:14 },
+    ]},
+    options: comboOpts()
+  });
+  // Channel doughnut
+  const chan = ch.outcomesByChannel || {};
+  upsertChart('chartChannel', {
+    type: 'doughnut',
+    data: { labels: Object.keys(chan).map(prettyChannel),
+      datasets: [{ data: Object.values(chan), backgroundColor:[TEAL, NAVY, AMBER, GREEN, '#7a4cc2', '#cfd8e0'], borderWidth:2, borderColor:'#fff' }] },
+    options: doughnutOpts()
+  });
+  // Severity bar
+  const sev = ch.signalsBySeverity || {};
+  const order = ['Critical','High','Medium','Low'];
+  const sevLabels = order.filter(o => sev[o] != null);
+  upsertChart('chartSeverity', {
+    type: 'bar',
+    data: { labels: sevLabels, datasets: [{ data: sevLabels.map(l=>sev[l]),
+      backgroundColor: sevLabels.map(l => ({Critical:RED,High:AMBER,Medium:TEAL,Low:GREEN}[l]||TEAL)), borderRadius:6, barThickness:30 }] },
+    options: barOpts()
+  });
+}
+function prettyChannel(c){return ({email:'Email',in_product:'In-product',csm_review:'CSM review',csm_brief:'CSM brief',none:'No action'}[c]||c);}
+function upsertChart(id, cfg) { if (charts[id]) { charts[id].data = cfg.data; charts[id].update('none'); }
+  else charts[id] = new Chart($('#'+id), cfg); }
+function baseLegend(pos='bottom'){return {legend:{position:pos,labels:{boxWidth:10,boxHeight:10,font:{size:10,family:'Segoe UI'},color:'#6B7A8D',padding:10}}};}
+function comboOpts(){return {responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+  plugins:baseLegend('top'),scales:{
+  y:{position:'left',beginAtZero:true,ticks:{color:'#0097A9',font:{size:10},callback:v=>'$'+v.toFixed(2)},grid:{color:'#EaEef2'}},
+  y1:{position:'right',beginAtZero:true,ticks:{color:'#6B7A8D',font:{size:10}},grid:{drawOnChartArea:false}},
+  x:{ticks:{color:'#9AA8B6',font:{size:10}},grid:{display:false}}}};}
+function doughnutOpts(){return {responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:baseLegend('bottom')};}
+function barOpts(){return {responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+  scales:{y:{beginAtZero:true,ticks:{color:'#6B7A8D',font:{size:10},precision:0},grid:{color:'#EaEef2'}},
+  x:{ticks:{color:'#6B7A8D',font:{size:11,weight:'600'}},grid:{display:false}}}};}
+
+// ── Fleet ──
+function apCard(ap) {
+  const running = ap.status === 'running';
+  return `<div class="ap ${ap.status}" data-ap="${ap.id}">
+    <div class="ap-top">
+      <div class="ap-avatar">${ap.avatar}</div>
+      <div class="ap-id"><div class="ap-name">${ap.account_name}</div>
+        <div class="ap-meta">${ap.tier} · ${(ap.products||[]).join(', ')} · ${gbp(ap.arr_gbp)} ARR</div></div>
+      <span class="ap-state ${ap.status}">${ap.status==='needs_review'?'Review':ap.status==='running'?'Working':'Idle'}</span>
+    </div>
+    <div class="ap-stats"><span>Health <b>${ap.health_score ?? '—'}</b></span>
+      <span>Sentiment <b>${ap.sentiment ?? '—'}</b></span><span>Renews <b>${ap.renewal_date ?? '—'}</b></span></div>
+    <div class="ap-act">${running ? `<span class="spin"></span>${ap.activity||'Working…'}` : (ap.activity||'')}</div>
+    <div class="ap-foot"><span class="mgr">CSM <b>${ap.manager?.name||'—'}</b></span>
+      <button class="btn primary" data-start="${ap.id}" ${running?'disabled':''}>${running?'Working…':'▶ Start working'}</button></div>
+  </div>`;
+}
+function renderFleet() { $('#fleetGrid').innerHTML = state.fleet.map(apCard).join(''); bindFleet($('#fleetGrid')); }
+function renderNow() {
+  const now = state.fleet.filter(a => a.status === 'running');
+  $('#nowCount').textContent = `(${now.length})`;
+  $('#nowGrid').innerHTML = now.length ? now.map(apCard).join('')
+    : '<div class="empty">No autopilots are working right now. Start one from the Fleet, or run a fleet sweep.</div>';
+  bindFleet($('#nowGrid'));
+}
+function bindFleet(root) {
+  $$('[data-start]', root).forEach(b => b.addEventListener('click', e => { e.stopPropagation(); startAutopilot(b.dataset.start); }));
+  $$('[data-ap]', root).forEach(c => c.addEventListener('click', () => {
+    const ap = state.fleet.find(a => a.id === c.dataset.ap);
+    if (ap?.currentJobId) openJob(ap.currentJobId);
+  }));
+}
+
+// ── Jobs ──
+function jobRow(j, full) {
+  const o = j.outcome || {};
+  const cost = money(j.stats?.cost_usd);
+  const base = `<td><b>${j.autopilot?.account_name||'—'}</b></td>
+    <td><span class="pill ${j.status}">${labelStatus(j.status)}</span></td>
+    <td>${o.channel?`<span class="pill ${o.channel}">${prettyChannel(o.channel)}</span>`:'—'}</td>
+    <td>${j.stats?.turns ?? 0}</td><td>${fmt(j.stats?.total_tokens)}</td><td><b>${cost}</b></td>`;
+  return `<tr data-job="${j.id}">${base}${full?`<td>${j.stats?.duration?j.stats.duration+'s':'—'}</td>`:''}<td class="mono">${ago(j.startedAt)}</td></tr>`;
+}
+function labelStatus(s){return ({running:'Running',complete:'Complete',needs_review:'Needs review',error:'Error'}[s]||s);}
+function renderJobs() {
+  const recent = state.jobs.slice(0, 6);
+  $('#recentJobs').innerHTML = recent.length ? recent.map(j => jobRow(j, false)).join('')
+    : '<tr><td colspan="7" class="empty">No jobs yet. Start an autopilot.</td></tr>';
+  $('#jobsTable').innerHTML = state.jobs.length ? state.jobs.map(j => jobRow(j, true)).join('')
+    : '<tr><td colspan="8" class="empty">No jobs yet.</td></tr>';
+  $$('[data-job]').forEach(r => r.addEventListener('click', () => openJob(r.dataset.job)));
+}
+
+// ── Start an autopilot (SSE) ──
+async function startAutopilot(apId) {
+  const ap = state.fleet.find(a => a.id === apId);
+  if (ap) { ap.status = 'running'; ap.activity = 'Starting…'; ap.currentJobId = null; renderFleet(); renderNow(); }
+  toast(`${ap?.account_name||'Autopilot'} is starting work…`);
+  const resp = await fetch(`/api/autopilots/${apId}/start`, { method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ trigger: 'manual_start' }) });
+  const reader = resp.body.getReader(); const dec = new TextDecoder(); let buf = '';
+  let jobId = null;
+  while (true) {
+    const { value, done } = await reader.read(); if (done) break;
+    buf += dec.decode(value, { stream:true });
+    const parts = buf.split('\n\n'); buf = parts.pop();
+    for (const part of parts) {
+      const ev = part.match(/^event: (.+)$/m)?.[1]; const dl = part.match(/^data: (.+)$/m)?.[1];
+      if (!ev || !dl) continue; let data; try { data = JSON.parse(dl); } catch { continue; }
+      handleStreamEvent(apId, ev, data);
+      if (ev === 'metadata' && !jobId) { /* job created server-side */ }
+    }
+  }
+  await loadAll();
+  if (activeJobId) { const j = state.jobs.find(x => x.id === activeJobId); if (j) renderDrawer(j); }
+}
+function handleStreamEvent(apId, ev, data) {
+  const ap = state.fleet.find(a => a.id === apId);
+  if (ev === 'status' && ap) ap.activity = data.message;
+  if (ev === 'stage' && ap && data.status === 'running') ap.activity = data.label + '…';
+  if (ev === 'outcome' && ap) ap.activity = data.summary;
+  if (ev === 'done') { /* finalize on reload */ }
+  // live refresh of the "now working" cards + KPIs (lightweight)
+  if (['stage','outcome','done','status'].includes(ev)) { renderNow(); }
+}
+
+// ── Drawer ──
+async function openJob(jobId) {
+  activeJobId = jobId;
+  let job = state.jobs.find(j => j.id === jobId);
+  if (!job) job = await fetch('/api/jobs/'+jobId).then(r=>r.json()).catch(()=>null);
+  if (!job) return;
+  renderDrawer(job);
+  $('#scrim').classList.add('open'); $('#drawer').classList.add('open');
+}
+function closeDrawer(){ $('#scrim').classList.remove('open'); $('#drawer').classList.remove('open'); activeJobId=null; }
+$('#drawerClose').addEventListener('click', closeDrawer); $('#scrim').addEventListener('click', closeDrawer);
+function renderDrawer(job) {
+  $('#dTitle').textContent = job.autopilot?.account_name || 'Job';
+  $('#dMeta').textContent = `${job.title} · CSM ${job.manager?.name||'—'} · ${labelStatus(job.status)}`;
+  const s = job.stats || {};
+  $('#dStats').innerHTML = [
+    ['Turns', s.turns ?? 0], ['Tokens', fmt(s.total_tokens)],
+    ['In/Out', `${fmt(s.prompt_tokens||0)}/${fmt(s.completion_tokens||0)}`],
+    ['Inference cost', (s.priced===false ? 'price n/a' : money(s.cost_usd))],
+  ].map(([l,v]) => `<div class="b"><div class="v">${v}</div><div class="l">${l}</div></div>`).join('');
+  const stages = job.stages || [];
+  $('#dTimeline').innerHTML = stages.length ? stages.map(st => `
+    <li class="stage ${st.status||'done'}"><span class="dot"></span>
+      <div class="body"><div class="t">${st.label}</div><div class="s">${st.summary||''}</div></div></li>`).join('')
+    : '<li class="empty">Journey starting…</li>';
+  const draft = (stages.find(s => s.draft) || {}).draft || job.outcome?.body;
+  $('#dDraftWrap').innerHTML = draft ? `<div style="font-size:11px;font-weight:750;color:var(--navy);text-transform:uppercase;letter-spacing:.04em;margin:14px 0 8px">Outreach draft</div><div class="draft-box">${escapeHtml(draft)}</div>` : '';
+  $('#dEvidence').onclick = () => downloadEvidence(job.id);
+  const needsR = job.status === 'needs_review';
+  $('#dReview').style.display = needsR ? '' : 'none';
+  $('#dReview').onclick = () => { closeDrawer(); switchView('review'); };
+}
+function escapeHtml(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+async function downloadEvidence(jobId) {
+  const data = await fetch(`/api/jobs/${jobId}/evidence`).then(r=>r.json());
+  const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = `csm-autopilot-evidence-${jobId}.json`; a.click(); URL.revokeObjectURL(a.href);
+  toast('Evidence pack downloaded');
+}
+
+// ── Review queue ──
+function renderReview() {
+  $('#reviewCount').textContent = `(${state.review.length})`;
+  $('#bReview').textContent = state.review.length;
+  $('#reviewList').innerHTML = state.review.length ? state.review.map(r => `
+    <div class="review" data-rev="${r.id}">
+      <div class="rh"><span class="who">${r.account_name||'Account'}</span>
+        <span class="pill csm_review">${r.messageType||r.subject||'Review'}</span>
+        <span class="pri pill ${r.priority==='High'?'error':'complete'}">${r.priority||'Medium'}</span></div>
+      <div class="why">${(r.reviewReasons&&r.reviewReasons.length)?('Why review: '+r.reviewReasons.join(', ')):'Routed to you for a decision.'} · To: <b>${r.recipient||'—'}</b></div>
+      <textarea data-edit="${r.id}">${escapeHtml(r.body||'')}</textarea>
+      <div class="ra">
+        <button class="btn primary" data-dec="accept" data-id="${r.id}">✓ Accept &amp; send</button>
+        <button class="btn" data-dec="edit" data-id="${r.id}">✎ Send edited</button>
+        <button class="btn" data-dec="discard" data-id="${r.id}">✕ Discard</button>
+      </div>
+    </div>`).join('') : '<div class="empty">Nothing needs your review. Your autopilots are handling routine outreach automatically.</div>';
+  $$('[data-dec]').forEach(b => b.addEventListener('click', () => decide(b.dataset.id, b.dataset.dec)));
+}
+async function decide(id, decision) {
+  const finalText = $(`textarea[data-edit="${id}"]`)?.value || '';
+  await fetch('/api/review/'+id, { method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ decision, finalText }) });
+  toast(decision === 'discard' ? 'Draft discarded' : 'Sent — and saved to your voice archive');
+  await loadReview(); await loadAll();
+}
+
+// ── Outcomes ──
+function renderOutcomes() {
+  $('#outCount').textContent = `(${state.outcomes.length})`;
+  $('#outTable').innerHTML = state.outcomes.length ? state.outcomes.map(o => `
+    <tr data-out="${o.id}"><td><b>${o.account_name||'—'}</b></td>
+      <td><span class="pill ${o.channel}">${prettyChannel(o.channel)}</span></td>
+      <td>${o.subject||o.summary||'—'}</td>
+      <td><span class="pill ${o.delivered?'complete':(o.requiresReview?'needs_review':'none')}">${o.status||(o.delivered?'delivered':'pending')}</span></td>
+      <td>${o.recipient||'—'}</td><td class="mono">${ago(o.createdAt)}</td></tr>`).join('')
+    : '<tr><td colspan="6" class="empty">No outcomes yet.</td></tr>';
+  $$('[data-out]').forEach(r => r.addEventListener('click', () => {
+    const o = state.outcomes.find(x => x.id === r.dataset.out);
+    if (o?.channel === 'in_product') window.open('/sim/in-product?o='+o.id, '_blank');
+    else if (o?.channel === 'email') window.open('/sim/email?o='+o.id, '_blank');
+    else if (o?.jobId) openJob(o.jobId);
+  }));
+}
+
+// ── Fleet sweep ──
+$('#startFleet').addEventListener('click', async () => {
+  $('#startFleet').disabled = true; $('#startFleet').textContent = 'Sweeping…';
+  await fetch('/api/fleet/start', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({trigger:'fleet_sweep'}) });
+  toast('Fleet sweep started — autopilots are picking up work');
+  setTimeout(() => { $('#startFleet').disabled = false; $('#startFleet').textContent = '▶ Start fleet sweep'; }, 1200);
+});
+$('#refreshFleet').addEventListener('click', loadAll);
+
+// ── Poll ──
+loadAll();
+setInterval(loadAll, 4000);
+</script>
+</body>
+</html>
