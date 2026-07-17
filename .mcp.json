@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "ai-teammate-spec-studio": {
+      "command": "python",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/.github/skills/ai-teammate-solution-builder/scripts/studio-mcp.py"
+      ],
+      "env": {
+        "AI_TEAMMATE_STUDIO_DATA": "${CLAUDE_PLUGIN_DATA}/studio",
+        "AI_TEAMMATE_PLUGIN_ROOT": "${CLAUDE_PLUGIN_ROOT}"
+      }
+    }
+  }
+}

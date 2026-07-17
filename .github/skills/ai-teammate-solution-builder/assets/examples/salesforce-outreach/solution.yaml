@@ -1,0 +1,876 @@
+# yaml-language-server: $schema=../../solution.schema.json
+schema_version: "2.0"
+
+solution:
+  id: salesforce_outreach_teammate
+  name: Customer Outreach Teammate
+  description: Briefs approved Salesforce contacts by email, converts qualified replies into Salesforce Leads, and keeps the assigned manager informed.
+  domain: customer_outreach
+  terms:
+    manager_singular: Outreach manager
+    manager_plural: Outreach managers
+    fleet_singular: Outreach programme
+    subject_singular: Campaign
+    subject_plural: Campaigns
+    work_item_singular: Customer reply
+    work_item_plural: Customer replies
+
+runtime:
+  topology: split
+  python_version: "3.12"
+  agent_host:
+    framework: microsoft_365_agents_sdk
+    transport: aiohttp
+    message_path: /api/messages
+    port_env: AGENT_PORT
+    default_port: 3978
+  control_plane:
+    framework: fastapi
+    port_env: CONTROL_PLANE_PORT
+    default_port: 8000
+  mcp_host:
+    framework: fastmcp
+    transport: streamable_http
+    port_env: MCP_PORT
+    default_port: 8001
+
+agent:
+  display_name: Customer Outreach Teammate
+  role: Digital customer outreach coordinator
+  instructions: >-
+    Work only for the assigned outreach manager. Use approved Salesforce Contact list views as
+    campaign audiences. Respect opt-out, bounce, suppression, consent, review, throttling, and
+    duplicate rules. Send mail and monitor replies only through Microsoft 365 with manager OBO.
+    Use Salesforce client credentials only for CRM data. Never invent product or event claims,
+    expose credentials, bypass human review, or create duplicate Leads.
+  introduction: >-
+    I am your Customer Outreach Teammate. I can prepare and run approved customer briefings,
+    monitor replies, log qualified responses as Salesforce Leads, report progress, and alert you
+    when a lead needs your action.
+  reasoning:
+    provider: azure_openai
+    model_env: AZURE_OPENAI_DEPLOYMENT
+    default_model: gpt-4.1
+    max_tool_steps: 10
+
+identity:
+  development_mode: true
+  principal_header: x-principal-id
+  manager_header: x-manager-id
+  roles_header: x-roles
+  fleet_roles: [outreach_owner, platform_admin]
+  default_principal_id: replace-with-manager-entra-object-id
+  default_manager_id: outreach_manager
+  default_roles: [outreach_manager, outreach_owner]
+  fleet_principals:
+    - principal_id: replace-with-programme-owner-entra-object-id
+      name: Outreach Programme Owner
+      roles: [outreach_owner]
+  service_connection:
+    name: SERVICE_CONNECTION
+  manager_obo:
+    enabled: true
+    handler_id: OBO
+    default_scopes: [api://workiq.svc.cloud.microsoft/WorkIQAgent.Ask]
+  agentic_user:
+    enabled: true
+    handler_id: AGENTIC
+    default_scopes: [https://graph.microsoft.com/.default]
+
+observability:
+  provider: a365
+  service_name: salesforce_outreach_teammate
+  service_namespace: ai_teammates
+  cluster_category: prod
+  instrument_turns: true
+  instrument_tools: true
+  force_flush: true
+
+user_interfaces:
+  mcp_apps:
+    enabled: true
+    mime_type: text/html;profile=mcp-app
+    sandbox: true
+  ag_ui:
+    enabled: true
+    endpoint: /api/ag-ui
+    transport: http_sse
+  resources:
+    - id: outreach_progress
+      title: Outreach campaign progress
+      description: Delivery, reply-processing, lead, and reporting workflow progress.
+      kind: dashboard
+      tool_name: show_outreach_progress
+      resource_uri: ui://salesforce-outreach/outreach-progress
+      surfaces: [control_plane, mcp]
+      audience: manager
+      source: workflow_runs
+      metrics: [total_runs, active_runs, completed_runs, failed_runs, completion_rate]
+      columns: [workflowTitle, subjectId, status, progress, currentStage, updatedAt]
+      filters: [workflowId, subjectId, status]
+      default_sort: {field: updatedAt, direction: desc}
+      bulk_actions: []
+      page_size: 75
+    - id: outreach_approvals
+      title: Outreach approval inbox
+      description: Review exact campaign effects with filtering, sorting, edits, and bulk decisions.
+      kind: hitl
+      tool_name: show_outreach_approvals
+      resource_uri: ui://salesforce-outreach/outreach-approvals
+      surfaces: [control_plane, mcp]
+      audience: manager
+      source: review_queue
+      metrics: [pending_reviews]
+      columns: [workflowTitle, subjectId, capabilityId, proposedEffect, createdAt]
+      filters: [workflowId, subjectId, capabilityId]
+      default_sort: {field: createdAt, direction: asc}
+      bulk_actions: [approve, reject, defer]
+      page_size: 100
+
+teams_app:
+  enabled: true
+  manifest_version: "1.26"
+  package_name: salesforce-outreach-control-plane
+  default_install_scope: personal
+  sso:
+    application_id_source: a365_blueprint
+    delegated_scope: access_agent_as_user
+    token_transport: authorization_bearer
+  tabs:
+    - id: manager
+      name: Outreach Manager
+      path: /manager
+      audience: manager
+    - id: fleet
+      name: Programme
+      path: /fleet
+      audience: fleet
+
+managers:
+  - id: outreach_manager
+    name: Replace With Manager Name
+    principal_id: replace-with-manager-entra-object-id
+    roles: [outreach_manager, outreach_owner]
+    metadata:
+      region: replace-with-region
+      mailbox: replace-with-manager-upn
+
+skills:
+  - id: customer_campaign_outreach
+    title: Customer campaign outreach
+    description: Prepare and deliver approved customer briefings to a Salesforce Contact audience.
+    when_to_use: Use when the manager wants to brief customers about an event, product update, service notice, or other approved topic with a specific ask.
+    instructions: >-
+      Confirm the Salesforce Contact list view, topic, approved facts, specific ask, sender,
+      suppression rules, and required review. Retrieve the audience from Salesforce, draft only
+      from supplied facts, present the exact proposed campaign effect for review, then invoke the
+      policy-governed campaign delivery workflow. Record sent, failed, skipped, and suppressed
+      outcomes per contact.
+    capabilities:
+      - get_contact_list
+      - build_campaign_message
+      - send_campaign_batch
+      - record_campaign_outcome
+    workflows: [launch_outreach_campaign]
+  - id: reply_to_salesforce_lead
+    title: Reply to Salesforce Lead
+    description: Monitor campaign replies, create or update Salesforce Leads, and alert the manager.
+    when_to_use: Use when customer replies are available from the campaign mailbox or a reply event is received.
+    instructions: >-
+      Correlate each reply to a campaign and Salesforce contact using trusted message metadata.
+      Respect unsubscribe and complaint handling before qualification. Use the message internet ID
+      as the durable external key. Upsert the fixed Salesforce Lead fields, record the outcome, and
+      notify the manager with the action requested and a link or ID for the Lead.
+    capabilities:
+      - fetch_campaign_replies
+      - upsert_reply_lead
+      - notify_manager
+      - record_reply_outcome
+    workflows: [monitor_campaign_replies, process_customer_reply]
+  - id: outreach_progress_reporting
+    title: Outreach progress reporting
+    description: Summarize campaign delivery, replies, Leads, and manager actions on a schedule.
+    when_to_use: Use for scheduled or on-demand campaign progress reporting.
+    instructions: >-
+      Read the approved Salesforce Lead progress list view and shared campaign outcomes. Produce a
+      concise factual report: audience, sent, skipped, replies, qualified Leads, status distribution,
+      failures, and overdue manager actions. Notify the assigned manager and persist the report run.
+    capabilities:
+      - get_lead_progress
+      - build_progress_summary
+      - notify_manager
+      - record_progress_report
+    workflows: [report_campaign_progress]
+
+mcp_servers:
+  - id: workiq
+    name: Work IQ MCP
+    endpoint_env: WORKIQ__MCP__ENDPOINT
+    transport: streamable_http
+    auth_mode: manager_obo
+    scopes: [api://workiq.svc.cloud.microsoft/WorkIQAgent.Ask]
+    offline: true
+    timeout_seconds: 30
+    tools:
+      - name: fetch
+        description: Fetch approved Microsoft 365 entities such as mailbox messages.
+        input_schema:
+          type: object
+          additionalProperties: false
+          properties:
+            entityUrls:
+              type: array
+              items: {type: string}
+          required: [entityUrls]
+  - id: outreach_delivery
+    name: Outreach Delivery MCP
+    endpoint_env: OUTREACH_DELIVERY_MCP_ENDPOINT
+    transport: streamable_http
+    auth_mode: manager_obo
+    scopes: [api://workiq.svc.cloud.microsoft/WorkIQAgent.Ask]
+    offline: true
+    timeout_seconds: 120
+    tools:
+      - name: send_campaign_batch
+        description: Send one approved personalized campaign batch through the manager mailbox with durable per-recipient outcomes.
+        input_schema:
+          type: object
+          additionalProperties: false
+          properties:
+            campaign_id: {type: string}
+            topic: {type: string}
+            ask: {type: string}
+            email_subject: {type: string}
+            message_body: {type: string}
+            audience_payload: {type: object}
+            correlation_tag: {type: string}
+            batch_limit: {type: integer}
+          required: [campaign_id, topic, ask, email_subject, message_body, audience_payload, correlation_tag, batch_limit]
+  - id: manager_notifications
+    name: Manager Notification MCP
+    endpoint_env: MANAGER_NOTIFICATION_MCP_ENDPOINT
+    transport: streamable_http
+    auth_mode: agentic_user
+    scopes: [https://graph.microsoft.com/.default]
+    offline: true
+    timeout_seconds: 30
+    tools:
+      - name: notify_manager
+        description: Send a governed Agent 365 notification to the assigned manager.
+        input_schema:
+          type: object
+          additionalProperties: false
+          properties:
+            title: {type: string}
+            message: {type: string}
+            priority: {type: string}
+          required: [title, message, priority]
+
+openapi_sources:
+  - id: salesforce
+    name: Salesforce REST API
+    document: openapi/salesforce-rest.yaml
+    base_url_env: SALESFORCE_INSTANCE_URL
+    allowed_hosts: [your-domain.my.salesforce.com]
+    auth:
+      mode: oauth_client_credentials
+      scopes: []
+      token_url_env: SALESFORCE_TOKEN_URL
+      client_id_env: SALESFORCE_CLIENT_ID
+      client_secret_env: SALESFORCE_CLIENT_SECRET
+    timeout_seconds: 30
+    operations:
+      - operation_id: get_contact_list
+        capability_id: get_contact_list
+        method: GET
+        path: /services/data/v67.0/sobjects/Contact/listviews/{list_view_id}/results
+        description: Retrieve contacts from an approved Salesforce Contact list view.
+        input_schema:
+          type: object
+          additionalProperties: false
+          properties:
+            list_view_id: {type: string, x-in: path}
+            limit: {type: integer, x-in: query}
+            offset: {type: integer, x-in: query}
+          required: [list_view_id]
+        side_effect: false
+        expose: [agent, workflow, mcp]
+        offline_result:
+          done: true
+          id: 00B-replace-contact-list-view-id
+          label: Approved Outreach Contacts
+          size: 2
+          records:
+            - columns:
+                - {fieldNameOrPath: Id, value: 003-contact-1}
+                - {fieldNameOrPath: FirstName, value: Alex}
+                - {fieldNameOrPath: LastName, value: Customer}
+                - {fieldNameOrPath: Email, value: alex.customer@example.com}
+                - {fieldNameOrPath: Account.Name, value: Contoso}
+                - {fieldNameOrPath: HasOptedOutOfEmail, value: false}
+            - columns:
+                - {fieldNameOrPath: Id, value: 003-contact-2}
+                - {fieldNameOrPath: FirstName, value: Morgan}
+                - {fieldNameOrPath: LastName, value: Buyer}
+                - {fieldNameOrPath: Email, value: morgan.buyer@example.com}
+                - {fieldNameOrPath: Account.Name, value: Fabrikam}
+                - {fieldNameOrPath: HasOptedOutOfEmail, value: false}
+      - operation_id: upsert_reply_lead
+        capability_id: upsert_reply_lead
+        method: PATCH
+        path: /services/data/v67.0/sobjects/Lead/Agent_Reply_Key__c/{external_id}
+        description: Idempotently create or update a Salesforce Lead for a customer reply.
+        input_schema:
+          type: object
+          additionalProperties: false
+          properties:
+            external_id: {type: string, x-in: path}
+            body:
+              type: object
+              x-in: body
+              additionalProperties: false
+              properties:
+                FirstName: {type: string}
+                LastName: {type: string}
+                Company: {type: string}
+                Email: {type: string}
+                Description: {type: string}
+                LeadSource: {type: string}
+              required: [LastName, Company]
+          required: [external_id, body]
+        side_effect: true
+        expose: [workflow]
+        offline_result: {id: 00Q-offline-lead, success: true, created: true}
+      - operation_id: get_lead_progress
+        capability_id: get_lead_progress
+        method: GET
+        path: /services/data/v67.0/sobjects/Lead/listviews/{list_view_id}/results
+        description: Retrieve campaign Lead progress from an approved Salesforce Lead list view.
+        input_schema:
+          type: object
+          additionalProperties: false
+          properties:
+            list_view_id: {type: string, x-in: path}
+            limit: {type: integer, x-in: query}
+            offset: {type: integer, x-in: query}
+          required: [list_view_id]
+        side_effect: false
+        expose: [agent, workflow, mcp]
+        offline_result:
+          done: true
+          id: 00B-replace-lead-list-view-id
+          label: Outreach Leads
+          size: 1
+          records:
+            - columns:
+                - {fieldNameOrPath: Id, value: 00Q-offline-lead}
+                - {fieldNameOrPath: Status, value: Open - Not Contacted}
+                - {fieldNameOrPath: Email, value: alex.customer@example.com}
+
+mcp_exposure:
+  enabled: true
+  server_name: ext_OutreachMate
+  tooling_gateway:
+    enabled: true
+    endpoint_env: A365__TOOLING_GATEWAY__MCP_ENDPOINT
+    registration_id_env: A365__TOOLING_GATEWAY__REGISTRATION_ID
+    remote_scope_env: A365__TOOLING_GATEWAY__REMOTE_SCOPE
+
+data_sources:
+  - id: campaigns
+    name: Outreach campaign configuration
+    kind: inline
+    manager_field: manager_id
+    subject_id_field: campaign_id
+    records:
+      - campaign_id: campaign_event_briefing
+        manager_id: outreach_manager
+        name: Customer event briefing
+        campaign_type: event
+        default_contact_list_view_id: 00B-replace-contact-list-view-id
+        default_lead_list_view_id: 00B-replace-lead-list-view-id
+        review_required: true
+        cadence: daily
+      - campaign_id: campaign_product_update
+        manager_id: outreach_manager
+        name: Product update briefing
+        campaign_type: product_update
+        default_contact_list_view_id: 00B-replace-contact-list-view-id
+        default_lead_list_view_id: 00B-replace-lead-list-view-id
+        review_required: true
+        cadence: weekly
+
+capabilities:
+  - id: get_contact_list
+    title: Get approved contact audience
+    description: Retrieve contacts from an approved Salesforce Contact list view.
+    kind: openapi_operation
+    identity_mode: oauth_client_credentials
+    scopes: []
+    side_effect: false
+    review_mode: none
+    input_schema:
+      type: object
+      additionalProperties: false
+      properties:
+        list_view_id: {type: string, x-in: path}
+        limit: {type: integer, x-in: query}
+        offset: {type: integer, x-in: query}
+      required: [list_view_id]
+    expose: [agent, workflow, mcp]
+    timeout_seconds: 30
+    retries: 2
+    openapi_source: salesforce
+    operation_id: get_contact_list
+    offline_result: {done: true, size: 0, records: []}
+  - id: build_campaign_message
+    title: Build grounded customer briefing
+    description: Draft an individualized customer briefing using only the manager-provided approved facts and ask.
+    kind: template
+    identity_mode: managed_identity
+    scopes: [https://cognitiveservices.azure.com/.default]
+    side_effect: false
+    review_mode: none
+    input_schema:
+      type: object
+      additionalProperties: false
+      properties:
+        topic: {type: string}
+        approved_facts: {type: string}
+        ask: {type: string}
+        manager_notes: {type: string}
+        audience_context: {type: object}
+      required: [topic, approved_facts, ask, audience_context]
+    expose: [agent, workflow, mcp]
+    timeout_seconds: 45
+    retries: 1
+    offline_result: Draft customer briefing built only from the approved facts and specific ask.
+  - id: send_campaign_batch
+    title: Send approved campaign batch
+    description: Deliver the reviewed campaign to the validated Salesforce audience through the manager mailbox.
+    kind: mcp_tool
+    identity_mode: manager_obo
+    scopes: [api://workiq.svc.cloud.microsoft/WorkIQAgent.Ask]
+    side_effect: true
+    review_mode: workflow_policy
+    input_schema:
+      type: object
+      additionalProperties: false
+      properties:
+        campaign_id: {type: string}
+        topic: {type: string}
+        ask: {type: string}
+        email_subject: {type: string}
+        message_body: {type: string}
+        audience_payload: {type: object}
+        correlation_tag: {type: string}
+        batch_limit: {type: integer}
+      required: [campaign_id, topic, ask, email_subject, message_body, audience_payload, correlation_tag, batch_limit]
+    expose: [workflow]
+    timeout_seconds: 120
+    retries: 0
+    idempotency: {required: true}
+    server: outreach_delivery
+    tool: send_campaign_batch
+    offline_result:
+      status: simulated
+      sent: 2
+      skipped: 0
+      failed: 0
+  - id: record_campaign_outcome
+    title: Record campaign outcome
+    description: Persist campaign delivery outcomes for progress reporting and audit.
+    kind: state_action
+    identity_mode: managed_identity
+    scopes: [https://storage.azure.com/.default]
+    side_effect: true
+    review_mode: none
+    input_schema:
+      type: object
+      additionalProperties: false
+      properties:
+        campaign_id: {type: string}
+        topic: {type: string}
+        delivery_result: {type: object}
+      required: [campaign_id, topic, delivery_result]
+    expose: [agent, workflow, mcp]
+    timeout_seconds: 10
+    retries: 0
+    idempotency: {required: true}
+    offline_result: {status: recorded}
+  - id: fetch_campaign_replies
+    title: Fetch campaign replies
+    description: Fetch recent mailbox messages through Work IQ for governed campaign correlation.
+    kind: mcp_tool
+    identity_mode: manager_obo
+    scopes: [api://workiq.svc.cloud.microsoft/WorkIQAgent.Ask]
+    side_effect: false
+    review_mode: none
+    input_schema:
+      type: object
+      additionalProperties: false
+      properties:
+        entityUrls:
+          type: array
+          items: {type: string}
+      required: [entityUrls]
+    expose: [agent, workflow, mcp]
+    timeout_seconds: 30
+    retries: 1
+    server: workiq
+    tool: fetch
+    offline_result: {results: [{statusCode: 200, data: {value: []}}]}
+  - id: upsert_reply_lead
+    title: Upsert reply Lead
+    description: Idempotently create or update a Salesforce Lead from a correlated customer reply.
+    kind: openapi_operation
+    identity_mode: oauth_client_credentials
+    scopes: []
+    side_effect: true
+    review_mode: none
+    input_schema:
+      type: object
+      additionalProperties: false
+      properties:
+        external_id: {type: string, x-in: path}
+        body:
+          type: object
+          x-in: body
+          additionalProperties: false
+          properties:
+            FirstName: {type: string}
+            LastName: {type: string}
+            Company: {type: string}
+            Email: {type: string}
+            Description: {type: string}
+            LeadSource: {type: string}
+          required: [LastName, Company]
+      required: [external_id, body]
+    expose: [workflow]
+    timeout_seconds: 30
+    retries: 0
+    idempotency: {required: true}
+    openapi_source: salesforce
+    operation_id: upsert_reply_lead
+    offline_result: {id: 00Q-offline-lead, success: true, created: true}
+  - id: notify_manager
+    title: Notify assigned manager
+    description: Notify the assigned manager of a reply, Lead action, or progress summary.
+    kind: mcp_tool
+    identity_mode: agentic_user
+    scopes: [https://graph.microsoft.com/.default]
+    side_effect: true
+    review_mode: none
+    input_schema:
+      type: object
+      additionalProperties: false
+      properties:
+        title: {type: string}
+        message: {type: string}
+        priority: {type: string}
+      required: [title, message, priority]
+    expose: [workflow]
+    timeout_seconds: 30
+    retries: 0
+    idempotency: {required: true}
+    server: manager_notifications
+    tool: notify_manager
+    offline_result: {status: simulated_notification}
+  - id: record_reply_outcome
+    title: Record reply outcome
+    description: Persist customer reply correlation and Salesforce Lead outcome.
+    kind: state_action
+    identity_mode: managed_identity
+    scopes: [https://storage.azure.com/.default]
+    side_effect: true
+    review_mode: none
+    input_schema:
+      type: object
+      additionalProperties: false
+      properties:
+        campaign_id: {type: string}
+        reply_key: {type: string}
+        lead_result: {type: object}
+        needs_manager_action: {type: boolean}
+      required: [campaign_id, reply_key, lead_result, needs_manager_action]
+    expose: [workflow]
+    timeout_seconds: 10
+    retries: 0
+    idempotency: {required: true}
+    offline_result: {status: recorded}
+  - id: get_lead_progress
+    title: Get Salesforce Lead progress
+    description: Retrieve campaign Lead progress from an approved Salesforce Lead list view.
+    kind: openapi_operation
+    identity_mode: oauth_client_credentials
+    scopes: []
+    side_effect: false
+    review_mode: none
+    input_schema:
+      type: object
+      additionalProperties: false
+      properties:
+        list_view_id: {type: string, x-in: path}
+        limit: {type: integer, x-in: query}
+        offset: {type: integer, x-in: query}
+      required: [list_view_id]
+    expose: [agent, workflow, mcp]
+    timeout_seconds: 30
+    retries: 2
+    openapi_source: salesforce
+    operation_id: get_lead_progress
+    offline_result: {done: true, size: 0, records: []}
+  - id: build_progress_summary
+    title: Build campaign progress summary
+    description: Summarize campaign delivery, replies, Leads, and outstanding actions from approved data.
+    kind: template
+    identity_mode: managed_identity
+    scopes: [https://cognitiveservices.azure.com/.default]
+    side_effect: false
+    review_mode: none
+    input_schema:
+      type: object
+      additionalProperties: false
+      properties:
+        campaign_id: {type: string}
+        lead_payload: {type: object}
+        reporting_period: {type: string}
+      required: [campaign_id, lead_payload, reporting_period]
+    expose: [agent, workflow, mcp]
+    timeout_seconds: 45
+    retries: 1
+    offline_result: Campaign progress summary generated from approved CRM and delivery outcomes.
+  - id: record_progress_report
+    title: Record progress report
+    description: Persist a campaign progress reporting event.
+    kind: state_action
+    identity_mode: managed_identity
+    scopes: [https://storage.azure.com/.default]
+    side_effect: true
+    review_mode: none
+    input_schema:
+      type: object
+      additionalProperties: false
+      properties:
+        campaign_id: {type: string}
+        reporting_period: {type: string}
+        summary: {type: string}
+      required: [campaign_id, reporting_period, summary]
+    expose: [workflow]
+    timeout_seconds: 10
+    retries: 0
+    idempotency: {required: true}
+    offline_result: {status: recorded}
+
+workflows:
+  - id: launch_outreach_campaign
+    title: Launch outreach campaign
+    description: Retrieve the Salesforce audience, draft the briefing, obtain review when required, send the batch, and record outcomes.
+    subject_source: campaigns
+    trigger_modes: [human, agent]
+    review:
+      required_when:
+        - {field: input.require_review, operator: eq, value: true}
+      decisions: [approve, edit, reject, defer]
+    test_cases:
+      review_input:
+        contact_list_view_id: 00B-replace-contact-list-view-id
+        topic: Customer event briefing
+        approved_facts: The manager-approved date, location, agenda, and registration details.
+        ask: Register for the event using the approved link.
+        manager_notes: Keep the message concise and factual.
+        require_review: true
+        email_subject: Invitation to our customer event
+        correlation_tag: outreach-event-test
+        batch_limit: 25
+      automatic_input:
+        contact_list_view_id: 00B-replace-contact-list-view-id
+        topic: Routine approved product update
+        approved_facts: The manager-approved release date and feature description.
+        ask: Review the release notes.
+        manager_notes: Use the approved self-service wording.
+        require_review: false
+        email_subject: Product update
+        correlation_tag: outreach-product-test
+        batch_limit: 25
+    stages:
+      - id: audience
+        title: Audience retrieved
+        type: enrich
+        capability: get_contact_list
+        arguments:
+          list_view_id: {from: input.contact_list_view_id}
+          limit: 200
+          offset: 0
+        on_error: stop
+      - id: draft
+        title: Briefing drafted
+        type: generate
+        capability: build_campaign_message
+        arguments:
+          topic: {from: input.topic}
+          approved_facts: {from: input.approved_facts}
+          ask: {from: input.ask}
+          manager_notes: {from: input.manager_notes}
+          audience_context: {from: results.audience.data}
+        on_error: review
+      - id: review
+        title: Manager review
+        type: review
+        on_error: stop
+      - id: deliver
+        title: Campaign delivered
+        type: act
+        capability: send_campaign_batch
+        arguments:
+          campaign_id: {from: subject.campaign_id}
+          topic: {from: input.topic}
+          ask: {from: input.ask}
+          email_subject: {from: input.email_subject}
+          message_body: {from: results.draft.data}
+          audience_payload: {from: results.audience.data}
+          correlation_tag: {from: input.correlation_tag}
+          batch_limit: {from: input.batch_limit}
+        on_error: stop
+      - id: learn
+        title: Campaign outcome recorded
+        type: learn
+        capability: record_campaign_outcome
+        arguments:
+          campaign_id: {from: subject.campaign_id}
+          topic: {from: input.topic}
+          delivery_result: {from: results.deliver.data}
+        on_error: continue
+  - id: monitor_campaign_replies
+    title: Monitor campaign replies
+    description: Fetch recent mailbox messages for the reply-ingestion worker to correlate and fan out into reply workflows.
+    subject_source: campaigns
+    trigger_modes: [schedule, agent]
+    review:
+      required_when: []
+      decisions: [approve, edit, reject, defer]
+    stages:
+      - id: mailbox
+        title: Mailbox replies fetched
+        type: detect
+        capability: fetch_campaign_replies
+        arguments:
+          entityUrls:
+            - /me/messages?$select=id,subject,from,receivedDateTime,internetMessageId,conversationId,bodyPreview&$filter=isRead eq false&$top=25
+        on_error: stop
+      - id: reply_scan
+        title: Reply scan recorded
+        type: learn
+        capability: record_reply_outcome
+        arguments:
+          campaign_id: {from: subject.campaign_id}
+          reply_key: reply-scan
+          lead_result: {from: results.mailbox.data}
+          needs_manager_action: false
+        on_error: continue
+  - id: process_customer_reply
+    title: Process customer reply
+    description: Upsert the correlated Salesforce Lead, notify the manager, and record the reply outcome.
+    subject_source: campaigns
+    trigger_modes: [event, agent]
+    review:
+      required_when: []
+      decisions: [approve, edit, reject, defer]
+    stages:
+      - id: lead
+        title: Salesforce Lead upserted
+        type: act
+        capability: upsert_reply_lead
+        arguments:
+          external_id: {from: input.reply_key}
+          body:
+            FirstName: {from: input.first_name}
+            LastName: {from: input.last_name}
+            Company: {from: input.company}
+            Email: {from: input.email}
+            Description: {from: input.reply_summary}
+            LeadSource: {from: input.lead_source}
+        on_error: stop
+      - id: manager_notification
+        title: Manager notified
+        type: act
+        capability: notify_manager
+        arguments:
+          title: Customer reply requires attention
+          message: {from: input.manager_alert}
+          priority: {from: input.priority}
+        on_error: continue
+      - id: reply_learning
+        title: Reply outcome recorded
+        type: learn
+        capability: record_reply_outcome
+        arguments:
+          campaign_id: {from: subject.campaign_id}
+          reply_key: {from: input.reply_key}
+          lead_result: {from: results.lead.data}
+          needs_manager_action: {from: input.needs_manager_action}
+        on_error: continue
+  - id: report_campaign_progress
+    title: Report campaign progress
+    description: Retrieve Salesforce Lead progress, build a summary, notify the manager, and record the report.
+    subject_source: campaigns
+    trigger_modes: [schedule, human, agent]
+    review:
+      required_when: []
+      decisions: [approve, edit, reject, defer]
+    stages:
+      - id: progress
+        title: Lead progress retrieved
+        type: enrich
+        capability: get_lead_progress
+        arguments:
+          list_view_id: {from: input.lead_list_view_id}
+          limit: 200
+          offset: 0
+        on_error: stop
+      - id: progress_summary
+        title: Progress summarized
+        type: generate
+        capability: build_progress_summary
+        arguments:
+          campaign_id: {from: subject.campaign_id}
+          lead_payload: {from: results.progress.data}
+          reporting_period: {from: input.reporting_period}
+        on_error: stop
+      - id: progress_notification
+        title: Progress sent to manager
+        type: act
+        capability: notify_manager
+        arguments:
+          title: Outreach campaign progress
+          message: {from: results.progress_summary.data}
+          priority: normal
+        on_error: continue
+      - id: progress_learning
+        title: Progress report recorded
+        type: learn
+        capability: record_progress_report
+        arguments:
+          campaign_id: {from: subject.campaign_id}
+          reporting_period: {from: input.reporting_period}
+          summary: {from: results.progress_summary.data}
+        on_error: continue
+
+control_plane:
+  manager:
+    title: My customer outreach
+    summary_fields: [name, campaign_type, cadence, review_required]
+  fleet:
+    title: Outreach programme
+    summary_fields: [name, campaign_type, cadence, manager_id]
+    metrics: [managers, subjects, active_runs, pending_reviews]
+
+a365:
+  cli_managed: true
+  config_file: a365.config.json
+  manifest_dir: manifest
+  provisioning_commands:
+    - a365 setup requirements
+    - a365 setup blueprint
+    - a365 setup permissions mcp
+    - a365 setup permissions bot

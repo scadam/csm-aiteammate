@@ -1,0 +1,481 @@
+# yaml-language-server: $schema=./solution.schema.json
+schema_version: "2.0"
+
+solution:
+  id: incident_teammate
+  name: Incident Response Teammate
+  description: Coordinates service incident triage for an operations organization.
+  domain: service_reliability
+  terms:
+    manager_singular: Service owner
+    manager_plural: Service owners
+    fleet_singular: Operations portfolio
+    subject_singular: Service
+    subject_plural: Services
+    work_item_singular: Incident
+    work_item_plural: Incidents
+
+runtime:
+  topology: split
+  python_version: "3.12"
+  agent_host:
+    framework: microsoft_365_agents_sdk
+    transport: aiohttp
+    message_path: /api/messages
+    port_env: AGENT_PORT
+    default_port: 3978
+  control_plane:
+    framework: fastapi
+    port_env: CONTROL_PLANE_PORT
+    default_port: 8000
+  mcp_host:
+    framework: fastmcp
+    transport: streamable_http
+    port_env: MCP_PORT
+    default_port: 8001
+
+agent:
+  display_name: Incident Response Teammate
+  role: Digital incident response coordinator
+  instructions: >-
+    Work for the assigned service owner. Detect and enrich incidents, apply declared
+    response policy, prepare grounded updates, and pause for human judgment whenever
+    the workflow requires review. Never invent service facts or bypass authorization.
+  introduction: >-
+    I am your Incident Response Teammate. I coordinate incident context, response
+    decisions, stakeholder updates, and review tasks for the services you own.
+  reasoning:
+    provider: azure_openai
+    model_env: AZURE_OPENAI_DEPLOYMENT
+    default_model: gpt-4.1
+    max_tool_steps: 8
+
+identity:
+  development_mode: true
+  principal_header: x-principal-id
+  manager_header: x-manager-id
+  roles_header: x-roles
+  fleet_roles: [operations_owner, platform_admin]
+  default_principal_id: principal_alex
+  default_manager_id: owner_alex
+  default_roles: [service_owner, operations_owner]
+  fleet_principals:
+    - principal_id: principal_ops
+      name: Operations Programme Owner
+      roles: [operations_owner]
+  service_connection:
+    name: SERVICE_CONNECTION
+  manager_obo:
+    enabled: true
+    handler_id: OBO
+    default_scopes: [api://workiq.svc.cloud.microsoft/WorkIQAgent.Ask]
+  agentic_user:
+    enabled: true
+    handler_id: AGENTIC
+    default_scopes: [https://graph.microsoft.com/.default]
+
+observability:
+  provider: a365
+  service_name: incident_teammate
+  service_namespace: ai_teammates
+  cluster_category: prod
+  instrument_turns: true
+  instrument_tools: true
+  force_flush: true
+
+user_interfaces:
+  mcp_apps:
+    enabled: true
+    mime_type: text/html;profile=mcp-app
+    sandbox: true
+  ag_ui:
+    enabled: true
+    endpoint: /api/ag-ui
+    transport: http_sse
+  resources:
+    - id: incident_progress
+      title: Incident response progress
+      description: Live workflow progress and outcomes for the assigned service owner.
+      kind: dashboard
+      tool_name: show_incident_progress
+      resource_uri: ui://incident-teammate/incident-progress
+      surfaces: [control_plane, mcp]
+      audience: manager
+      source: workflow_runs
+      metrics: [total_runs, active_runs, completed_runs, failed_runs, completion_rate]
+      columns: [workflowTitle, subjectId, status, progress, currentStage, updatedAt]
+      filters: [workflowId, subjectId, status]
+      default_sort: {field: updatedAt, direction: desc}
+      bulk_actions: []
+      page_size: 50
+    - id: incident_approvals
+      title: Incident approval inbox
+      description: Filter, inspect, sort, and resolve policy-gated incident actions.
+      kind: hitl
+      tool_name: show_incident_approvals
+      resource_uri: ui://incident-teammate/incident-approvals
+      surfaces: [control_plane, mcp]
+      audience: manager
+      source: review_queue
+      metrics: [pending_reviews]
+      columns: [workflowTitle, subjectId, capabilityId, proposedEffect, createdAt]
+      filters: [workflowId, subjectId, capabilityId]
+      default_sort: {field: createdAt, direction: asc}
+      bulk_actions: [approve, reject, defer]
+      page_size: 100
+    - id: fleet_progress
+      title: Operations portfolio progress
+      description: Read-only progress across the governed teammate fleet.
+      kind: dashboard
+      tool_name: show_fleet_progress
+      resource_uri: ui://incident-teammate/fleet-progress
+      surfaces: [control_plane]
+      audience: fleet
+      source: workflow_runs
+      metrics: [managers, subjects, total_runs, active_runs, pending_reviews]
+      columns: [managerId, workflowTitle, subjectId, status, progress, updatedAt]
+      filters: [managerId, workflowId, status]
+      default_sort: {field: updatedAt, direction: desc}
+      bulk_actions: []
+      page_size: 100
+
+teams_app:
+  enabled: true
+  manifest_version: "1.26"
+  package_name: incident-teammate-control-plane
+  default_install_scope: personal
+  sso:
+    application_id_source: a365_blueprint
+    delegated_scope: access_agent_as_user
+    token_transport: authorization_bearer
+  tabs:
+    - id: manager
+      name: Manager
+      path: /manager
+      audience: manager
+    - id: fleet
+      name: Fleet
+      path: /fleet
+      audience: fleet
+
+managers:
+  - id: owner_alex
+    name: Alex Morgan
+    principal_id: principal_alex
+    roles: [service_owner, operations_owner]
+    metadata:
+      region: UK
+  - id: owner_sam
+    name: Sam Rivera
+    principal_id: principal_sam
+    roles: [service_owner]
+    metadata:
+      region: EU
+
+skills:
+  - id: incident_coordination
+    title: Incident coordination
+    description: Coordinate a service incident from detection through learning.
+    when_to_use: Use when a service degrades, an incident is reported, or a stakeholder update is needed.
+    instructions: >-
+      Establish the incident and service facts first. Use Microsoft 365 context only
+      with manager OBO. Apply the response policy deterministically. Ground updates
+      in retrieved facts, require review for severe incidents, and record outcomes.
+    capabilities:
+      - find_incidents
+      - search_collaboration
+      - select_response
+      - build_update
+      - create_incident_note
+      - record_learning
+    workflows: [incident_response]
+
+mcp_servers:
+  - id: workiq
+    name: Work IQ MCP
+    endpoint_env: WORKIQ__MCP__ENDPOINT
+    transport: streamable_http
+    auth_mode: manager_obo
+    scopes: [api://workiq.svc.cloud.microsoft/WorkIQAgent.Ask]
+    offline: true
+    timeout_seconds: 30
+    tools:
+      - name: ask
+        description: Ask Microsoft 365 Copilot for collaboration context on the manager's behalf.
+        input_schema:
+          type: object
+          additionalProperties: false
+          properties:
+            question:
+              type: string
+              description: The collaboration question to answer.
+          required: [question]
+
+openapi_sources:
+  - id: incident_api
+    name: Incident system API
+    document: openapi/incident-api.yaml
+    base_url_env: INCIDENT_API_BASE_URL
+    allowed_hosts: [api.incidents.example.com]
+    auth:
+      mode: agentic_user
+      scopes: [api://incident-system/.default]
+    timeout_seconds: 30
+    operations:
+      - operation_id: create_incident_note
+        capability_id: create_incident_note
+        method: POST
+        path: /incidents/{incident_id}/notes
+        description: Add a grounded note to an incident as the teammate.
+        input_schema:
+          type: object
+          additionalProperties: false
+          properties:
+            incident_id:
+              type: string
+              description: Incident identifier.
+              x-in: path
+            body:
+              type: object
+              description: Incident note payload.
+              x-in: body
+              additionalProperties: false
+              properties:
+                message:
+                  type: string
+                audience:
+                  type: string
+              required: [message]
+          required: [incident_id, body]
+        side_effect: true
+        expose: [workflow]
+        offline_result:
+          status: simulated
+          note_id: note_offline_001
+
+mcp_exposure:
+  enabled: true
+  server_name: ext_IncidentMate
+  tooling_gateway:
+    enabled: true
+    endpoint_env: A365__TOOLING_GATEWAY__MCP_ENDPOINT
+    registration_id_env: A365__TOOLING_GATEWAY__REGISTRATION_ID
+    remote_scope_env: A365__TOOLING_GATEWAY__REMOTE_SCOPE
+
+data_sources:
+  - id: services
+    name: Service catalog
+    kind: inline
+    manager_field: owner_id
+    subject_id_field: service_id
+    records:
+      - service_id: svc_payments
+        name: Payments API
+        owner_id: owner_alex
+        tier: critical
+        region: UK
+      - service_id: svc_reference
+        name: Reference Data Pipeline
+        owner_id: owner_sam
+        tier: important
+        region: EU
+  - id: incidents
+    name: Incident feed
+    kind: inline
+    manager_field: owner_id
+    subject_id_field: service_id
+    records:
+      - incident_id: inc_1001
+        service_id: svc_payments
+        owner_id: owner_alex
+        severity: sev1
+        summary: Elevated payment authorization failures.
+
+capabilities:
+  - id: find_incidents
+    title: Find active incidents
+    description: Read active incidents for the selected service.
+    kind: fixture_query
+    identity_mode: none
+    scopes: []
+    side_effect: false
+    review_mode: none
+    input_schema: {type: object, properties: {}, additionalProperties: false}
+    expose: [agent, workflow, mcp]
+    timeout_seconds: 10
+    retries: 0
+    source: incidents
+    offline_result: []
+  - id: search_collaboration
+    title: Search collaboration context
+    description: Ask Work IQ for incident-related Microsoft 365 context on behalf of the service owner.
+    kind: mcp_tool
+    identity_mode: manager_obo
+    scopes: [api://workiq.svc.cloud.microsoft/WorkIQAgent.Ask]
+    side_effect: false
+    review_mode: none
+    input_schema:
+      type: object
+      additionalProperties: false
+      properties:
+        question: {type: string, description: The collaboration question to answer.}
+      required: [question]
+    expose: [agent, workflow, mcp]
+    timeout_seconds: 30
+    retries: 1
+    server: workiq
+    tool: ask
+    offline_result: {answer: Offline collaboration context is unavailable.}
+  - id: select_response
+    title: Select response policy
+    description: Apply deterministic severity and service-tier response rules.
+    kind: rule
+    identity_mode: none
+    scopes: []
+    side_effect: false
+    review_mode: none
+    input_schema: {type: object, properties: {}, additionalProperties: false}
+    expose: [agent, workflow, mcp]
+    timeout_seconds: 10
+    retries: 0
+    offline_result: {response: page_on_call}
+  - id: build_update
+    title: Build stakeholder update
+    description: Produce a grounded incident update from approved facts.
+    kind: template
+    identity_mode: managed_identity
+    scopes: [https://cognitiveservices.azure.com/.default]
+    side_effect: false
+    review_mode: none
+    input_schema:
+      type: object
+      additionalProperties: false
+      properties:
+        facts: {type: string, description: Approved incident facts for the update.}
+    expose: [agent, workflow, mcp]
+    timeout_seconds: 30
+    retries: 0
+    offline_result: Draft stakeholder update generated from approved incident facts.
+  - id: create_incident_note
+    title: Create incident note
+    description: Add a grounded note to the incident system through its OpenAPI contract.
+    kind: openapi_operation
+    identity_mode: agentic_user
+    scopes: [api://incident-system/.default]
+    side_effect: true
+    review_mode: workflow_policy
+    input_schema:
+      type: object
+      additionalProperties: false
+      properties:
+        incident_id: {type: string, description: Incident identifier., x-in: path}
+        body:
+          type: object
+          description: Incident note payload.
+          x-in: body
+          additionalProperties: false
+          properties:
+            message: {type: string}
+            audience: {type: string}
+          required: [message]
+      required: [incident_id, body]
+    expose: [workflow]
+    timeout_seconds: 30
+    retries: 0
+    idempotency: {required: true, header: Idempotency-Key}
+    openapi_source: incident_api
+    operation_id: create_incident_note
+    offline_result: {status: simulated, note_id: note_offline_001}
+  - id: record_learning
+    title: Record outcome
+    description: Write the incident outcome to the learning store.
+    kind: state_action
+    identity_mode: managed_identity
+    scopes: [https://storage.azure.com/.default]
+    side_effect: true
+    review_mode: none
+    input_schema:
+      type: object
+      additionalProperties: false
+      properties:
+        outcome: {type: string}
+    expose: [agent, workflow, mcp]
+    timeout_seconds: 10
+    retries: 0
+    idempotency: {required: true}
+    offline_result: {status: recorded_offline}
+
+workflows:
+  - id: incident_response
+    title: Incident response
+    description: Detect, enrich, route, communicate, and learn from a service incident.
+    subject_source: services
+    trigger_modes: [human, event, agent]
+    review:
+      required_when:
+        - {field: input.severity, operator: in, value: [sev0, sev1]}
+      decisions: [approve, edit, reject, defer]
+    test_cases:
+      review_input: {severity: sev1}
+      automatic_input: {severity: sev3}
+    stages:
+      - {id: detect, title: Incident detected, type: detect, capability: find_incidents, arguments: {}, on_error: stop}
+      - id: context
+        title: Context assembled
+        type: enrich
+        capability: search_collaboration
+        arguments:
+          question: Summarize recent collaboration relevant to the selected service incident.
+        on_error: continue
+      - id: decide
+        title: Response selected
+        type: decide
+        capability: select_response
+        arguments: {}
+        on_error: stop
+      - id: update
+        title: Stakeholder update built
+        type: generate
+        capability: build_update
+        arguments:
+          facts:
+            from: results.context.data.answer
+        on_error: review
+      - {id: review, title: Human review, type: review, on_error: stop}
+      - id: note
+        title: Incident note created
+        type: act
+        capability: create_incident_note
+        arguments:
+          incident_id: inc_1001
+          body:
+            message:
+              from: results.update.data
+            audience: stakeholders
+        on_error: stop
+      - id: learn
+        title: Outcome recorded
+        type: learn
+        capability: record_learning
+        arguments:
+          outcome: Incident workflow completed after policy and review.
+        on_error: continue
+
+control_plane:
+  manager:
+    title: My service operations
+    summary_fields: [name, tier, region]
+  fleet:
+    title: Operations portfolio
+    summary_fields: [name, tier, region, owner_id]
+    metrics: [managers, subjects, active_runs, pending_reviews]
+
+a365:
+  cli_managed: true
+  config_file: a365.config.json
+  manifest_dir: manifest
+  provisioning_commands:
+    - a365 setup requirements
+    - a365 setup blueprint
+    - a365 setup permissions mcp
+    - a365 setup permissions bot

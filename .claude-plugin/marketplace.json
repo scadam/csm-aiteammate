@@ -1,0 +1,27 @@
+{
+  "name": "scadam-ai-teammates",
+  "owner": {
+    "name": "scadam",
+    "url": "https://github.com/scadam"
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "description": "GitHub Copilot plugins for governed Agent 365 digital labor solutions."
+  },
+  "plugins": [
+    {
+      "name": "ai-teammate-solution-builder",
+      "source": "./",
+      "description": "Turn text, Markdown, Word, or PowerPoint requirements into a reviewed and tested Agent 365 AI teammate solution.",
+      "version": "1.0.0",
+      "category": "development",
+      "tags": [
+        "agent-365",
+        "digital-labor",
+        "mcp-apps",
+        "ag-ui"
+      ],
+      "strict": true
+    }
+  ]
+}

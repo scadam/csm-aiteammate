@@ -296,6 +296,76 @@ sequenceDiagram
   Job->>Job: Record outcome, cost and memory
 ```
 
+## Reusable solution-builder coding agent
+
+This repository is a directly installable **GitHub Copilot AI Teammate Solution Builder** plugin.
+Copilot uses the `.claude-plugin` compatibility manifest format for plugins. On Windows, install
+GitHub Copilot CLI once, open a new repository, and install from the Git URL:
+
+```powershell
+winget install GitHub.Copilot
+Set-Location C:\path\to\new-repository
+copilot
+```
+
+```text
+/plugin install https://github.com/scadam/csm-aiteammate.git
+```
+
+Verify with `/plugin manage`, `/agents`, and `/mcp`; the plugin agent is
+`ai-teammate-solution-builder:AI Teammate Solution Builder` and the Spec Studio MCP server should
+show **Connected**. VS Code can launch the same experience with **GitHub Copilot: Open in Copilot
+CLI**. The current VS Code build does not expose a separate "Install Plugin From Source" command.
+
+The plugin includes the custom agent at
+[.github/agents/pattern-solution-builder.agent.md](.github/agents/pattern-solution-builder.agent.md).
+Use it when the domain, teammate role, manager/fleet vocabulary, workflows, MCP servers, data
+sources, actions, or review policy differ from this CSM implementation.
+
+The agent follows the bundled
+[solution-builder skill](.github/skills/ai-teammate-solution-builder/SKILL.md), writes a validated
+v2 `solution.yaml`, and generates a complete Agent 365 example with three processes: a real
+Microsoft 365 Agents SDK aiohttp host, a dynamic FastAPI manager/fleet control plane, and a
+governed FastMCP facade. Manager OBO, autonomous agentic-user identity, A365 turn/tool
+observability, generated scenario `SKILL.md` files and Pydantic tools, existing remote MCP tools,
+selected OpenAPI-derived tools, deterministic review, durable idempotency, Agent 365 manifests,
+A365 CLI configuration, split containers, managed-identity Bicep, and tests are included.
+
+Start with a chat description or a local text, Markdown, DOCX, or PPTX file. The plugin extracts
+the source, authors one revisioned `solution.yaml`, and opens the graphical **Spec Studio** with
+architecture, canonical specification, requirements, inspector, history, and validation views.
+Chat/UI changes update that same
+draft. The user must review and type the digest-bound confirmation phrase, select scaffold-only or
+scaffold-plus-A365, and approve the output/overwrite policy. Every mutation invalidates the grant;
+the model cannot access the app-only confirmation tool, and a scaffold-only grant cannot be
+escalated.
+
+For a confirmed live build, the coding agent invokes A365 setup near the start rather than leaving
+it as a post-build instruction. The generated
+`scripts/provision_agent365.py early` flow executes
+requirements, blueprint creation, MCP permissions, and bot/observability permissions in order,
+captures only safe IDs and consent state, and resumes idempotently. The agent pauses only when the
+CLI requires tenant sign-in, Agent ID Developer privileges, Global Administrator consent, or a
+post-deployment HTTPS endpoint. Administrator-consent URLs are recorded as explicit checkpoints;
+secrets are never printed, requested with `--show-secret`, or committed.
+
+To exercise the bundled non-CSM incident-response example directly:
+
+```powershell
+python .github/skills/ai-teammate-solution-builder/scripts/verify_scaffold.py
+```
+
+After installation, select **AI Teammate Solution Builder** in the Copilot agent picker and
+describe the use case or provide the requirements file path. The
+agent implements scenario-specific adapters that are not expressible through the standard MCP,
+OpenAPI, fixture, rule, template, or action kinds. Tenant-specific identity and consent are always
+provisioned with the A365 CLI; IDs are never fabricated. Replace the SQLite development store with
+a shared durable implementation before enabling production horizontal scale.
+
+The bundled
+[Autonomous Claims Digital Labor demo prompt](.github/skills/ai-teammate-solution-builder/references/demo-claims-digital-labor-prompt.md)
+is a ready-to-paste high-volume example for testing the complete pre-build review workflow.
+
 ## The five specialist agents → six governed skills
 
 The design's five specialist agents are realised as **skills** — each a Pydantic-typed

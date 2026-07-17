@@ -1,0 +1,42 @@
+openapi: 3.0.3
+info:
+  title: Incident System API
+  version: 1.0.0
+servers:
+  - url: https://api.incidents.example.com
+paths:
+  /incidents/{incident_id}/notes:
+    post:
+      operationId: create_incident_note
+      summary: Add a grounded incident note
+      parameters:
+        - name: incident_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                message:
+                  type: string
+                audience:
+                  type: string
+              required: [message]
+      responses:
+        "201":
+          description: Note created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  note_id:
+                    type: string

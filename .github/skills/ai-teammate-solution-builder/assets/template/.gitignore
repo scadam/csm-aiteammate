@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.state/
+*.pyc
+.env
+.a365/
+a365.generated.config*.json
+manifest/*.zip
+appPackage/build/
+env/.env.*.user
+scripts/byo-mcp-registration.json

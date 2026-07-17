@@ -1,0 +1,31 @@
+services:
+  agent:
+    build:
+      context: .
+      dockerfile: Dockerfile.agent
+    env_file: .env
+    environment:
+      AGENT_PORT: "8080"
+    ports: ["3978:8080"]
+    volumes: ["runtime-state:/app/.state"]
+  control-plane:
+    build:
+      context: .
+      dockerfile: Dockerfile.controlplane
+    env_file: .env
+    environment:
+      CONTROL_PLANE_PORT: "8080"
+    ports: ["8000:8080"]
+    volumes: ["runtime-state:/app/.state"]
+  mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile.mcp
+    env_file: .env
+    environment:
+      MCP_HOST: 0.0.0.0
+      MCP_PORT: "8080"
+    ports: ["8001:8080"]
+    volumes: ["runtime-state:/app/.state"]
+volumes:
+  runtime-state: {}

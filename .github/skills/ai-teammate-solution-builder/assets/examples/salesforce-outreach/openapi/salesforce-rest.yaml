@@ -1,0 +1,135 @@
+openapi: 3.0.3
+info:
+  title: Salesforce Outreach REST API
+  version: "67.0"
+  description: Fixed Salesforce operations selected for the Customer Outreach AI Teammate.
+servers:
+  - url: https://your-domain.my.salesforce.com
+paths:
+  /services/data/v67.0/sobjects/Contact/listviews/{list_view_id}/results:
+    get:
+      operationId: get_contact_list
+      summary: Get contacts from an approved Salesforce Contact list view
+      parameters:
+        - name: list_view_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Contact list view results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  done:
+                    type: boolean
+                  id:
+                    type: string
+                  label:
+                    type: string
+                  size:
+                    type: integer
+                  records:
+                    type: array
+                    items:
+                      type: object
+  /services/data/v67.0/sobjects/Lead/Agent_Reply_Key__c/{external_id}:
+    patch:
+      operationId: upsert_reply_lead
+      summary: Idempotently create or update a Lead for a customer email reply
+      parameters:
+        - name: external_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                FirstName:
+                  type: string
+                LastName:
+                  type: string
+                Company:
+                  type: string
+                Email:
+                  type: string
+                Description:
+                  type: string
+                LeadSource:
+                  type: string
+              required: [LastName, Company]
+      responses:
+        "201":
+          description: Lead created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  success:
+                    type: boolean
+                  created:
+                    type: boolean
+        "204":
+          description: Existing Lead updated
+  /services/data/v67.0/sobjects/Lead/listviews/{list_view_id}/results:
+    get:
+      operationId: get_lead_progress
+      summary: Get campaign Lead progress from an approved Salesforce Lead list view
+      parameters:
+        - name: list_view_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Lead progress list view results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  done:
+                    type: boolean
+                  id:
+                    type: string
+                  label:
+                    type: string
+                  size:
+                    type: integer
+                  records:
+                    type: array
+                    items:
+                      type: object

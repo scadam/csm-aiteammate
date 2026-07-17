@@ -1,0 +1,695 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/ai-teammate-solution-2.0.json",
+  "title": "AI Teammate Solution Specification",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "solution",
+    "runtime",
+    "agent",
+    "identity",
+    "observability",
+    "managers",
+    "skills",
+    "mcp_servers",
+    "openapi_sources",
+    "mcp_exposure",
+    "user_interfaces",
+    "teams_app",
+    "data_sources",
+    "capabilities",
+    "workflows",
+    "control_plane",
+    "a365"
+  ],
+  "properties": {
+    "schema_version": { "const": "2.0" },
+    "solution": { "$ref": "#/$defs/solution" },
+    "runtime": { "$ref": "#/$defs/runtime" },
+    "agent": { "$ref": "#/$defs/agent" },
+    "identity": { "$ref": "#/$defs/identity" },
+    "observability": { "$ref": "#/$defs/observability" },
+    "managers": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/manager" }
+    },
+    "skills": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/skill" }
+    },
+    "mcp_servers": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/mcpServer" }
+    },
+    "openapi_sources": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/openapiSource" }
+    },
+    "mcp_exposure": { "$ref": "#/$defs/mcpExposure" },
+    "user_interfaces": { "$ref": "#/$defs/userInterfaces" },
+    "teams_app": { "$ref": "#/$defs/teamsApp" },
+    "data_sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/dataSource" }
+    },
+    "capabilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/capability" }
+    },
+    "workflows": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/workflow" }
+    },
+    "control_plane": { "$ref": "#/$defs/controlPlane" },
+    "a365": { "$ref": "#/$defs/a365" }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{1,63}$"
+    },
+    "terms": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "manager_singular",
+        "manager_plural",
+        "fleet_singular",
+        "subject_singular",
+        "subject_plural",
+        "work_item_singular",
+        "work_item_plural"
+      ],
+      "properties": {
+        "manager_singular": { "type": "string", "minLength": 1 },
+        "manager_plural": { "type": "string", "minLength": 1 },
+        "fleet_singular": { "type": "string", "minLength": 1 },
+        "subject_singular": { "type": "string", "minLength": 1 },
+        "subject_plural": { "type": "string", "minLength": 1 },
+        "work_item_singular": { "type": "string", "minLength": 1 },
+        "work_item_plural": { "type": "string", "minLength": 1 }
+      }
+    },
+    "solution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "description", "domain", "terms"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 },
+        "domain": { "$ref": "#/$defs/id" },
+        "terms": { "$ref": "#/$defs/terms" }
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["topology", "python_version", "agent_host", "control_plane", "mcp_host"],
+      "properties": {
+        "topology": { "enum": ["split", "combined_dev"] },
+        "python_version": { "type": "string", "pattern": "^3\\.(11|12|13)$" },
+        "agent_host": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["framework", "transport", "message_path", "port_env", "default_port"],
+          "properties": {
+            "framework": { "const": "microsoft_365_agents_sdk" },
+            "transport": { "const": "aiohttp" },
+            "message_path": { "const": "/api/messages" },
+            "port_env": { "type": "string", "minLength": 1 },
+            "default_port": { "type": "integer", "minimum": 1, "maximum": 65535 }
+          }
+        },
+        "control_plane": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["framework", "port_env", "default_port"],
+          "properties": {
+            "framework": { "const": "fastapi" },
+            "port_env": { "type": "string", "minLength": 1 },
+            "default_port": { "type": "integer", "minimum": 1, "maximum": 65535 }
+          }
+        },
+        "mcp_host": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["framework", "transport", "port_env", "default_port"],
+          "properties": {
+            "framework": { "const": "fastmcp" },
+            "transport": { "const": "streamable_http" },
+            "port_env": { "type": "string", "minLength": 1 },
+            "default_port": { "type": "integer", "minimum": 1, "maximum": 65535 }
+          }
+        }
+      }
+    },
+    "agent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["display_name", "role", "instructions", "introduction", "reasoning"],
+      "properties": {
+        "display_name": { "type": "string", "minLength": 1 },
+        "role": { "type": "string", "minLength": 1 },
+        "instructions": { "type": "string", "minLength": 1 },
+        "introduction": { "type": "string", "minLength": 1 },
+        "reasoning": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["provider", "model_env", "default_model", "max_tool_steps"],
+          "properties": {
+            "provider": { "const": "azure_openai" },
+            "model_env": { "type": "string", "minLength": 1 },
+            "default_model": { "type": "string", "minLength": 1 },
+            "max_tool_steps": { "type": "integer", "minimum": 1, "maximum": 20 }
+          }
+        }
+      }
+    },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "development_mode",
+        "principal_header",
+        "manager_header",
+        "roles_header",
+        "fleet_roles",
+        "default_principal_id",
+        "default_manager_id",
+        "default_roles",
+        "fleet_principals",
+        "service_connection",
+        "manager_obo",
+        "agentic_user"
+      ],
+      "properties": {
+        "development_mode": { "type": "boolean" },
+        "principal_header": { "type": "string", "minLength": 1 },
+        "manager_header": { "type": "string", "minLength": 1 },
+        "roles_header": { "type": "string", "minLength": 1 },
+        "fleet_roles": { "type": "array", "items": { "type": "string" } },
+        "default_principal_id": { "type": "string", "minLength": 1 },
+        "default_manager_id": { "$ref": "#/$defs/id" },
+        "default_roles": { "type": "array", "items": { "type": "string" } },
+        "fleet_principals": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/fleetPrincipal" }
+        },
+        "service_connection": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name"],
+          "properties": { "name": { "type": "string", "minLength": 1 } }
+        },
+        "manager_obo": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["enabled", "handler_id", "default_scopes"],
+          "properties": {
+            "enabled": { "const": true },
+            "handler_id": { "type": "string", "minLength": 1 },
+            "default_scopes": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "agentic_user": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["enabled", "handler_id", "default_scopes"],
+          "properties": {
+            "enabled": { "const": true },
+            "handler_id": { "type": "string", "minLength": 1 },
+            "default_scopes": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    },
+    "observability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "service_name", "service_namespace", "cluster_category", "instrument_turns", "instrument_tools", "force_flush"],
+      "properties": {
+        "provider": { "const": "a365" },
+        "service_name": { "$ref": "#/$defs/id" },
+        "service_namespace": { "type": "string", "minLength": 1 },
+        "cluster_category": { "enum": ["dev", "test", "prod"] },
+        "instrument_turns": { "const": true },
+        "instrument_tools": { "const": true },
+        "force_flush": { "const": true }
+      }
+    },
+    "manager": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "principal_id", "roles"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string", "minLength": 1 },
+        "principal_id": { "type": "string", "minLength": 1 },
+        "roles": { "type": "array", "items": { "type": "string" } },
+        "metadata": { "type": "object", "additionalProperties": true }
+      }
+    },
+    "fleetPrincipal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["principal_id", "name", "roles"],
+      "properties": {
+        "principal_id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "roles": { "type": "array", "minItems": 1, "items": { "type": "string" } }
+      }
+    },
+    "skill": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "description", "when_to_use", "instructions", "capabilities", "workflows"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 },
+        "when_to_use": { "type": "string", "minLength": 1 },
+        "instructions": { "type": "string", "minLength": 1 },
+        "capabilities": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/id" }
+        },
+        "workflows": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/id" }
+        }
+      }
+    },
+    "mcpTool": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "description", "input_schema"],
+      "properties": {
+        "name": { "$ref": "#/$defs/id" },
+        "description": { "type": "string", "minLength": 1 },
+        "input_schema": { "$ref": "#/$defs/objectSchema" }
+      }
+    },
+    "mcpServer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "endpoint_env", "transport", "auth_mode", "scopes", "offline", "tools", "timeout_seconds"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string", "minLength": 1 },
+        "endpoint_env": { "type": "string", "minLength": 1 },
+        "transport": { "const": "streamable_http" },
+        "auth_mode": {
+          "enum": ["manager_obo", "agentic_user", "managed_identity", "oauth_client_credentials", "bearer_env", "native", "none"]
+        },
+        "scopes": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "token_env": { "type": "string" },
+        "offline": { "type": "boolean" },
+        "timeout_seconds": { "type": "integer", "minimum": 1, "maximum": 120 },
+        "tools": { "type": "array", "items": { "$ref": "#/$defs/mcpTool" } }
+      }
+    },
+    "auth": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "scopes"],
+      "properties": {
+        "mode": { "enum": ["manager_obo", "agentic_user", "managed_identity", "oauth_client_credentials", "bearer_env", "native", "none"] },
+        "scopes": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "token_env": { "type": "string" },
+        "token_url_env": { "type": "string" },
+        "client_id_env": { "type": "string" },
+        "client_secret_env": { "type": "string" }
+      }
+    },
+    "openapiOperation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["operation_id", "capability_id", "method", "path", "description", "input_schema", "side_effect", "expose", "offline_result"],
+      "properties": {
+        "operation_id": { "$ref": "#/$defs/id" },
+        "capability_id": { "$ref": "#/$defs/id" },
+        "method": { "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"] },
+        "path": { "type": "string", "pattern": "^/" },
+        "description": { "type": "string", "minLength": 1 },
+        "input_schema": { "$ref": "#/$defs/objectSchema" },
+        "side_effect": { "type": "boolean" },
+        "expose": { "$ref": "#/$defs/exposure" },
+        "offline_result": {}
+      }
+    },
+    "openapiSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "document", "base_url_env", "allowed_hosts", "auth", "timeout_seconds", "operations"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string", "minLength": 1 },
+        "document": { "type": "string", "minLength": 1 },
+        "base_url_env": { "type": "string", "minLength": 1 },
+        "allowed_hosts": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "auth": { "$ref": "#/$defs/auth" },
+        "timeout_seconds": { "type": "integer", "minimum": 1, "maximum": 120 },
+        "operations": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/openapiOperation" } }
+      }
+    },
+    "mcpExposure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "server_name", "tooling_gateway"],
+      "properties": {
+        "enabled": { "const": true },
+        "server_name": { "type": "string", "minLength": 1 },
+        "tooling_gateway": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["enabled", "endpoint_env", "registration_id_env", "remote_scope_env"],
+          "properties": {
+            "enabled": { "const": true },
+            "endpoint_env": { "type": "string", "minLength": 1 },
+            "registration_id_env": { "type": "string", "minLength": 1 },
+            "remote_scope_env": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "userInterfaces": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mcp_apps", "ag_ui", "resources"],
+      "properties": {
+        "mcp_apps": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["enabled", "mime_type", "sandbox"],
+          "properties": {
+            "enabled": { "const": true },
+            "mime_type": { "const": "text/html;profile=mcp-app" },
+            "sandbox": { "const": true }
+          }
+        },
+        "ag_ui": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["enabled", "endpoint", "transport"],
+          "properties": {
+            "enabled": { "const": true },
+            "endpoint": { "const": "/api/ag-ui" },
+            "transport": { "const": "http_sse" }
+          }
+        },
+        "resources": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/uiResource" }
+        }
+      }
+    },
+    "uiResource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "description", "kind", "tool_name", "resource_uri", "surfaces", "audience", "source", "metrics", "columns", "filters", "default_sort", "bulk_actions", "page_size"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["dashboard", "hitl"] },
+        "tool_name": { "$ref": "#/$defs/id" },
+        "resource_uri": { "type": "string", "pattern": "^ui://[a-zA-Z0-9._~!$&'()*+,;=:@/-]+$" },
+        "surfaces": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["control_plane", "mcp"] }
+        },
+        "audience": { "enum": ["manager", "fleet"] },
+        "source": { "enum": ["workflow_runs", "review_queue"] },
+        "metrics": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "columns": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "filters": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "default_sort": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["field", "direction"],
+          "properties": {
+            "field": { "type": "string", "minLength": 1 },
+            "direction": { "enum": ["asc", "desc"] }
+          }
+        },
+        "bulk_actions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "enum": ["approve", "reject", "defer"] }
+        },
+        "page_size": { "type": "integer", "minimum": 1, "maximum": 200 }
+      }
+    },
+    "teamsApp": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "manifest_version", "package_name", "default_install_scope", "sso", "tabs"],
+      "properties": {
+        "enabled": { "const": true },
+        "manifest_version": { "const": "1.26" },
+        "package_name": { "$ref": "#/$defs/id" },
+        "default_install_scope": { "const": "personal" },
+        "sso": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["application_id_source", "delegated_scope", "token_transport"],
+          "properties": {
+            "application_id_source": { "const": "a365_blueprint" },
+            "delegated_scope": { "const": "access_agent_as_user" },
+            "token_transport": { "const": "authorization_bearer" }
+          }
+        },
+        "tabs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "name", "path", "audience"],
+            "properties": {
+              "id": { "$ref": "#/$defs/id" },
+              "name": { "type": "string", "minLength": 1, "maxLength": 30 },
+              "path": { "enum": ["/manager", "/fleet"] },
+              "audience": { "enum": ["manager", "fleet"] }
+            }
+          }
+        }
+      }
+    },
+    "dataSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "kind", "manager_field", "subject_id_field"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["inline", "json"] },
+        "manager_field": { "type": "string", "minLength": 1 },
+        "subject_id_field": { "type": "string", "minLength": 1 },
+        "path": { "type": "string" },
+        "records": { "type": "array", "items": { "type": "object", "additionalProperties": true } }
+      }
+    },
+    "capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "description",
+        "kind",
+        "identity_mode",
+        "side_effect",
+        "review_mode",
+        "input_schema",
+        "expose",
+        "timeout_seconds",
+        "retries",
+        "offline_result"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["fixture_query", "mcp_tool", "openapi_operation", "rule", "template", "state_action"] },
+        "identity_mode": { "enum": ["manager_obo", "agentic_user", "managed_identity", "oauth_client_credentials", "bearer_env", "native", "none"] },
+        "scopes": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "side_effect": { "type": "boolean" },
+        "review_mode": { "enum": ["required", "workflow_policy", "none"] },
+        "input_schema": { "$ref": "#/$defs/objectSchema" },
+        "expose": { "$ref": "#/$defs/exposure" },
+        "timeout_seconds": { "type": "integer", "minimum": 1, "maximum": 120 },
+        "retries": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "idempotency": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["required"],
+          "properties": {
+            "required": { "type": "boolean" },
+            "header": { "type": "string" }
+          }
+        },
+        "source": { "$ref": "#/$defs/id" },
+        "server": { "$ref": "#/$defs/id" },
+        "tool": { "$ref": "#/$defs/id" },
+        "openapi_source": { "$ref": "#/$defs/id" },
+        "operation_id": { "$ref": "#/$defs/id" },
+        "offline_result": {},
+        "metadata": { "type": "object", "additionalProperties": true }
+      }
+    },
+    "condition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field", "operator", "value"],
+      "properties": {
+        "field": { "type": "string", "minLength": 1 },
+        "operator": { "enum": ["eq", "ne", "in", "not_in", "exists", "gt", "gte", "lt", "lte"] },
+        "value": {}
+      }
+    },
+    "reviewPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required_when", "decisions"],
+      "properties": {
+        "required_when": { "type": "array", "items": { "$ref": "#/$defs/condition" } },
+        "decisions": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "enum": ["approve", "edit", "reject", "defer"] }
+        }
+      }
+    },
+    "stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "type", "on_error"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "type": "string", "minLength": 1 },
+        "type": { "enum": ["detect", "enrich", "decide", "generate", "review", "act", "learn"] },
+        "capability": { "$ref": "#/$defs/id" },
+        "arguments": { "type": "object", "additionalProperties": true },
+        "on_error": { "enum": ["stop", "continue", "review"] }
+      }
+    },
+    "workflow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "description",
+        "subject_source",
+        "trigger_modes",
+        "review",
+        "stages"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 },
+        "subject_source": { "$ref": "#/$defs/id" },
+        "trigger_modes": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "enum": ["human", "event", "schedule", "agent"] }
+        },
+        "review": { "$ref": "#/$defs/reviewPolicy" },
+        "test_cases": { "$ref": "#/$defs/workflowTestCases" },
+        "stages": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/stage" } }
+      }
+    },
+    "workflowTestCases": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["review_input", "automatic_input"],
+      "properties": {
+        "review_input": { "type": "object", "additionalProperties": true },
+        "automatic_input": { "type": "object", "additionalProperties": true }
+      }
+    },
+    "view": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "summary_fields"],
+      "properties": {
+        "title": { "type": "string", "minLength": 1 },
+        "summary_fields": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "fleetView": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "summary_fields", "metrics"],
+      "properties": {
+        "title": { "type": "string", "minLength": 1 },
+        "summary_fields": { "type": "array", "items": { "type": "string" } },
+        "metrics": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "controlPlane": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["manager", "fleet"],
+      "properties": {
+        "manager": { "$ref": "#/$defs/view" },
+        "fleet": { "$ref": "#/$defs/fleetView" }
+      }
+    },
+    "a365": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cli_managed", "config_file", "manifest_dir", "provisioning_commands"],
+      "properties": {
+        "cli_managed": { "const": true },
+        "config_file": { "const": "a365.config.json" },
+        "manifest_dir": { "const": "manifest" },
+        "provisioning_commands": {
+          "type": "array",
+          "minItems": 4,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "objectSchema": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["type", "properties"],
+      "properties": {
+        "type": { "const": "object" },
+        "properties": { "type": "object", "additionalProperties": true },
+        "required": { "type": "array", "items": { "type": "string" } },
+        "additionalProperties": { "type": "boolean" }
+      }
+    },
+    "exposure": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "enum": ["agent", "workflow", "mcp"] }
+    }
+  }
+}

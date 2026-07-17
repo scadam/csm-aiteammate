@@ -1,0 +1,26 @@
+{
+  "name": "ai-teammate-solution-builder",
+  "version": "1.0.0",
+  "description": "Turn text, Markdown, Word, or PowerPoint requirements into a reviewed Agent 365 solution specification, then build and validate the complete teammate solution.",
+  "author": {
+    "name": "scadam",
+    "url": "https://github.com/scadam"
+  },
+  "homepage": "https://github.com/scadam/csm-aiteammate#reusable-solution-builder-coding-agent",
+  "repository": "https://github.com/scadam/csm-aiteammate",
+  "keywords": [
+    "agent-365",
+    "microsoft-365",
+    "agent-builder",
+    "mcp-apps",
+    "ag-ui",
+    "teams"
+  ],
+  "agents": [
+    "./.github/agents/pattern-solution-builder.agent.md"
+  ],
+  "skills": [
+    "./.github/skills/ai-teammate-solution-builder/"
+  ],
+  "mcpServers": "./.mcp.json"
+}

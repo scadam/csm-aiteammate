@@ -1,0 +1,5 @@
+ag-ui-protocol==0.1.19
+mcp==1.24.0
+jsonpatch>=1.33,<2
+jsonschema>=4.23,<5
+PyYAML>=6,<7
